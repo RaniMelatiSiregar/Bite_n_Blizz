@@ -225,7 +225,7 @@
         <div class="banner-ad d-flex align-items-center large bg-info block-1" 
           style="background: url('images/gambar4.png') no-repeat center; 
                  background-size: cover; 
-                 width: 250%; 
+                 width: 175%; 
                  height: 300px;"> <!-- Atur tinggi di sini -->
           <div class="banner-content p-5">
             <div class="content-wrapper text-light">
