@@ -394,6 +394,8 @@ body {
   }
   .product-item figure {
     text-align: center;
+    overflow: hidden;
+    display: flex; justify-content: center;
   }
   .product-item figure img {
     max-height: 210px;
