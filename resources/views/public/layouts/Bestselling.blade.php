@@ -1,3 +1,4 @@
+
 <div class="container-lg">
 
 <div class="row">
@@ -23,12 +24,12 @@
       <div class="col">
         <div class="product-item">
           <figure>
-            <a href="index.html" title="Product Title">
-              <img src="images/product-thumb-1.png" alt="Product Thumbnail" class="tab-image">
+          <a href="index.html" title="Product Title">
+            <img src="images/product-thumb-2.png" alt="Product Thumbnail" class="tab-image" width="200" height="auto">
             </a>
           </figure>
           <div class="d-flex flex-column text-center">
-            <h3 class="fs-6 fw-normal">Whole Wheat Sandwich Bread</h3>
+            <h3 class="fs-6 fw-normal">Banana Crispy</h3>
             <div>
               <span class="rating">
                 <svg width="18" height="18" class="text-warning"><use xlink:href="#star-full"></use></svg>
@@ -58,12 +59,13 @@
       <div class="col">
         <div class="product-item">
           <figure>
-            <a href="index.html" title="Product Title">
-              <img src="images/product-thumb-2.png" alt="Product Thumbnail" class="tab-image">
+          <a href="index.html" title="Product Title">
+              <img src="images/Chocolate milk.jpg" alt="Product Thumbnail" class="tab-image" width="150" height="auto">
             </a>
+
           </figure>
           <div class="d-flex flex-column text-center">
-            <h3 class="fs-6 fw-normal">Whole Grain Oatmeal</h3>
+            <h3 class="fs-6 fw-normal">Chocolate milk </h3>
             <div>
               <span class="rating">
                 <svg width="18" height="18" class="text-warning"><use xlink:href="#star-full"></use></svg>
@@ -93,12 +95,12 @@
       <div class="col">
         <div class="product-item">
           <figure>
-            <a href="index.html" title="Product Title">
-              <img src="images/product-thumb-3.png" alt="Product Thumbnail" class="tab-image">
+          <a href="index.html" title="Product Title">
+              <img src="images/Brownies choco..jpg" alt="Product Thumbnail" class="tab-image"width="120" height="auto">
             </a>
           </figure>
           <div class="d-flex flex-column text-center">
-            <h3 class="fs-6 fw-normal">Sharp Cheddar Cheese Block</h3>
+            <h3 class="fs-6 fw-normal">Brownies choco</h3>
             <div>
               <span class="rating">
                 <svg width="18" height="18" class="text-warning"><use xlink:href="#star-full"></use></svg>
@@ -128,12 +130,12 @@
       <div class="col">
         <div class="product-item">
           <figure>
-            <a href="index.html" title="Product Title">
-              <img src="images/product-thumb-4.png" alt="Product Thumbnail" class="tab-image">
+          <a href="index.html" title="Product Title">
+              <img src="images/Cookies coklat.jpg" alt="Product Thumbnail" class="tab-image"width="150" height="auto">
             </a>
           </figure>
           <div class="d-flex flex-column text-center">
-            <h3 class="fs-6 fw-normal">Organic Baby Spinach</h3>
+            <h3 class="fs-6 fw-normal">Cookies coklat</h3>
             <div>
               <span class="rating">
                 <svg width="18" height="18" class="text-warning"><use xlink:href="#star-full"></use></svg>
@@ -162,12 +164,12 @@
       <div class="col">
         <div class="product-item">
           <figure>
-            <a href="index.html" title="Product Title">
-              <img src="images/product-thumb-4.png" alt="Product Thumbnail" class="tab-image">
+          <a href="index.html" title="Product Title">
+              <img src="images/Bundling Cheese cake.jpg" alt="Product Thumbnail" class="tab-image"width="150" height="auto">
             </a>
           </figure>
           <div class="d-flex flex-column text-center">
-            <h3 class="fs-6 fw-normal">Organic Baby Spinach</h3>
+            <h3 class="fs-6 fw-normal">Bundling Cheese cake</h3>
             <div>
               <span class="rating">
                 <svg width="18" height="18" class="text-warning"><use xlink:href="#star-full"></use></svg>
@@ -193,7 +195,7 @@
           </div>
         </div>
       </div>
-
+    
       
     </div>
     <!-- / product-grid -->
