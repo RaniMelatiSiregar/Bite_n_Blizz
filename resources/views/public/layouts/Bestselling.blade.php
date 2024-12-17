@@ -58,10 +58,11 @@
 
       <div class="col">
         <div class="product-item">
-          <figure>
-            <a href="index.html" title="Product Title">
-              <img src="images/gambar 2.jpg" alt="Product Thumbnail" class="tab-image">
-            </a>
+        <figure>
+        <a href="index.html" title="Product Title">
+        <img src="images/gambar2.jpg" alt="Product Thumbnail" class="tab-image" width="200" height="150">
+        </a>
+
           </figure>
           <div class="d-flex flex-column text-center">
             <h3 class="fs-6 fw-normal">Chocolate milk </h3>
