@@ -482,7 +482,7 @@
     </section>
 
     <section class="pb-5">
-     
+    @include('public.layouts.Bestselling')
     </section>
 
     <section class="py-3">

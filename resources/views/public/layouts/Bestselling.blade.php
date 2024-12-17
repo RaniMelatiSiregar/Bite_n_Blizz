@@ -1,3 +1,4 @@
+
 <div class="container-lg">
 
 <div class="row">
@@ -28,7 +29,7 @@
             </a>
           </figure>
           <div class="d-flex flex-column text-center">
-            <h3 class="fs-6 fw-normal">Whole Wheat Sandwich Bread</h3>
+            <h3 class="fs-6 fw-normal">Banana Crispy</h3>
             <div>
               <span class="rating">
                 <svg width="18" height="18" class="text-warning"><use xlink:href="#star-full"></use></svg>
@@ -59,11 +60,11 @@
         <div class="product-item">
           <figure>
             <a href="index.html" title="Product Title">
-              <img src="images/product-thumb-2.png" alt="Product Thumbnail" class="tab-image">
+              <img src="images/gambar 2.jpg" alt="Product Thumbnail" class="tab-image">
             </a>
           </figure>
           <div class="d-flex flex-column text-center">
-            <h3 class="fs-6 fw-normal">Whole Grain Oatmeal</h3>
+            <h3 class="fs-6 fw-normal">Chocolate milk </h3>
             <div>
               <span class="rating">
                 <svg width="18" height="18" class="text-warning"><use xlink:href="#star-full"></use></svg>
@@ -98,7 +99,7 @@
             </a>
           </figure>
           <div class="d-flex flex-column text-center">
-            <h3 class="fs-6 fw-normal">Sharp Cheddar Cheese Block</h3>
+            <h3 class="fs-6 fw-normal">Brownies choco</h3>
             <div>
               <span class="rating">
                 <svg width="18" height="18" class="text-warning"><use xlink:href="#star-full"></use></svg>
@@ -133,7 +134,7 @@
             </a>
           </figure>
           <div class="d-flex flex-column text-center">
-            <h3 class="fs-6 fw-normal">Organic Baby Spinach</h3>
+            <h3 class="fs-6 fw-normal">Cookies coklat</h3>
             <div>
               <span class="rating">
                 <svg width="18" height="18" class="text-warning"><use xlink:href="#star-full"></use></svg>
@@ -167,7 +168,7 @@
             </a>
           </figure>
           <div class="d-flex flex-column text-center">
-            <h3 class="fs-6 fw-normal">Organic Baby Spinach</h3>
+            <h3 class="fs-6 fw-normal">Bundling Cheese cake dan  Minuman Coklat</h3>
             <div>
               <span class="rating">
                 <svg width="18" height="18" class="text-warning"><use xlink:href="#star-full"></use></svg>
