@@ -267,28 +267,28 @@
     </section>
 
     <section class="py-3">
-      <div class="container-lg">
-        <div class="row">
-          <div class="col-md-12">
-
-            <div class="banner-blocks">
-            
-              <div class="banner-ad d-flex align-items-center large bg-info block-1" style="background: url('images/banner-ad-1.jpg') no-repeat; background-size: cover;">
-                <div class="banner-content p-5">
-                  <div class="content-wrapper text-light">
-                    <h3 class="banner-title text-light">Items on SALE</h3>
-                    <p>Discounts up to 30%</p>
-                    <a href="#" class="btn-link text-white">Shop Now</a>
-                  </div>
-                </div>
-              </div>
-
+    <div class="container-lg">
+  <div class="row">
+    <div class="col-md-12">
+      <div class="banner-blocks">
+        <div class="banner-ad d-flex align-items-center large bg-info block-1" 
+          style="background: url('images/gambar4.png') no-repeat center; 
+                 background-size: cover; 
+                 width: 250%; 
+                 height: 300px;"> <!-- Atur tinggi di sini -->
+          <div class="banner-content p-5">
+            <div class="content-wrapper text-light">
+              <h3 class="banner-title text-light">Items on SALE</h3>
+              <p>Discounts up to 30%</p>
+              <a href="#" class="btn-link text-white">Shop Now</a>
             </div>
-            <!-- / Banner Blocks -->
-              
           </div>
         </div>
       </div>
+    </div>
+  </div>
+</div>
+
     </section>
 
     <section id="latest-products" class="products-carousel">
