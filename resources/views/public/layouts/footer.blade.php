@@ -108,18 +108,5 @@
         </ul>
       </div>
     </div>
-
-    <!-- Footer Section: Newsletter Subscription -->
-    <div class="col-lg-3 col-md-6 col-sm-6">
-      <div class="footer-menu">
-        <h5 class="widget-title">Subscribe to Our Newsletter</h5>
-        <p>Get the latest updates and offers on our delicious Banana Crispy Choco!</p>
-        <form class="d-flex mt-3 gap-0" action="index.html">
-          <input class="form-control rounded-start rounded-0 bg-light" type="email" placeholder="Email Address" aria-label="Email Address">
-          <button class="btn btn-dark rounded-end rounded-0" type="submit">Subscribe</button>
-        </form>
-      </div>
-    </div>
-    
   </div>
 </div>

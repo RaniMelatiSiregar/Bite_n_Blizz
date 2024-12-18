@@ -132,49 +132,35 @@
 
     <header>
       <div class="container-fluid">
-        <div class="row py-3 border-bottom">
+        <div class="row py-3 border-bottom align-items-center">
           
-          <div class="col-sm-4 col-lg-2 text-center text-sm-start d-flex gap-3 justify-content-center justify-content-md-start">
-            <div class="d-flex align-items-center my-3 my-sm-0">
-              <a href="index.html">
-                {{-- <img src="images/logo.svg" alt="logo" class="img-fluid"> --}}
-              </a>
-            </div>
-            <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar"
-              aria-controls="offcanvasNavbar">
-              <svg width="24" height="24" viewBox="0 0 24 24"><use xlink:href="#menu"></use></svg>
-            </button>
+          <!-- Logo -->
+          <div class="col-sm-4 col-lg-2 d-flex gap-3 justify-content-start align-items-center">
+            <a href="index.html">
+              {{-- <img src="images/logo.svg" alt="logo" class="img-fluid"> --}}
+            </a>
           </div>
           
-          <div class="col-sm-6 offset-sm-2 offset-md-0 col-lg-4">
-              <div class="col-md-4 d-none d-md-block">
-                <select class="form-select border-0 bg-transparent">
-                  <option>All Categories</option>
-                  <option>Groceries</option>
-                  <option>Drinks</option>
-                  <option>Chocolates</option>
-                </select>
-              </div>
-          </div>
-
-          <div class="col-lg-4">
-            <ul class="navbar-nav list-unstyled d-flex flex-row gap-3 gap-lg-5 justify-content-center flex-wrap align-items-center mb-0 fw-bold text-uppercase text-dark">
+          <!-- Navbar Menu -->
+          <div class="col-lg-8 d-flex justify-content-center">
+            <ul class="navbar-nav list-unstyled d-flex flex-row gap-3 gap-lg-5 align-items-center mb-0 fw-bold text-uppercase text-dark">
               <li class="nav-item active">
                 <a href="index.html" class="nav-link">Home</a>
               </li>
               <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle pe-3" role="button" id="pages" data-bs-toggle="dropdown" aria-expanded="false">Pages</a>
                 <ul class="dropdown-menu border-0 p-3 rounded-0 shadow" aria-labelledby="pages">
-                  <li><a href="index.html" class="dropdown-item">About Us </a></li>
-                  <li><a href="index.html" class="dropdown-item">Product </a></li>
-                  <li><a href="index.html" class="dropdown-item">Contact </a></li>
+                  <li><a href="index.html" class="dropdown-item">About Us</a></li>
+                  <li><a href="index.html" class="dropdown-item">Product</a></li>
+                  <li><a href="index.html" class="dropdown-item">Contact</a></li>
                 </ul>
               </li>
             </ul>
           </div>
           
-          <div class="col-sm-8 col-lg-2 d-flex gap-5 align-items-center justify-content-center justify-content-sm-end">
-            <ul class="d-flex justify-content-end list-unstyled m-0">
+          <!-- Icons -->
+          <div class="col-sm-8 col-lg-2 d-flex justify-content-end align-items-center">
+            <ul class="d-flex list-unstyled m-0">
               <li>
                 <a href="#" class="p-2 mx-1">
                   <svg width="24" height="24"><use xlink:href="#user"></use></svg>
@@ -192,10 +178,11 @@
               </li>
             </ul>
           </div>
-
+    
         </div>
       </div>
     </header>
+    
     
     <section style="background-image: url('images/banner.jpg'); background-repeat: no-repeat; background-size: cover; height: 100vh; display: flex; justify-content: center; align-items: center; text-align: center;">
       <div class="container-lg">
