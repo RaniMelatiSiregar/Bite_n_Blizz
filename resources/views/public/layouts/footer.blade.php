@@ -1,9 +1,10 @@
 <div class="container-lg">
   <div class="row">
 
+    <!-- Footer Section: Logo and Social Links -->
     <div class="col-lg-3 col-md-6 col-sm-6">
       <div class="footer-menu">
-        <img src="images/logo.svg" width="240" height="70" alt="logo">
+        {{-- <img src="images/logo.svg" width="240" height="70" alt="Bite n' Blizz logo"> --}}
         <div class="social-links mt-3">
           <ul class="d-flex list-unstyled gap-2">
             <li>
@@ -36,35 +37,41 @@
       </div>
     </div>
 
+    <!-- Footer Section: Bite n' Blizz Information -->
     <div class="col-md-2 col-sm-6">
       <div class="footer-menu">
-        <h5 class="widget-title">Organic</h5>
+        <h5 class="widget-title">About Bite n' Blizz</h5>
         <ul class="menu-list list-unstyled">
           <li class="menu-item">
-            <a href="#" class="nav-link">About us</a>
+            <a href="#" class="nav-link">About Us</a>
           </li>
           <li class="menu-item">
-            <a href="#" class="nav-link">Conditions </a>
-          </li>
-          <li class="menu-item">
-            <a href="#" class="nav-link">Our Journals</a>
+            <a href="#" class="nav-link">Our Story</a>
           </li>
           <li class="menu-item">
             <a href="#" class="nav-link">Careers</a>
           </li>
           <li class="menu-item">
-            <a href="#" class="nav-link">Affiliate Programme</a>
+            <a href="#" class="nav-link">Blog</a>
           </li>
           <li class="menu-item">
-            <a href="#" class="nav-link">Ultras Press</a>
+            <a href="#" class="nav-link">Affiliate Program</a>
           </li>
         </ul>
       </div>
     </div>
+
+    <!-- Footer Section: Quick Links -->
     <div class="col-md-2 col-sm-6">
       <div class="footer-menu">
         <h5 class="widget-title">Quick Links</h5>
         <ul class="menu-list list-unstyled">
+          <li class="menu-item">
+            <a href="#" class="nav-link">Brownis Choco</a>
+          </li>
+          <li class="menu-item">
+            <a href="#" class="nav-link">Track Order</a>
+          </li>
           <li class="menu-item">
             <a href="#" class="nav-link">Offers</a>
           </li>
@@ -72,20 +79,13 @@
             <a href="#" class="nav-link">Discount Coupons</a>
           </li>
           <li class="menu-item">
-            <a href="#" class="nav-link">Stores</a>
-          </li>
-          <li class="menu-item">
-            <a href="#" class="nav-link">Track Order</a>
-          </li>
-          <li class="menu-item">
-            <a href="#" class="nav-link">Shop</a>
-          </li>
-          <li class="menu-item">
-            <a href="#" class="nav-link">Info</a>
+            <a href="#" class="nav-link">Gift Cards</a>
           </li>
         </ul>
       </div>
     </div>
+
+    <!-- Footer Section: Customer Service -->
     <div class="col-md-2 col-sm-6">
       <div class="footer-menu">
         <h5 class="widget-title">Customer Service</h5>
@@ -94,7 +94,7 @@
             <a href="#" class="nav-link">FAQ</a>
           </li>
           <li class="menu-item">
-            <a href="#" class="nav-link">Contact</a>
+            <a href="#" class="nav-link">Contact Us</a>
           </li>
           <li class="menu-item">
             <a href="#" class="nav-link">Privacy Policy</a>
@@ -103,18 +103,17 @@
             <a href="#" class="nav-link">Returns & Refunds</a>
           </li>
           <li class="menu-item">
-            <a href="#" class="nav-link">Cookie Guidelines</a>
-          </li>
-          <li class="menu-item">
-            <a href="#" class="nav-link">Delivery Information</a>
+            <a href="#" class="nav-link">Shipping Info</a>
           </li>
         </ul>
       </div>
     </div>
+
+    <!-- Footer Section: Newsletter Subscription -->
     <div class="col-lg-3 col-md-6 col-sm-6">
       <div class="footer-menu">
-        <h5 class="widget-title">Subscribe Us</h5>
-        <p>Subscribe to our newsletter to get updates about our grand offers.</p>
+        <h5 class="widget-title">Subscribe to Our Newsletter</h5>
+        <p>Get the latest updates and offers on our delicious Banana Crispy Choco!</p>
         <form class="d-flex mt-3 gap-0" action="index.html">
           <input class="form-control rounded-start rounded-0 bg-light" type="email" placeholder="Email Address" aria-label="Email Address">
           <button class="btn btn-dark rounded-end rounded-0" type="submit">Subscribe</button>
