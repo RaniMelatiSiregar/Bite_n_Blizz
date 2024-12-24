@@ -79,7 +79,7 @@
                     <div class="card-body">
                         <h5 class="card-title">Banana Cake</h5>
                         <p class="card-text">Rp 50.000</p>
-                        <a href="#" class="btn btn-primary">Details</a>
+                        <a href="/product/details" class="btn btn-primary">Details</a>
                     </div>
                 </div>
             </div>
