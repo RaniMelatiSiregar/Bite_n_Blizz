@@ -15,4 +15,7 @@ Route::get('/product', function () {
 Route::get('/product/details', function () {
     return view('public.product.detail');
 });
+Route::get('/chart', function () {
+    return view('public.chart');
+})->name('chart');
 
