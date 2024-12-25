@@ -43,33 +43,35 @@
     <div class="row mb-5">
         <div class="col-md-2">
             <div class="category-card">
-                <img src="path-to-image/category1.jpg" alt="Category 1" class="img-fluid mb-3">
-                <p>Category 1</p>
+                <img src="{{ asset('images/pisang.jpg') }}" alt="Category 1" class="img-fluid mb-3">
+                <p>Aneka Pisang</p>
             </div>
         </div>
         <div class="col-md-2">
             <div class="category-card">
-                <img src="path-to-image/category2.jpg" alt="Category 2" class="img-fluid mb-3">
-                <p>Category 2</p>
+                <img src="{{ asset('images/milshake.jpg') }}" alt="Category 2" class="img-fluid mb-3">
+                <p>Aneka Milk Shake</p>
             </div>
         </div>
         <div class="col-md-2">
             <div class="category-card">
-                <img src="path-to-image/category3.jpg" alt="Category 3" class="img-fluid mb-3">
-                <p>Category 3</p>
+                <img src="{{ asset('images/category-thumb-3.jpg') }}" alt="Category 3" class="img-fluid mb-3">
+                <p>Aneka Dessert Box</p>
             </div>
         </div>
         <div class="col-md-2">
             <div class="category-card">
-                <img src="path-to-image/category4.jpg" alt="Category 4" class="img-fluid mb-3">
-                <p>Category 4</p>
+                <img src="{{ asset('images/category-thumb-4.avif') }}" alt="Category 4" class="img-fluid mb-3">
+                <p>Aneka Kue Kering</p>
             </div>
         </div>
+        <!-- Tambahkan kategori baru -->
         <div class="col-md-2">
             <div class="category-card">
-                <img src="path-to-image/category5.jpg" alt="Category 5" class="img-fluid mb-3">
-                <p>Category 5</p>
+                <img src="{{ asset('images/bundling.jpg') }}" alt="Category 5" class="img-fluid mb-3">
+                <p>Paket Bundling</p>
             </div>
+        </div>
         </div>
     </div>
 
