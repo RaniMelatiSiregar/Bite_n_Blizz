@@ -25,5 +25,8 @@ Route::get('/dashboard', function () {
 Route::get('/about', function () {
     return view('public.AboutUs.about');
 });
+Route::get('/contact', function () {
+    return view('public.contact');
+});
 
 

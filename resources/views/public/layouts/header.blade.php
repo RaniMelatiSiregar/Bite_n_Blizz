@@ -79,7 +79,7 @@
               <ul class="dropdown-menu border-0 p-3 rounded-0 shadow" aria-labelledby="pages">
                 <li><a href="/about" class="dropdown-item">About Us</a></li>
                 <li><a href="/product" class="dropdown-item">Product</a></li>
-                <li><a href="#" class="dropdown-item">Contact</a></li>
+                <li><a href="/contact" class="dropdown-item">Contact</a></li>
               </ul>
             </li>
           </ul>
