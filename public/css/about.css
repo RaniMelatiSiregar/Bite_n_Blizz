@@ -1,113 +1,70 @@
-/* Global Styles */
+/* General Styles */
 body {
     font-family: 'Arial', sans-serif;
-    background-color: #f9f9f9;
+    background-color: #f8f9fa;
     color: #333;
 }
 
-.container {
-    max-width: 1140px;
-    margin: 0 auto;
+/* Header */
+header {
+    background: linear-gradient(90deg, #4e342e, #6d4c41); /* Gradasi coklat tua */
+    color: #fff;
 }
 
-/* About Us Section */
-.about-us {
-    background-color: #ffffff;
-    border-radius: 8px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-    padding: 60px 30px;
-    margin-top: 50px;
-}
-
-.text-section h1 {
-    font-size: 36px;
+header h1 {
+    font-size: 48px;
     font-weight: bold;
-    color: #2c3e50;
 }
 
-.text-section p {
+header p {
     font-size: 18px;
-    line-height: 1.8;
-    color: #555;
-    margin-bottom: 20px;
+    margin-top: 10px;
 }
 
-.text-section strong {
-    color: #e67e22; /* Highlight with orange color */
+/* About Section */
+.about-section h2 {
+    font-size: 36px;
+    color: #4e342e; /* Warna coklat tua */
+    font-weight: bold;
 }
+
+.about-section p {
+    font-size: 16px;
+    line-height: 1.8;
+    color: #6d4c41; /* Warna coklat medium */
+}
+
+.about-section img {
+    max-width: 100%;
+    height: auto;
+    box-shadow: none;
+    border-radius: 0; /* Tidak ada efek rounded */
+}
+
 
 /* Mission Section */
 .mission-section {
-    padding: 60px 30px;
-    background-color: #f1f1f1;
+    background-color: #d7ccc8; /* Latar belakang coklat muda */
+    padding: 50px 0;
     text-align: center;
-    border-radius: 8px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-    margin-top: 30px;
 }
 
 .mission-section h2 {
-    font-size: 28px;
+    font-size: 30px;
     font-weight: bold;
-    color: #3498db;
+    color: #4e342e; /* Warna coklat tua untuk heading */
 }
 
 .mission-section p {
-    font-size: 18px;
-    line-height: 1.6;
-    color: #555;
-    margin-top: 20px;
-    max-width: 800px;
-    margin-left: auto;
-    margin-right: auto;
+    font-size: 16px;
+    color: #5d4037; /* Warna coklat medium */
 }
 
 /* Footer */
 footer {
-    background-color: #fff;
-    padding: 40px 20px;
-    color: #333;
-    text-align: center;
-    font-size: 14px;
-}
-
-footer a {
-    color: #e67e22;
-    text-decoration: none;
-}
-
-footer a:hover {
-    text-decoration: underline;
-}
-
-/* Footer Bottom */
-#footer-bottom {
-    background-color: #fff;
-    color: #333;
+    background-color: #ffffff;
     padding: 20px 0;
-    text-align: center;
-}
-
-#footer-bottom a {
-    color: #e67e22;
-    text-decoration: none;
-}
-
-#footer-bottom a:hover {
-    text-decoration: underline;
-}
-
-/* Responsive Styles */
-@media (max-width: 768px) {
-    .about-us {
-        padding: 40px 20px;
-    }
-
-    .about-us .text-section {
-        text-align: center;
-    }
-
-    .about-us img {
-        margin-top: 30px;
-    }
+    color: #5d4037; /* Warna coklat medium untuk teks */
+    font-size: 14px;
+    border-top: 1px solid #d7ccc8; /* Garis dengan warna coklat muda */
 }
