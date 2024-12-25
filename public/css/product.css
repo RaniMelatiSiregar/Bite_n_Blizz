@@ -35,3 +35,34 @@
 .btn-custom {
     margin-right: 10px;
 }
+
+.table img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+    margin: 0 auto;
+}
+
+.quantity-input {
+    width: 80px;
+    text-align: center;
+}
+
+.btn-danger {
+    background-color: #dc3545;
+    border-color: #dc3545;
+}
+
+@media (max-width: 768px) {
+    .table-responsive {
+        overflow-x: auto;
+    }
+
+    .table td, .table th {
+        font-size: 14px;
+    }
+
+    .quantity-input {
+        width: 60px;
+    }
+}

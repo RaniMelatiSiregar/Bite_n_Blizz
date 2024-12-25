@@ -99,10 +99,10 @@
               </a>
             </li>
             <li>
-              <a href="#" class="p-2 mx-1" data-bs-toggle="offcanvas" data-bs-target="#offcanvasCart" aria-controls="offcanvasCart">
-                <svg width="24" height="24"><use xlink:href="#shopping-bag"></use></svg>
+              <a href="{{ route('chart') }}" class="p-2 mx-1">
+                  <svg width="24" height="24"><use xlink:href="#shopping-bag"></use></svg>
               </a>
-            </li>
+          </li>
           </ul>
         </div>
   

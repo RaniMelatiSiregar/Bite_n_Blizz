@@ -15,6 +15,12 @@ Route::get('/product', function () {
 Route::get('/product/details', function () {
     return view('public.product.detail');
 });
+Route::get('/chart', function () {
+    return view('public.chart');
+})->name('chart');
+Route::get('/dashboard', function () {
+    return view('layouts.dashboard');
+});
 
 Route::get('/about', function () {
     return view('public.AboutUs.about');
