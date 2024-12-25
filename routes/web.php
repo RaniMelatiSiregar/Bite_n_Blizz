@@ -22,3 +22,8 @@ Route::get('/dashboard', function () {
     return view('layouts.dashboard');
 });
 
+Route::get('/about', function () {
+    return view('public.AboutUs.about');
+});
+
+
