@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\ProfileController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -28,5 +29,12 @@ Route::get('/about', function () {
 Route::get('/contact', function () {
     return view('public.contact');
 });
+
+Route::get('/profile', function () {
+    return view('public.profile.index');
+})->name('profile');
+
+Route::get('/profile/edit', [ProfileController::class, 'edit'])->name('profile.edit');
+Route::put('/profile', [ProfileController::class, 'update'])->name('profile.update');
 
 

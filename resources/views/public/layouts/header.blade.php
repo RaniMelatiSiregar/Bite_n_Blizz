@@ -89,10 +89,10 @@
         <div class="col-sm-8 col-lg-2 d-flex justify-content-end align-items-center">
           <ul class="d-flex list-unstyled m-0">
             <li>
-              <a href="#" class="p-2 mx-1">
-                <svg width="24" height="24"><use xlink:href="#user"></use></svg>
+              <a href="{{ route('profile') }}" class="p-2 mx-1">
+                  <svg width="24" height="24"><use xlink:href="#user"></use></svg>
               </a>
-            </li>
+          </li>
             <li>
               <a href="#" class="p-2 mx-1">
                 <svg width="24" height="24"><use xlink:href="#wishlist"></use></svg>
