@@ -23,7 +23,7 @@
             <h4 class="fs-6 mt-3 fw-normal category-title">Aneka Pisang</h4>
           </a>
           <a href="category.html" class="nav-link swiper-slide text-center">
-            <img src="images/category-thumb-2.avif" class="rounded-circle" width="170px" height="170px" alt="Category Thumbnail" />
+            <img src="images/milshake.jpg" class="rounded-circle" width="170px" height="170px" alt="Category Thumbnail" />
             <h4 class="fs-6 mt-3 fw-normal category-title">Aneka Milk Shake</h4>
           </a>
           <a href="category.html" class="nav-link swiper-slide text-center">
