@@ -6,13 +6,15 @@
     <title>Tentang Kami - Bite n Bliezz</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="{{ asset('css/about.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/style.css') }}">
 </head>
 <body>
     <!-- Header -->
-    <header class="bg-dark text-white py-5 text-center">
-        <h1 class="display-4"><strong>Tentang Kami</strong></h1>
-        <p class="lead">Bite n Bliezz - Lebih dari sekadar toko kue, kami menciptakan kenangan manis</p>
-    </header>
+    @include('public.layouts.header')
+    <header class="text-white py-5 text-center">
+    <h1 class="display-4"><strong>Tentang Kami</strong></h1>
+    <p class="lead">Bite n Bliezz - Lebih dari sekadar toko kue, kami menciptakan kenangan manis</p>
+</header>
 
     <!-- About Us Section -->
     <section class="about-section py-5">

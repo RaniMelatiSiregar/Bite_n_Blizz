@@ -2,49 +2,68 @@
 body {
     font-family: 'Arial', sans-serif;
     background-color: #f8f9fa;
-    color: #333;
+    color: #f8f0f0;
 }
 
-/* Header */
+/* Header Utama */
 header {
-    background: linear-gradient(90deg, #4e342e, #6d4c41); /* Gradasi coklat tua */
-    color: #fff;
+    background-color: transparent; /* Header utama tidak memiliki warna latar */
+    color: #b6a1a1; /* Warna teks hitam */
+    padding: 20px 0;
 }
 
-header h1 {
+header h1, header p {
+    margin: 0;
+}
+
+/* Header Kedua (Tentang Kami) */
+header.text-center {
+    background-color: #746e5f; /* Warna krem untuk latar belakang */
+    color: #ffffff; /* Warna teks gelap */
+    padding: 40px 0;
+}
+
+header.text-center h1 {
     font-size: 48px;
     font-weight: bold;
+    color: #ffffff; /* Warna coklat medium untuk teks "Tentang Kami" */
+    text-shadow: 1px 1px 4px rgba(209, 164, 164, 0.4); /* Efek bayangan halus */
 }
 
-header p {
+header.text-center p {
     font-size: 18px;
     margin-top: 10px;
+    color: #5d4037; /* Warna coklat medium terang */
 }
 
 /* About Section */
+.about-section {
+    padding: 50px 0;
+}
+
 .about-section h2 {
     font-size: 36px;
-    color: #4e342e; /* Warna coklat tua */
+    color: #6d4c41; /* Warna coklat medium */
     font-weight: bold;
+    margin-bottom: 20px;
 }
 
 .about-section p {
     font-size: 16px;
     line-height: 1.8;
-    color: #6d4c41; /* Warna coklat medium */
+    color: #5d4037; /* Warna coklat medium terang */
 }
 
 .about-section img {
     max-width: 100%;
     height: auto;
-    box-shadow: none;
-    border-radius: 0; /* Tidak ada efek rounded */
+    border-radius: 10px;
+    /* box-shadow: 0 4px 8px #f5e5c0; Bayangan halus */
 }
-
 
 /* Mission Section */
 .mission-section {
-    background-color: #d7ccc8; /* Latar belakang coklat muda */
+    background-color: #f5e5c0; /* Latar belakang krem */
     padding: 50px 0;
     text-align: center;
 }
@@ -52,19 +71,37 @@ header p {
 .mission-section h2 {
     font-size: 30px;
     font-weight: bold;
-    color: #4e342e; /* Warna coklat tua untuk heading */
+    color: #6d4c41; /* Warna coklat medium untuk heading */
 }
 
 .mission-section p {
     font-size: 16px;
-    color: #5d4037; /* Warna coklat medium */
+    color: #5d4037; /* Warna coklat medium terang */
 }
 
 /* Footer */
 footer {
-    background-color: #ffffff;
+    background-color: #ffffff; /* Latar belakang putih */
     padding: 20px 0;
     color: #5d4037; /* Warna coklat medium untuk teks */
     font-size: 14px;
-    border-top: 1px solid #d7ccc8; /* Garis dengan warna coklat muda */
+    border-top: 1px solid #f5e5c0; /* Garis dengan warna krem */
+}
+
+#footer-bottom {
+    background-color: #ffffff;
+    color: #5d4037;
+    padding: 20px 0;
+}
+
+#footer-bottom p {
+    margin: 0;
+    font-size: 14px;
+}
+
+.img-fluid {
+    max-width: 100%;
+    height: auto;
+    border-radius: 10px;
+    box-shadow: none; /* Tidak ada box shadow */
 }
