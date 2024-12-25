@@ -77,7 +77,7 @@
             <li class="nav-item dropdown">
               <a class="nav-link dropdown-toggle pe-3" role="button" id="pages" data-bs-toggle="dropdown" aria-expanded="false">Pages</a>
               <ul class="dropdown-menu border-0 p-3 rounded-0 shadow" aria-labelledby="pages">
-                <li><a href="#" class="dropdown-item">About Us</a></li>
+                <li><a href="/about" class="dropdown-item">About Us</a></li>
                 <li><a href="/product" class="dropdown-item">Product</a></li>
                 <li><a href="#" class="dropdown-item">Contact</a></li>
               </ul>

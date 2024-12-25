@@ -16,3 +16,8 @@ Route::get('/product/details', function () {
     return view('public.product.detail');
 });
 
+Route::get('/about', function () {
+    return view('public.AboutUs.about');
+});
+
+

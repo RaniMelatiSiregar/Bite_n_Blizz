@@ -1,0 +1,113 @@
+/* Global Styles */
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #f9f9f9;
+    color: #333;
+}
+
+.container {
+    max-width: 1140px;
+    margin: 0 auto;
+}
+
+/* About Us Section */
+.about-us {
+    background-color: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    padding: 60px 30px;
+    margin-top: 50px;
+}
+
+.text-section h1 {
+    font-size: 36px;
+    font-weight: bold;
+    color: #2c3e50;
+}
+
+.text-section p {
+    font-size: 18px;
+    line-height: 1.8;
+    color: #555;
+    margin-bottom: 20px;
+}
+
+.text-section strong {
+    color: #e67e22; /* Highlight with orange color */
+}
+
+/* Mission Section */
+.mission-section {
+    padding: 60px 30px;
+    background-color: #f1f1f1;
+    text-align: center;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    margin-top: 30px;
+}
+
+.mission-section h2 {
+    font-size: 28px;
+    font-weight: bold;
+    color: #3498db;
+}
+
+.mission-section p {
+    font-size: 18px;
+    line-height: 1.6;
+    color: #555;
+    margin-top: 20px;
+    max-width: 800px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+/* Footer */
+footer {
+    background-color: #fff;
+    padding: 40px 20px;
+    color: #333;
+    text-align: center;
+    font-size: 14px;
+}
+
+footer a {
+    color: #e67e22;
+    text-decoration: none;
+}
+
+footer a:hover {
+    text-decoration: underline;
+}
+
+/* Footer Bottom */
+#footer-bottom {
+    background-color: #fff;
+    color: #333;
+    padding: 20px 0;
+    text-align: center;
+}
+
+#footer-bottom a {
+    color: #e67e22;
+    text-decoration: none;
+}
+
+#footer-bottom a:hover {
+    text-decoration: underline;
+}
+
+/* Responsive Styles */
+@media (max-width: 768px) {
+    .about-us {
+        padding: 40px 20px;
+    }
+
+    .about-us .text-section {
+        text-align: center;
+    }
+
+    .about-us img {
+        margin-top: 30px;
+    }
+}
