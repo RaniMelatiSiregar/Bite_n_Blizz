@@ -23,6 +23,10 @@ Route::get('/dashboard', function () {
     return view('layouts.dashboard');
 });
 
+Route::get('/favorite', function () {
+    return view('public.favorite');
+})->name('favorite');
+
 Route::get('/about', function () {
     return view('public.AboutUs.about');
 });
