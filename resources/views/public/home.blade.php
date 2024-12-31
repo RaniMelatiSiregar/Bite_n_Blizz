@@ -1,121 +1,160 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <title>Bite n' Blizz</title>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="format-detection" content="telephone=no">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="author" content="">
-    <meta name="keywords" content="">
-    <meta name="description" content="">
+@extends('public.layouts.app')
 
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.css">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
-    <link rel="stylesheet" type="text/css" href="{{ asset('css/vendor.css') }}">
-    <link rel="stylesheet" type="text/css" href="{{ asset('css/style.css') }}">
-
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700&family=Open+Sans:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
-
-  </head>
-  <body>
-
-@include('public.layouts.header')
-
-    <section style="background-image: url('images/banner.jpg'); background-repeat: no-repeat; background-size: cover; height: 100vh; display: flex; justify-content: center; align-items: center; text-align: center;">
-      <div class="container-lg">
-        <div class="row">
-          <div class="col-lg-12">
-            <h2 class="display-1 ls-1"><span class="fw-bold text-primary">Bite N' Blizz</span></h2>
-            <p class="fs-4">Delicious Dessert in Here</p>
-          </div>
-        </div>
-      </div>
-    </section>
-    
-
-    <section class="py-5 overflow-hidden">
-      @include('public.layouts.Category')
-    </section>
-
-    <section class="pb-5">
-    @include('public.layouts.Bestselling')
-    </section>
-
-    <section class="py-3">
-    <div class="container-lg">
-  <div class="row">
-    <div class="col-md-12">
-      <div class="banner-blocks">
-        <div class="banner-ad d-flex align-items-center large bg-info block-1" 
-          style="background: url('images/gambar4.png') no-repeat center; 
-                 background-size: cover; 
-                 width: 175%; 
-                 height: 300px;"> <!-- Atur tinggi di sini -->
-          <div class="banner-content p-5">
-            <div class="content-wrapper text-light">
-              <h3 class="banner-title text-light">Items on SALE</h3>
-              <p>Discounts up to 30%</p>
-              <a href="#" class="btn-link text-white">Shop Now</a>
-            </div>
-          </div>
-        </div>
-      </div>
+@section('content')
+<!-- Carousel -->
+<div id="mainCarousel" class="carousel slide" data-bs-ride="carousel">
+    <div class="carousel-indicators">
+        <button type="button" data-bs-target="#mainCarousel" data-bs-slide-to="0" class="active"></button>
+        <button type="button" data-bs-target="#mainCarousel" data-bs-slide-to="1"></button>
+        <button type="button" data-bs-target="#mainCarousel" data-bs-slide-to="2"></button>
+        <button type="button" data-bs-target="#mainCarousel" data-bs-slide-to="3"></button>
     </div>
-  </div>
+    <div class="carousel-inner">
+        <div class="carousel-item active">
+            <img src="{{ asset('images/carousel1.jpg') }}" class="d-block w-100" alt="Carousel 1" style="height: 500px; object-fit: cover;">
+        </div>
+        <div class="carousel-item">
+            <img src="{{ asset('images/carousel2.jpg') }}" class="d-block w-100" alt="Carousel 2" style="height: 500px; object-fit: cover;">
+        </div>
+        <div class="carousel-item">
+            <img src="{{ asset('images/carousel3.jpg') }}" class="d-block w-100" alt="Carousel 3" style="height: 500px; object-fit: cover;">
+        </div>
+        <div class="carousel-item">
+            <img src="{{ asset('images/carousel4.jpg') }}" class="d-block w-100" alt="Carousel 4" style="height: 500px; object-fit: cover;">
+        </div>
+    </div>
+    <button class="carousel-control-prev" type="button" data-bs-target="#mainCarousel" data-bs-slide="prev">
+        <span class="carousel-control-prev-icon"></span>
+    </button>
+    <button class="carousel-control-next" type="button" data-bs-target="#mainCarousel" data-bs-slide="next">
+        <span class="carousel-control-next-icon"></span>
+    </button>
 </div>
 
-    </section>
-
-    <section id="latest-products" class="products-carousel">
-      @include('public.layouts.product')
-    </section>
-
-        <!-- Download App Section -->
-        <section class="pb-4 my-4">
-          <div class="container-lg">
-        
-            <div class="bg-warning pt-5 rounded-5">
-              <div class="container">
-                <div class="row justify-content-center align-items-center">
-                  <div class="col-md-4">
-                    <h2 class="mt-5">Download Bite n' Blizz App</h2>
-                    <p>Order your favorite Banana Choco Crispy with ease, fast, and reliable!</p>
-                    <div class="d-flex gap-2 flex-wrap mb-5">
-                      <a href="#" title="App store"><img src="images/img-app-store.png" alt="app-store"></a>
-                      <a href="#" title="Google Play"><img src="images/img-google-play.png" alt="google-play"></a>
+<!-- Best Selling Products -->
+<div class="container py-5">
+    <h2 class="text-center mb-4">Best Selling Products</h2>
+    <div class="row">
+        <!-- Product 1 -->
+        <div class="col-md-3 mb-4">
+            <div class="card h-100">
+                <img src="{{ asset('images/chocoCrispy1.png') }}" class="card-img-top" alt="Choco Crispy" style="height: 200px; object-fit: cover;">
+                <div class="card-body d-flex flex-column">
+                    <h5 class="card-title">Choco Crispy</h5>
+                    <div class="text-warning mb-2">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star-half-alt"></i>
                     </div>
-                  </div>
+                    <p class="card-text text-danger fw-bold">Rp25.000</p>
+                    <a href="{{ route('product') }}" class="btn btn-danger mt-auto">Lihat Detail</a>
                 </div>
-              </div>
             </div>
-            
-          </div>
-        </section>
-
-    <footer class="py-5">
-      @include('public.layouts.footer')
-    </footer>
-    <div id="footer-bottom">
-      <div class="container-lg">
-        <div class="row">
-          <div class="col-md-6 copyright">
-            <p>© 2024 Organic. All rights reserved.</p>
-          </div>
-          <div class="col-md-6 credit-link text-start text-md-end">
-            <p>HTML Template by <a href="https://templatesjungle.com/">TemplatesJungle</a> Distributed By <a href="https://themewagon.com">ThemeWagon</a> </p>
-          </div>
         </div>
-      </div>
+
+        <!-- Product 2 -->
+        <div class="col-md-3 mb-4">
+            <div class="card h-100">
+                <img src="{{ asset('images/chocoMilk.png') }}" class="card-img-top" alt="Choco Milk" style="height: 200px; object-fit: cover;">
+                <div class="card-body d-flex flex-column">
+                    <h5 class="card-title">Choco Milk</h5>
+                    <div class="text-warning mb-2">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                    </div>
+                    <p class="card-text text-danger fw-bold">Rp18.000</p>
+                    <a href="{{ route('product') }}" class="btn btn-danger mt-auto">Lihat Detail</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Product 3 -->
+        <div class="col-md-3 mb-4">
+            <div class="card h-100">
+                <img src="{{ asset('images/browniesChoco.png') }}" class="card-img-top" alt="Brownies Choco" style="height: 200px; object-fit: cover;">
+                <div class="card-body d-flex flex-column">
+                    <h5 class="card-title">Brownies Choco</h5>
+                    <div class="text-warning mb-2">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                    </div>
+                    <p class="card-text text-danger fw-bold">Rp28.000</p>
+                    <a href="{{ route('product') }}" class="btn btn-danger mt-auto">Lihat Detail</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Product 4 -->
+        <div class="col-md-3 mb-4">
+            <div class="card h-100">
+                <img src="{{ asset('images/bananaCake.png') }}" class="card-img-top" alt="Banana Cake" style="height: 200px; object-fit: cover;">
+                <div class="card-body d-flex flex-column">
+                    <h5 class="card-title">Banana Cake</h5>
+                    <div class="text-warning mb-2">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star-half-alt"></i>
+                    </div>
+                    <p class="card-text text-danger fw-bold">Rp23.000</p>
+                    <a href="{{ route('product') }}" class="btn btn-danger mt-auto">Lihat Detail</a>
+                </div>
+            </div>
+        </div>
     </div>
-    <script src="js/jquery-1.11.0.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe" crossorigin="anonymous"></script>
-    <script src="js/plugins.js"></script>
-    <script src="js/script.js"></script>
-  </body>
-</html>
+</div>
+
+<!-- About Section -->
+<div class="bg-light py-5">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-md-6 mb-4 mb-md-0">
+                <img src="{{ asset('images/banner.jpg') }}" alt="About Us" class="img-fluid rounded shadow">
+            </div>
+            <div class="col-md-6">
+                <h2 class="mb-4">Tentang Bite n Blizz</h2>
+                <p class="lead text-muted">Kami adalah toko kue yang berkomitmen untuk menyajikan kue-kue berkualitas dengan cita rasa yang lezat dan tampilan yang menarik.</p>
+                <p class="text-muted mb-4">Didirikan pada tahun 2023, Bite n Blizz telah menjadi destinasi favorit pecinta kue di Yogyakarta. Kami menggunakan bahan-bahan berkualitas tinggi dan resep yang telah disempurnakan untuk menghasilkan kue-kue terbaik.</p>
+                <a href="{{ route('about') }}" class="btn btn-danger">Baca Selengkapnya</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Contact Section -->
+<div class="container py-5">
+    <div class="row justify-content-center text-center">
+        <div class="col-md-8">
+            <h2 class="mb-4">Hubungi Kami</h2>
+            <p class="text-muted mb-5">Jika Anda memiliki pertanyaan atau ingin memesan produk kami, silakan hubungi kami melalui:</p>
+            <div class="row">
+                <div class="col-md-4 mb-4">
+                    <i class="fas fa-map-marker-alt fa-2x text-danger mb-3"></i>
+                    <h5>Alamat</h5>
+                    <p class="text-muted">Depok, Sleman, Yogyakarta</p>
+                </div>
+                <div class="col-md-4 mb-4">
+                    <i class="fas fa-phone fa-2x text-danger mb-3"></i>
+                    <h5>Telepon</h5>
+                    <p class="text-muted">+62 812-3456-7890</p>
+                </div>
+                <div class="col-md-4 mb-4">
+                    <i class="fas fa-envelope fa-2x text-danger mb-3"></i>
+                    <h5>Email</h5>
+                    <p class="text-muted">@bitenblizz.com</p>
+                </div>
+            </div>
+            <a href="{{ route('contact') }}" class="btn btn-danger mt-3">Hubungi Kami</a>
+        </div>
+    </div>
+</div>
+@endsection

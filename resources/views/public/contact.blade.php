@@ -1,41 +1,73 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Contact</title>
-    <link rel="stylesheet" type="text/css" href="{{ asset('css/style.css') }}">
-    <link rel="stylesheet" type="text/css" href="{{ asset('css/contact.css') }}">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-</head>
-    <body>
-        @include('public.layouts.header')
-        <div class="contact-container">
-            <div class="contact-info">
-                <h2>Contact Us</h2>
-                <p>Our mailing address is:</p>
-                <p><strong>152A Charlotte Street,<br>Peterborough ON</strong></p>
-                <p>Phone: <a href="tel:7057423221">705-742-3221</a></p>
-                <div class="social-icons">
-                    <a href="#" class="icon"><i class="fab fa-facebook-f"></i></a>
-                    <a href="#" class="icon"><i class="fab fa-twitter"></i></a>
-                    <a href="#" class="icon"><i class="fab fa-instagram"></i></a>
-                    <a href="#" class="icon"><i class="fab fa-google"></i></a>
+@extends('public.layouts.app')
+
+@section('content')
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card border-0 shadow-sm">
+                <div class="card-body p-5">
+                    <h2 class="text-center mb-4">Hubungi Kami</h2>
+                    
+                    <div class="row mb-5">
+                        <div class="col-md-4 text-center mb-4 mb-md-0">
+                            <i class="fas fa-map-marker-alt fa-2x text-danger mb-3"></i>
+                            <h5>Alamat</h5>
+                            <p class="text-muted">Depok ,Sleman,Yogyakarta</p>
+                        </div>
+                        <div class="col-md-4 text-center mb-4 mb-md-0">
+                            <i class="fas fa-phone fa-2x text-danger mb-3"></i>
+                            <h5>Telepon</h5>
+                            <p class="text-muted">+62 812-3456-7890</p>
+                        </div>
+                        <div class="col-md-4 text-center">
+                            <i class="fas fa-envelope fa-2x text-danger mb-3"></i>
+                            <h5>Email</h5>
+                            <p class="text-muted">@bitenblizz.com</p>
+                        </div>
+                    </div>
+
+                    <form>
+                        <div class="mb-3">
+                            <label for="name" class="form-label">Nama Lengkap</label>
+                            <input type="text" class="form-control" id="name" name="name" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="email" class="form-label">Email</label>
+                            <input type="email" class="form-control" id="email" name="email" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="subject" class="form-label">Subjek</label>
+                            <input type="text" class="form-control" id="subject" name="subject" required>
+                        </div>
+                        <div class="mb-4">
+                            <label for="message" class="form-label">Pesan</label>
+                            <textarea class="form-control" id="message" name="message" rows="5" required></textarea>
+                        </div>
+                        <div class="d-grid">
+                            <button type="submit" class="btn btn-danger py-2">Kirim Pesan</button>
+                        </div>
+                    </form>
                 </div>
             </div>
-            <div class="contact-form">
-                <p>Great vision without great people is irrelevant.<br>Let's work together.</p>
-                <form action="#" method="POST">
-                    <input type="text" name="name" placeholder="Enter your Name" required>
-                    <input type="email" name="email" placeholder="Enter a valid email address" required>
-                    <textarea name="message" placeholder="Enter your message" rows="5" required></textarea>
-                    <button type="submit">Submit</button>
-                </form>
+        </div>
+    </div>
+
+    <!-- Maps -->
+    <div class="row mt-5">
+        <div class="col-12">
+            <div class="card border-0 shadow-sm">
+                <div class="card-body p-0">
+                    <iframe 
+                        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3958.8548567376717!2d112.7223563!3d-7.1486567!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2dd803eab9563447%3A0x7819ce195b95e421!2sUniversitas%20Trunojoyo%20Madura!5e0!3m2!1sen!2sid!4v1624451234567!5m2!1sen!2sid" 
+                        width="100%" 
+                        height="450" 
+                        style="border:0;" 
+                        allowfullscreen="" 
+                        loading="lazy">
+                    </iframe>
+                </div>
             </div>
         </div>
-        <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
-        <footer class="py-5">
-            @include('public.layouts.footer')
-        </footer>
-    </body>
-</html>
+    </div>
+</div>
+@endsection
