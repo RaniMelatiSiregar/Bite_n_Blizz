@@ -7,64 +7,56 @@ use Illuminate\Database\Seeder;
 
 class ProductSeeder extends Seeder
 {
-    public function run()
+    public function run(): void
     {
         $products = [
             [
                 'name' => 'Choco Crispy',
-                'description' => 'Kue kering coklat yang renyah dan lezat',
                 'price' => 25000,
                 'image' => 'chocoCrispy1.png',
-                'category' => 'Kue Kering'
+                'description' => 'Kue coklat crispy yang lezat'
             ],
             [
                 'name' => 'Choco Milk',
-                'description' => 'Minuman coklat susu yang creamy',
                 'price' => 18000,
                 'image' => 'chocoMilk.png',
-                'category' => 'Minuman'
+                'description' => 'Kue coklat dengan susu yang lembut'
             ],
             [
                 'name' => 'Sus Kering',
-                'description' => 'Sus kering yang renyah dengan isian vla',
                 'price' => 20000,
                 'image' => 'susKering.png',
-                'category' => 'Kue Kering'
+                'description' => 'Sus kering yang renyah'
             ],
             [
                 'name' => 'Choco Cookies',
-                'description' => 'Cookies coklat yang lembut',
                 'price' => 22000,
                 'image' => 'chocoCookies.png',
-                'category' => 'Kue Kering'
+                'description' => 'Cookies coklat yang renyah'
             ],
             [
                 'name' => 'Brownies Choco',
-                'description' => 'Brownies coklat yang lembut dan moist',
-                'price' => 35000,
+                'price' => 28000,
                 'image' => 'browniesChoco.png',
-                'category' => 'Kue Basah'
+                'description' => 'Brownies coklat yang lembut'
             ],
             [
                 'name' => 'Banana Cake',
-                'description' => 'Kue pisang yang lembut',
-                'price' => 30000,
+                'price' => 23000,
                 'image' => 'bananaCake.png',
-                'category' => 'Kue Basah'
+                'description' => 'Kue pisang yang lembut'
             ],
             [
                 'name' => 'Pisang Caramel',
-                'description' => 'Pisang goreng dengan saus karamel',
-                'price' => 25000,
+                'price' => 21000,
                 'image' => 'pisangCaramel.png',
-                'category' => 'Kue Basah'
+                'description' => 'Pisang dengan caramel yang manis'
             ],
             [
                 'name' => 'Pisang Nuget',
-                'description' => 'Nugget pisang yang renyah',
-                'price' => 20000,
+                'price' => 19000,
                 'image' => 'pisangNuget.png',
-                'category' => 'Kue Basah'
+                'description' => 'Nugget pisang yang renyah'
             ]
         ];
 

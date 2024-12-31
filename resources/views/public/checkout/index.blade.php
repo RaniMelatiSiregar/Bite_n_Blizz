@@ -15,11 +15,11 @@
                         <h5 class="card-title mb-4">Alamat Pengiriman</h5>
                         <div class="mb-3">
                             <label for="address" class="form-label">Alamat Lengkap</label>
-                            <textarea class="form-control" id="address" name="address" rows="3" required></textarea>
+                            <textarea class="form-control" id="address" name="address" rows="3" required>{{ Auth::user()->address }}</textarea>
                         </div>
                         <div class="mb-3">
                             <label for="phone" class="form-label">Nomor Telepon</label>
-                            <input type="tel" class="form-control" id="phone" name="phone" required>
+                            <input type="tel" class="form-control" id="phone" name="phone" value="{{ Auth::user()->phone }}" required>
                         </div>
                         <div class="mb-3">
                             <label for="notes" class="form-label">Catatan (Opsional)</label>
@@ -34,11 +34,11 @@
                         <h5 class="card-title mb-4">Detail Pesanan</h5>
                         @foreach($carts as $cart)
                         <div class="d-flex mb-3">
-                            <img src="{{ asset('images/' . $cart->image) }}" alt="{{ $cart->product_name }}" class="me-3" style="width: 80px; height: 80px; object-fit: cover;">
+                            <img src="{{ asset('images/' . $cart->product->image) }}" alt="{{ $cart->product->name }}" class="me-3" style="width: 80px; height: 80px; object-fit: cover;">
                             <div>
-                                <h6 class="mb-1">{{ $cart->product_name }}</h6>
-                                <p class="mb-1">{{ $cart->quantity }} x Rp {{ number_format($cart->price, 0, ',', '.') }}</p>
-                                <p class="mb-0 text-danger">Rp {{ number_format($cart->price * $cart->quantity, 0, ',', '.') }}</p>
+                                <h6 class="mb-1">{{ $cart->product->name }}</h6>
+                                <p class="mb-1">{{ $cart->quantity }} x Rp {{ number_format($cart->product->price, 0, ',', '.') }}</p>
+                                <p class="mb-0 text-danger">Rp {{ number_format($cart->product->price * $cart->quantity, 0, ',', '.') }}</p>
                             </div>
                         </div>
                         @endforeach

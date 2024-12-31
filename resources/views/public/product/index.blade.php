@@ -6,12 +6,12 @@
         @foreach($products as $product)
         <div class="col-md-3 mb-4">
             <div class="card h-100">
-                <img src="{{ asset('images/' . $product['image']) }}" 
+                <img src="{{ asset('images/' . $product->image) }}" 
                      class="card-img-top" 
-                     alt="{{ $product['name'] }}"
+                     alt="{{ $product->name }}"
                      style="height: 200px; object-fit: cover;">
                 <div class="card-body d-flex flex-column">
-                    <h5 class="card-title">{{ $product['name'] }}</h5>
+                    <h5 class="card-title">{{ $product->name }}</h5>
                     <div class="text-warning mb-2">
                         <i class="fas fa-star"></i>
                         <i class="fas fa-star"></i>
@@ -19,11 +19,11 @@
                         <i class="fas fa-star"></i>
                         <i class="fas fa-star-half-alt"></i>
                     </div>
-                    <p class="card-text text-danger fw-bold">Rp{{ number_format($product['price'], 0, ',', '.') }}</p>
+                    <p class="card-text text-danger fw-bold">Rp{{ number_format($product->price, 0, ',', '.') }}</p>
                     <div class="mt-auto">
                         <form class="add-to-cart-form">
                             @csrf
-                            <input type="hidden" name="product_id" value="{{ $product['id'] }}">
+                            <input type="hidden" name="product_id" value="{{ $product->id }}">
                             <input type="hidden" name="quantity" value="1">
                             <button type="submit" class="btn btn-danger w-100">
                                 <i class="fas fa-shopping-cart me-2"></i>Tambah ke Keranjang

@@ -14,9 +14,9 @@ class CheckoutController extends Controller
 {
     public function index()
     {
-        $carts = Cart::where('user_id', Auth::id())->get();
+        $carts = Cart::with('product')->where('user_id', Auth::id())->get();
         $totalPrice = $carts->sum(function($cart) {
-            return $cart->price * $cart->quantity;
+            return $cart->product->price * $cart->quantity;
         });
         
         return view('public.checkout.index', compact('carts', 'totalPrice'));
@@ -28,7 +28,7 @@ class CheckoutController extends Controller
             DB::beginTransaction();
 
             // Ambil data cart
-            $carts = Cart::where('user_id', Auth::id())->get();
+            $carts = Cart::with('product')->where('user_id', Auth::id())->get();
             if ($carts->isEmpty()) {
                 return redirect()->route('cart.index')->with('error', 'Keranjang belanja kosong');
             }
@@ -48,10 +48,10 @@ class CheckoutController extends Controller
             foreach ($carts as $cart) {
                 OrderItem::create([
                     'order_id' => $order->id,
-                    'product_name' => $cart->product_name,
-                    'price' => $cart->price,
+                    'product_name' => $cart->product->name,
+                    'price' => $cart->product->price,
                     'quantity' => $cart->quantity,
-                    'image' => $cart->image
+                    'image' => $cart->product->image
                 ]);
             }
 
