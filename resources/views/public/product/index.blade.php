@@ -3,15 +3,15 @@
 @section('content')
 <div class="container py-5">
     <div class="row">
-        <!-- Product Grid -->
+        @foreach($products as $product)
         <div class="col-md-3 mb-4">
             <div class="card h-100">
-                <img src="{{ asset('images/chocoCrispy1.png') }}" 
+                <img src="{{ asset('images/' . $product['image']) }}" 
                      class="card-img-top" 
-                     alt="Choco Crispy"
+                     alt="{{ $product['name'] }}"
                      style="height: 200px; object-fit: cover;">
                 <div class="card-body d-flex flex-column">
-                    <h5 class="card-title">Choco Crispy</h5>
+                    <h5 class="card-title">{{ $product['name'] }}</h5>
                     <div class="text-warning mb-2">
                         <i class="fas fa-star"></i>
                         <i class="fas fa-star"></i>
@@ -19,11 +19,11 @@
                         <i class="fas fa-star"></i>
                         <i class="fas fa-star-half-alt"></i>
                     </div>
-                    <p class="card-text text-danger fw-bold">Rp25.000</p>
+                    <p class="card-text text-danger fw-bold">Rp{{ number_format($product['price'], 0, ',', '.') }}</p>
                     <div class="mt-auto">
                         <form class="add-to-cart-form">
                             @csrf
-                            <input type="hidden" name="product_id" value="{{ $product->id }}">
+                            <input type="hidden" name="product_id" value="{{ $product['id'] }}">
                             <input type="hidden" name="quantity" value="1">
                             <button type="submit" class="btn btn-danger w-100">
                                 <i class="fas fa-shopping-cart me-2"></i>Tambah ke Keranjang
@@ -33,216 +33,7 @@
                 </div>
             </div>
         </div>
-
-        <div class="col-md-3 mb-4">
-            <div class="card h-100">
-                <img src="{{ asset('images/chocoMilk.png') }}" 
-                     class="card-img-top" 
-                     alt="Choco Milk"
-                     style="height: 200px; object-fit: cover;">
-                <div class="card-body d-flex flex-column">
-                    <h5 class="card-title">Choco Milk</h5>
-                    <div class="text-warning mb-2">
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star-half-alt"></i>
-                    </div>
-                    <p class="card-text text-danger fw-bold">Rp18.000</p>
-                    <div class="mt-auto">
-                        <form class="add-to-cart-form">
-                            @csrf
-                            <input type="hidden" name="product_id" value="{{ $product->id }}">
-                            <input type="hidden" name="quantity" value="1">
-                            <button type="submit" class="btn btn-danger w-100">
-                                <i class="fas fa-shopping-cart me-2"></i>Tambah ke Keranjang
-                            </button>
-                        </form>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="col-md-3 mb-4">
-            <div class="card h-100">
-                <img src="{{ asset('images/susKering.png') }}" 
-                     class="card-img-top" 
-                     alt="Sus Kering"
-                     style="height: 200px; object-fit: cover;">
-                <div class="card-body d-flex flex-column">
-                    <h5 class="card-title">Sus Kering</h5>
-                    <div class="text-warning mb-2">
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star-half-alt"></i>
-                    </div>
-                    <p class="card-text text-danger fw-bold">Rp20.000</p>
-                    <div class="mt-auto">
-                        <form class="add-to-cart-form">
-                            @csrf
-                            <input type="hidden" name="product_id" value="{{ $product->id }}">
-                            <input type="hidden" name="quantity" value="1">
-                            <button type="submit" class="btn btn-danger w-100">
-                                <i class="fas fa-shopping-cart me-2"></i>Tambah ke Keranjang
-                            </button>
-                        </form>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="col-md-3 mb-4">
-            <div class="card h-100">
-                <img src="{{ asset('images/chocoCookies.png') }}" 
-                     class="card-img-top" 
-                     alt="Choco Cookies"
-                     style="height: 200px; object-fit: cover;">
-                <div class="card-body d-flex flex-column">
-                    <h5 class="card-title">Choco Cookies</h5>
-                    <div class="text-warning mb-2">
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star-half-alt"></i>
-                    </div>
-                    <p class="card-text text-danger fw-bold">Rp22.000</p>
-                    <div class="mt-auto">
-                        <form class="add-to-cart-form">
-                            @csrf
-                            <input type="hidden" name="product_id" value="{{ $product->id }}">
-                            <input type="hidden" name="quantity" value="1">
-                            <button type="submit" class="btn btn-danger w-100">
-                                <i class="fas fa-shopping-cart me-2"></i>Tambah ke Keranjang
-                            </button>
-                        </form>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="col-md-3 mb-4">
-            <div class="card h-100">
-                <img src="{{ asset('images/browniesChoco.png') }}" 
-                     class="card-img-top" 
-                     alt="Brownies Choco"
-                     style="height: 200px; object-fit: cover;">
-                <div class="card-body d-flex flex-column">
-                    <h5 class="card-title">Brownies Choco</h5>
-                    <div class="text-warning mb-2">
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star-half-alt"></i>
-                    </div>
-                    <p class="card-text text-danger fw-bold">Rp28.000</p>
-                    <div class="mt-auto">
-                        <form class="add-to-cart-form">
-                            @csrf
-                            <input type="hidden" name="product_id" value="{{ $product->id }}">
-                            <input type="hidden" name="quantity" value="1">
-                            <button type="submit" class="btn btn-danger w-100">
-                                <i class="fas fa-shopping-cart me-2"></i>Tambah ke Keranjang
-                            </button>
-                        </form>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="col-md-3 mb-4">
-            <div class="card h-100">
-                <img src="{{ asset('images/bananaCake.png') }}" 
-                     class="card-img-top" 
-                     alt="Banana Cake"
-                     style="height: 200px; object-fit: cover;">
-                <div class="card-body d-flex flex-column">
-                    <h5 class="card-title">Banana Cake</h5>
-                    <div class="text-warning mb-2">
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star-half-alt"></i>
-                    </div>
-                    <p class="card-text text-danger fw-bold">Rp23.000</p>
-                    <div class="mt-auto">
-                        <form class="add-to-cart-form">
-                            @csrf
-                            <input type="hidden" name="product_id" value="{{ $product->id }}">
-                            <input type="hidden" name="quantity" value="1">
-                            <button type="submit" class="btn btn-danger w-100">
-                                <i class="fas fa-shopping-cart me-2"></i>Tambah ke Keranjang
-                            </button>
-                        </form>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="col-md-3 mb-4">
-            <div class="card h-100">
-                <img src="{{ asset('images/pisangCaramel.png') }}" 
-                     class="card-img-top" 
-                     alt="Pisang Caramel"
-                     style="height: 200px; object-fit: cover;">
-                <div class="card-body d-flex flex-column">
-                    <h5 class="card-title">Pisang Caramel</h5>
-                    <div class="text-warning mb-2">
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star-half-alt"></i>
-                    </div>
-                    <p class="card-text text-danger fw-bold">Rp21.000</p>
-                    <div class="mt-auto">
-                        <form class="add-to-cart-form">
-                            @csrf
-                            <input type="hidden" name="product_id" value="{{ $product->id }}">
-                            <input type="hidden" name="quantity" value="1">
-                            <button type="submit" class="btn btn-danger w-100">
-                                <i class="fas fa-shopping-cart me-2"></i>Tambah ke Keranjang
-                            </button>
-                        </form>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="col-md-3 mb-4">
-            <div class="card h-100">
-                <img src="{{ asset('images/pisangNuget.png') }}" 
-                     class="card-img-top" 
-                     alt="Pisang Nuget"
-                     style="height: 200px; object-fit: cover;">
-                <div class="card-body d-flex flex-column">
-                    <h5 class="card-title">Pisang Nuget</h5>
-                    <div class="text-warning mb-2">
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star-half-alt"></i>
-                    </div>
-                    <p class="card-text text-danger fw-bold">Rp19.000</p>
-                    <div class="mt-auto">
-                        <form class="add-to-cart-form">
-                            @csrf
-                            <input type="hidden" name="product_id" value="{{ $product->id }}">
-                            <input type="hidden" name="quantity" value="1">
-                            <button type="submit" class="btn btn-danger w-100">
-                                <i class="fas fa-shopping-cart me-2"></i>Tambah ke Keranjang
-                            </button>
-                        </form>
-                    </div>
-                </div>
-            </div>
-        </div>
+        @endforeach
     </div>
 </div>
 
