@@ -82,7 +82,7 @@
         </a>
         <ul class="nav nav-treeview collapse" id="setting-menu">
           <li class="nav-item">
-            <a href="#" class="nav-link">
+            <a href="store-settings" class="nav-link">
               <i class="far fa-circle nav-icon"></i>
               <p>Pengaturan Toko</p>
             </a>
