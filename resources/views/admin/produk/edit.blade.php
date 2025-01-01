@@ -11,7 +11,7 @@
                 <select name="category_id" class="form-control" required>
                     <option value="">Pilih Kategori</option>
                     @foreach($categories as $category)
-                        <option value="{{ $category->id }}" {{ $produk->category_id == $category->id ? 'selected' : '' }}>{{ $category->nama_kategori }}</option>
+                        <option value="{{ $category->id }}" {{ $produk->category_id == $category->id ? 'selected' : '' }}>{{ $category->name }}</option>
                     @endforeach
                 </select>
             </div>

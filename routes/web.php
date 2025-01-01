@@ -1,16 +1,17 @@
 <?php
 
+use App\Models\Category;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CartController;
-use App\Http\Controllers\ProductController;
-use App\Http\Controllers\CheckoutController;
 use App\Http\Controllers\AdminController;
-use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ProdukController;
-use App\Models\Category;
+use App\Http\Controllers\ProductController;
+use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\VoucherController;
+use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\CheckoutController;
 use App\Http\Controllers\AdminAuthController;
 
 // Login & Register Routes
@@ -86,4 +87,4 @@ Route::middleware(['auth'])->group(function () {
     })->name('contact');
 });
 
-
+Route::resource('vouchers', VoucherController::class);

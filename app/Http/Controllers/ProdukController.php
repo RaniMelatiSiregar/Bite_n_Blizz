@@ -6,6 +6,7 @@ use App\Models\Produk;
 use App\Models\Category;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 
 class ProdukController extends Controller
 {
@@ -30,12 +31,12 @@ class ProdukController extends Controller
     public function store(Request $request)
     {
         $validatedData = $request->validate([
-            'category_id' => 'required',
-            'kode_produk' => 'required|unique:produks',
-            'nama_produk' => 'required',
+            'category_id' => 'required|exists:categories,id',
+            'kode_produk' => 'required|string',
+            'nama_produk' => 'required|string',
             'slug' => 'required|unique:produks',
-            'image' => 'image|file|max:1024',
-            'deskripsi_produk' => 'required',
+            'image' => 'nullable|image',
+            'deskripsi_produk' => 'required|string',
             'qty' => 'required|numeric',
             'satuan' => 'required',
             'harga' => 'required|numeric'
@@ -51,7 +52,6 @@ class ProdukController extends Controller
             ->with('success', 'Produk berhasil ditambahkan');
     }
 
-    // Show edit form
     public function edit($id)
     {
         $produk = Produk::findOrFail($id);
@@ -59,14 +59,13 @@ class ProdukController extends Controller
         return view('admin.produk.edit', compact('produk', 'categories'))->with('title', 'Edit Product');
     }
 
-    // Update produk
     public function update(Request $request, $id)
     {
         $request->validate([
-            'category_id' => 'required|exists:categoris,id',
+            'category_id' => 'required|exists:categories,id',
             'kode_produk' => 'required|string',
             'nama_produk' => 'required|string',
-            'slug' => 'required|unique:produk,slug,' . $id,
+            'slug' => 'required|unique:produks,slug,' . $id,
             'image' => 'nullable|image',
             'deskripsi_produk' => 'required|string',
             'qty' => 'required|numeric',
@@ -77,9 +76,11 @@ class ProdukController extends Controller
         $produk = Produk::findOrFail($id);
         $data = $request->all();
 
-        // Handle image upload if exists
         if ($request->hasFile('image')) {
-            $data['image'] = $request->file('image')->store('produk_images', 'public');
+            if($produk->image) {
+                Storage::delete($produk->image);
+            }
+            $data['image'] = $request->file('image')->store('produk-images');
         }
 
         $produk->update($data);
@@ -87,12 +88,23 @@ class ProdukController extends Controller
         return redirect()->route('produk.index')->with('success', 'Produk berhasil diperbarui.');
     }
 
-    // Delete produk
     public function destroy($id)
     {
         $produk = Produk::findOrFail($id);
+        
+        if($produk->image) {
+            Storage::delete($produk->image);
+        }
+        
         $produk->delete();
 
         return redirect()->route('produk.index')->with('success', 'Produk berhasil dihapus.');
+    }
+
+    public function checkSlug(Request $request)
+    {
+        $nama_produk = $request->input('nama_produk');
+        $slug = Str::slug($nama_produk);
+        return response()->json(['slug' => $slug]);
     }
 }
