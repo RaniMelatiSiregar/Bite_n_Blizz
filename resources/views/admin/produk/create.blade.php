@@ -10,7 +10,7 @@
                 <select name="category_id" class="form-control" required>
                     <option value="">Pilih Kategori</option>
                     @foreach($categories as $category)
-                        <option value="{{ $category->id }}">{{ $category->nama_kategori }}</option>
+                        <option value="{{ $category->id }}">{{ $category->name }}</option>
                     @endforeach
                 </select>
             </div>
@@ -20,11 +20,11 @@
             </div>
             <div class="form-group">
                 <label for="nama_produk">Nama Produk</label>
-                <input type="text" name="nama_produk" class="form-control" required>
+                <input type="text" id="nama_produk" name="nama_produk" class="form-control" required>
             </div>
             <div class="form-group">
                 <label for="slug">Slug</label>
-                <input type="text" name="slug" class="form-control" required>
+                <input type="text" id="slug" name="slug" class="form-control" required>
             </div>
             <div class="form-group">
                 <label for="image">Gambar Produk</label>
@@ -49,4 +49,19 @@
             <button type="submit" class="btn btn-success">Simpan</button>
         </form>
     </div>
+
+<script>
+    const nama_produk = document.querySelector('#nama_produk'); // Ambil input dengan ID 'nama_produk'
+    const slug = document.querySelector('#slug'); // Ambil input dengan ID 'slug'
+
+    nama_produk.addEventListener('change', function() {
+        fetch('/produks/checkSlug?nama_produk=' + nama_produk.value) // Gunakan name.value untuk mendapatkan nilai dari input 'name'
+        .then(response => response.json())
+        .then(data => slug.value = data.slug) // Set nilai slug berdasarkan response JSON
+    });
+
+    document.addEventListener('trix-file-accept', function(e){
+        e.preventDefault();
+    })
+</script>
 @endsection
