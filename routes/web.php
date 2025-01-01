@@ -13,7 +13,10 @@ use App\Http\Controllers\VoucherController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\CheckoutController;
 use App\Http\Controllers\AdminAuthController;
+
 use App\Http\Controllers\CustomerController;
+use App\Http\Controllers\StoreSettingController;
+
 
 // Login & Register Routes
 Route::get('/', [AuthController::class, 'showLoginForm'])->name('login');
@@ -100,3 +103,6 @@ Route::middleware(['auth'])->group(function () {
 
 // Voucher Routes
 Route::resource('vouchers', VoucherController::class);
+
+//Setting Routes
+Route::resource('store-settings', StoreSettingController::class);
