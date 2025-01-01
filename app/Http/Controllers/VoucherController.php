@@ -35,12 +35,12 @@ class VoucherController extends Controller
     public function index()
     {
         $vouchers = Voucher::all();
-        return view('admin.vouchers.index', compact('vouchers'));
+        return view('admin.promo.index', compact('vouchers'));
     }
 
     public function create()
     {
-        return view('admin.vouchers.create');
+        return view('admin.promo.create');
     }
 
     public function store(Request $request)
@@ -64,7 +64,7 @@ class VoucherController extends Controller
 
     public function edit(Voucher $voucher)
     {
-        return view('admin.vouchers.edit', compact('voucher'));
+        return view('admin.promo.edit', compact('voucher'));
     }
 
     public function update(Request $request, Voucher $voucher)
