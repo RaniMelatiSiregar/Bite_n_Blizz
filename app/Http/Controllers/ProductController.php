@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Category;
 use App\Models\Product;
+use App\Models\Produk;
 use Illuminate\Http\Request;
 
 class ProductController extends Controller
@@ -10,7 +12,9 @@ class ProductController extends Controller
     public function index()
     {
         $products = Product::all();
-        return view('public.product.index', compact('products'));
+        $produk = Produk::all();
+        $categories = Category::all();
+        return view('public.product.index', compact('products', 'produk', 'categories'));
     }
 
     public function show($id)

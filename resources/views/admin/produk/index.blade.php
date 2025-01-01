@@ -20,11 +20,11 @@
             <tbody>
                 @foreach($produk as $produk)
                     <tr>
-                        <td>{{ $produk->id }}</td>
+                        <td>{{ $loop->iteration }}</td>
                         <td>{{ $produk->kode_produk }}</td>
                         <td>{{ $produk->nama_produk }}</td>
                         <td>
-                            <img src="{{ asset('storage/' . $produk->image) }}" alt="Gambar Produk" width="100">
+                            <img src="{{ asset('storage/produk-images/' . $produk->image) }}" alt="Gambar Produk" width="100">
                         </td>
                         <td>{{ $produk->category->name }}</td>
                         <td>{{ $produk->harga }}</td>
