@@ -2,16 +2,16 @@
 namespace App\Http\Middleware;
 
 use Closure;
-use Illuminate\Support\Facades\Auth;
+use Illuminate\Http\Request;
 
 class AdminMiddleware
 {
-    public function handle($request, Closure $next)
+    public function handle(Request $request, Closure $next)
     {
-        if (Auth::check() && Auth::user()->role === 'admin') {
+        if (auth()->check() && auth()->user()->role === 'admin') {
             return $next($request);
         }
-
-        return redirect()->route('home')->with('error', 'Anda tidak memiliki akses ke halaman ini.');
+        
+        return redirect('/')->with('error', 'Unauthorized access');
     }
 }

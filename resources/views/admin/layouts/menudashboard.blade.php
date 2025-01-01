@@ -1,3 +1,9 @@
+<!-- Brand Logo -->
+<div class="brand-link d-flex align-items-center px-3 py-3 mb-3">
+  <img src="{{ asset('images/logo.png') }}" alt="Bite n Bliezz Logo" class="brand-image img-circle elevation-3" style="opacity: .8; width: 40px; height: 40px;">
+  <span class="brand-text font-weight-light ml-2">Bite n Bliezz</span>
+</div>
+
 <nav class="mt-2">
     <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="true">
       <!-- Dashboard Link -->
@@ -11,12 +17,12 @@
       <!-- Produk Section -->
       <li class="nav-item has-treeview">
         <a href="#" class="nav-link" data-toggle="collapse" data-target="#produk-menu" aria-expanded="false" aria-controls="produk-menu">
-          <i class="nav-icon fas fa-folder-open"></i>
+          <i class="nav-icon fas fa-box"></i>
           <p>Produk <i class="right fas fa-angle-left"></i></p>
         </a>
         <ul class="nav nav-treeview collapse" id="produk-menu">
           <li class="nav-item">
-            <a href="#" class="nav-link">
+            <a href="{{ route('produk.index') }}" class="nav-link">
               <i class="far fa-circle nav-icon"></i>
               <p>Produk</p>
             </a>
@@ -28,7 +34,7 @@
             </a>
           </li>
           <li class="nav-item">
-            <a href="#" class="nav-link">
+            <a href="{{ route('vouchers.index') }}" class="nav-link">
               <i class="far fa-circle nav-icon"></i>
               <p>Promo</p>
             </a>
@@ -62,65 +68,64 @@
           <li class="nav-item">
             <a href="#" class="nav-link">
               <i class="far fa-circle nav-icon"></i>
-              <p>Customer</p>
+              <p>Data Customer</p>
             </a>
           </li>
         </ul>
       </li>
-  
+
       <!-- Setting Section -->
       <li class="nav-item has-treeview">
         <a href="#" class="nav-link" data-toggle="collapse" data-target="#setting-menu" aria-expanded="false" aria-controls="setting-menu">
-          <i class="nav-icon fas fa-cogs"></i>
+          <i class="nav-icon fas fa-cog"></i>
           <p>Setting <i class="right fas fa-angle-left"></i></p>
         </a>
         <ul class="nav nav-treeview collapse" id="setting-menu">
           <li class="nav-item">
             <a href="#" class="nav-link">
-              <i class="far fa-images nav-icon"></i>
-              <p>Slideshow</p>
+              <i class="far fa-circle nav-icon"></i>
+              <p>Pengaturan Toko</p>
             </a>
           </li>
         </ul>
       </li>
-  
+
       <!-- Laporan Section -->
       <li class="nav-item has-treeview">
         <a href="#" class="nav-link" data-toggle="collapse" data-target="#laporan-menu" aria-expanded="false" aria-controls="laporan-menu">
-          <i class="nav-icon fas fa-list"></i>
+          <i class="nav-icon fas fa-file-alt"></i>
           <p>Laporan <i class="right fas fa-angle-left"></i></p>
         </a>
         <ul class="nav nav-treeview collapse" id="laporan-menu">
           <li class="nav-item">
             <a href="#" class="nav-link">
               <i class="far fa-circle nav-icon"></i>
-              <p>Penjualan</p>
+              <p>Laporan Penjualan</p>
             </a>
           </li>
         </ul>
       </li>
-  
+
       <!-- Profil Link -->
       <li class="nav-item">
         <a href="#" class="nav-link">
-          <i class="nav-icon fas fa-users"></i>
+          <i class="nav-icon fas fa-user"></i>
           <p>Profil</p>
         </a>
       </li>
-  
+
       <!-- Sign Out Link -->
       <li class="nav-item">
-        <a href="#" class="nav-link" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+        <a href="{{ route('logout') }}" class="nav-link" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
           <i class="nav-icon fas fa-sign-out-alt"></i>
           <p>Sign Out</p>
         </a>
+        <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+            @csrf
+        </form>
       </li>
     </ul>
-  </nav>
-  
-  <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
-    @csrf
-  </form>
+</nav>
   
   <!-- Scripts (Bootstrap & jQuery) -->
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>

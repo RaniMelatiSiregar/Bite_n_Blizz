@@ -6,7 +6,7 @@
         @foreach($products as $product)
         <div class="col-md-3 mb-4">
             <div class="card h-100">
-                <img src="{{ asset('images/' . $product->image) }}" 
+                <img src="{{ asset('storage/products/' . $product->image) }}" 
                      class="card-img-top" 
                      alt="{{ $product->name }}"
                      style="height: 200px; object-fit: cover;">
@@ -25,9 +25,14 @@
                             @csrf
                             <input type="hidden" name="product_id" value="{{ $product->id }}">
                             <input type="hidden" name="quantity" value="1">
-                            <button type="submit" class="btn btn-danger w-100">
-                                <i class="fas fa-shopping-cart me-2"></i>Tambah ke Keranjang
-                            </button>
+                            <div class="d-grid gap-2">
+                                <button type="submit" class="btn btn-primary">
+                                    <i class="fas fa-shopping-cart me-2"></i>Add to Cart
+                                </button>
+                                <a href="{{ route('product.show', $product->id) }}" class="btn btn-outline-primary">
+                                    <i class="fas fa-eye me-2"></i>View Details
+                                </a>
+                            </div>
                         </form>
                     </div>
                 </div>
@@ -37,26 +42,28 @@
     </div>
 </div>
 
-<!-- Modal Sukses Tambah ke Keranjang -->
-<div class="modal fade" id="successModal" tabindex="-1" aria-labelledby="successModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
+<!-- Success Modal -->
+<div class="modal fade" id="successModal" tabindex="-1">
+    <div class="modal-dialog">
         <div class="modal-content">
-            <div class="modal-body text-center p-5">
-                <i class="fas fa-check-circle mb-4 modal-success-icon"></i>
-                <h3 class="modal-success-title mb-4">Berhasil Ditambahkan ke Keranjang!</h3>
-                <div class="d-flex justify-content-center gap-3">
-                    <button type="button" class="btn btn-outline-primary px-4 py-2" data-bs-dismiss="modal" style="min-width: 150px;">
-                        <i class="fas fa-arrow-left me-2"></i>Lanjut Belanja
-                    </button>
-                    <a href="{{ route('cart.index') }}" class="btn btn-primary px-4 py-2" style="min-width: 150px;">
-                        <i class="fas fa-shopping-cart me-2"></i>Lihat Keranjang
-                    </a>
-                </div>
+            <div class="modal-header">
+                <h5 class="modal-title">Berhasil!</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <p>Produk berhasil ditambahkan ke keranjang.</p>
+            </div>
+            <div class="modal-footer justify-content-between">
+                <button type="button" class="btn btn-outline-primary px-4 py-2" data-bs-dismiss="modal" style="min-width: 150px;">
+                    <i class="fas fa-arrow-left me-2"></i>Lanjut Belanja
+                </button>
+                <a href="{{ route('cart.index') }}" class="btn btn-primary px-4 py-2" style="min-width: 150px;">
+                    <i class="fas fa-shopping-cart me-2"></i>Lihat Keranjang
+                </a>
             </div>
         </div>
     </div>
 </div>
-
 @endsection
 
 @section('scripts')
@@ -103,7 +110,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
             } catch (error) {
                 console.error('Error:', error);
-                alert('Gagal menambahkan produk ke keranjang. Silakan coba lagi.');
+                alert('Gagal menambahkan produk ke keranjang');
             }
         });
     });

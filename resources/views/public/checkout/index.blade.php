@@ -34,7 +34,7 @@
                         <h5 class="card-title mb-4">Detail Pesanan</h5>
                         @foreach($carts as $cart)
                         <div class="d-flex mb-3">
-                            <img src="{{ asset('images/' . $cart->product->image) }}" alt="{{ $cart->product->name }}" class="me-3" style="width: 80px; height: 80px; object-fit: cover;">
+                            <img src="{{ asset('storage/products/' . $cart->product->image) }}" alt="{{ $cart->product->name }}" class="me-3" style="width: 80px; height: 80px; object-fit: cover;">
                             <div>
                                 <h6 class="mb-1">{{ $cart->product->name }}</h6>
                                 <p class="mb-1">{{ $cart->quantity }} x Rp {{ number_format($cart->product->price, 0, ',', '.') }}</p>
@@ -54,12 +54,31 @@
                             <span>Total Harga</span>
                             <span class="text-danger">Rp {{ number_format($totalPrice, 0, ',', '.') }}</span>
                         </div>
+
+                        <!-- Voucher Form -->
+                        <div class="mb-3">
+                            <label class="form-label">Voucher</label>
+                            <div class="input-group">
+                                <input type="text" class="form-control" id="voucher_code" name="voucher_code" placeholder="Masukkan kode voucher">
+                                <button class="btn btn-outline-secondary" type="button" id="checkVoucher">
+                                    Gunakan
+                                </button>
+                            </div>
+                            <div id="voucherMessage" class="form-text"></div>
+                        </div>
+
+                        <div class="d-flex justify-content-between mb-3 d-none" id="discountRow">
+                            <span>Diskon Voucher</span>
+                            <span class="text-success" id="discountAmount">-Rp 0</span>
+                        </div>
+
                         <hr>
                         <div class="d-flex justify-content-between mb-3">
                             <span class="fw-bold">Total Tagihan</span>
-                            <span class="fw-bold text-danger">Rp {{ number_format($totalPrice, 0, ',', '.') }}</span>
+                            <span class="fw-bold text-danger" id="finalTotal">Rp {{ number_format($totalPrice, 0, ',', '.') }}</span>
                         </div>
-                        <input type="hidden" name="total_amount" value="{{ $totalPrice }}">
+                        <input type="hidden" name="total_amount" value="{{ $totalPrice }}" id="totalAmountInput">
+                        <input type="hidden" name="applied_voucher_id" id="appliedVoucherId">
                         <button type="submit" class="btn btn-danger w-100" style="background-color: #ee4d2d; border-color: #ee4d2d;">
                             Bayar Sekarang
                         </button>
@@ -75,4 +94,69 @@
     </div>
     @endif
 </div>
+
+@push('scripts')
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const checkVoucherBtn = document.getElementById('checkVoucher');
+    const voucherInput = document.getElementById('voucher_code');
+    const voucherMessage = document.getElementById('voucherMessage');
+    const discountRow = document.getElementById('discountRow');
+    const discountAmount = document.getElementById('discountAmount');
+    const finalTotal = document.getElementById('finalTotal');
+    const totalAmountInput = document.getElementById('totalAmountInput');
+    const appliedVoucherId = document.getElementById('appliedVoucherId');
+    const originalTotal = {{ $totalPrice }};
+
+    checkVoucherBtn.addEventListener('click', async function() {
+        const code = voucherInput.value.trim();
+        if (!code) {
+            voucherMessage.textContent = 'Masukkan kode voucher';
+            voucherMessage.className = 'form-text text-danger';
+            return;
+        }
+
+        try {
+            const response = await fetch(`/check-voucher/${code}`);
+            const data = await response.json();
+
+            if (data.valid) {
+                // Hitung diskon
+                const discount = (originalTotal * data.voucher.discount) / 100;
+                const finalAmount = originalTotal - discount;
+
+                // Update UI
+                discountRow.classList.remove('d-none');
+                discountAmount.textContent = `-Rp ${numberFormat(discount)}`;
+                finalTotal.textContent = `Rp ${numberFormat(finalAmount)}`;
+                totalAmountInput.value = finalAmount;
+                appliedVoucherId.value = data.voucher.id;
+
+                // Tampilkan pesan sukses
+                voucherMessage.textContent = 'Voucher berhasil digunakan!';
+                voucherMessage.className = 'form-text text-success';
+            } else {
+                // Reset UI
+                discountRow.classList.add('d-none');
+                finalTotal.textContent = `Rp ${numberFormat(originalTotal)}`;
+                totalAmountInput.value = originalTotal;
+                appliedVoucherId.value = '';
+
+                // Tampilkan pesan error
+                voucherMessage.textContent = data.message || 'Voucher tidak valid';
+                voucherMessage.className = 'form-text text-danger';
+            }
+        } catch (error) {
+            console.error('Error:', error);
+            voucherMessage.textContent = 'Terjadi kesalahan, silakan coba lagi';
+            voucherMessage.className = 'form-text text-danger';
+        }
+    });
+
+    function numberFormat(number) {
+        return new Intl.NumberFormat('id-ID').format(number);
+    }
+});
+</script>
+@endpush
 @endsection 
