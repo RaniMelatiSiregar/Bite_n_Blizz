@@ -1,86 +1,96 @@
 <?php
 
 namespace App\Http\Controllers;
+
 use App\Models\Voucher;
 use Illuminate\Http\Request;
 
 class VoucherController extends Controller
 {
-        // Display a listing of the vouchers
-        public function index()
-        {
-            $vouchers = Voucher::all();
-            $title = 'Voucher List';
-            return view('admin.promo.index', compact('vouchers'));
-        }
-    
-        // Show the form for creating a new voucher
-        public function create()
-        {
-            return view('admin.promo.create');
-        }
-    
-        // Store a newly created voucher in storage
-        public function store(Request $request)
-        {
-            $validatedData = $request->validate([
-                'code' => 'required|unique:vouchers',
-                'discount' => 'required|numeric|min:0',
-                'expiration_date' => 'required|date',
+    public function check($code)
+    {
+        $voucher = Voucher::where('code', $code)
+                         ->where('is_active', true)
+                         ->where('expiration_date', '>=', now())
+                         ->first();
+
+        if (!$voucher) {
+            return response()->json([
+                'valid' => false,
+                'message' => 'Voucher tidak valid atau sudah kadaluarsa'
             ]);
-    
-            Voucher::create($validatedData);
-            return redirect()->route('vouchers.index')->with('success', 'Voucher created successfully');
         }
-    
-        // Display the specified voucher
-        public function show($id)
-        {
-            $voucher = Voucher::find($id);
-            if (!$voucher) {
-                return redirect()->route('vouchers.index')->with('error', 'Voucher not found');
-            }
-            return view('vouchers.show', compact('voucher'));
-        }
-    
-        // Show the form for editing the specified voucher
-        public function edit($id)
-        {
-            $voucher = Voucher::find($id);
-            if (!$voucher) {
-                return redirect()->route('vouchers.index')->with('error', 'Voucher not found');
-            }
-            return view('admin.promo.edit', compact('voucher'));
-        }
-    
-        // Update the specified voucher in storage
-        public function update(Request $request, $id)
-        {
-            $voucher = Voucher::find($id);
-            if (!$voucher) {
-                return redirect()->route('vouchers.index')->with('error', 'Voucher not found');
-            }
-    
-            $validatedData = $request->validate([
-                'code' => 'required|unique:vouchers,code,' . $id,
-                'discount' => 'required|numeric|min:0',
-                'expiration_date' => 'required|date',
-                'is_active' => 'boolean',
-            ]);
-    
-            $voucher->update($validatedData);
-            return redirect()->route('vouchers.index')->with('success', 'Voucher updated successfully');
-        }
-    
-        // Remove the specified voucher from storage
-        public function destroy($id)
-        {
-            $voucher = Voucher::find($id);
-            if (!$voucher) {
-                return redirect()->route('vouchers.index')->with('error', 'Voucher not found');
-            }
-    
-            $voucher->delete();
-            return redirect()->route('vouchers.index')->with('success', 'Voucher deleted successfully');
-        }
+
+        return response()->json([
+            'valid' => true,
+            'voucher' => [
+                'id' => $voucher->id,
+                'discount' => $voucher->discount
+            ],
+            'message' => 'Voucher berhasil digunakan'
+        ]);
+    }
+
+    // Admin Routes
+    public function index()
+    {
+        $vouchers = Voucher::all();
+        return view('admin.vouchers.index', compact('vouchers'));
+    }
+
+    public function create()
+    {
+        return view('admin.vouchers.create');
+    }
+
+    public function store(Request $request)
+    {
+        $request->validate([
+            'code' => 'required|unique:vouchers',
+            'discount' => 'required|numeric|min:1|max:100',
+            'expiration_date' => 'required|date|after:today',
+        ]);
+
+        Voucher::create([
+            'code' => strtoupper($request->code),
+            'discount' => $request->discount,
+            'expiration_date' => $request->expiration_date,
+            'is_active' => true
+        ]);
+
+        return redirect()->route('vouchers.index')
+                        ->with('success', 'Voucher berhasil dibuat');
+    }
+
+    public function edit(Voucher $voucher)
+    {
+        return view('admin.vouchers.edit', compact('voucher'));
+    }
+
+    public function update(Request $request, Voucher $voucher)
+    {
+        $request->validate([
+            'code' => 'required|unique:vouchers,code,' . $voucher->id,
+            'discount' => 'required|numeric|min:1|max:100',
+            'expiration_date' => 'required|date',
+            'is_active' => 'boolean'
+        ]);
+
+        $voucher->update([
+            'code' => strtoupper($request->code),
+            'discount' => $request->discount,
+            'expiration_date' => $request->expiration_date,
+            'is_active' => $request->is_active ?? false
+        ]);
+
+        return redirect()->route('vouchers.index')
+                        ->with('success', 'Voucher berhasil diperbarui');
+    }
+
+    public function destroy(Voucher $voucher)
+    {
+        $voucher->delete();
+        return redirect()->route('vouchers.index')
+                        ->with('success', 'Voucher berhasil dihapus');
+    }
 }

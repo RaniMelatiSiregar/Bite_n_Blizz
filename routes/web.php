@@ -68,6 +68,7 @@ Route::middleware(['auth'])->group(function () {
     // Checkout Routes
     Route::get('/checkout', [CheckoutController::class, 'index'])->name('checkout');
     Route::post('/checkout/process', [CheckoutController::class, 'process'])->name('checkout.process');
+    Route::get('/check-voucher/{code}', [VoucherController::class, 'check'])->name('voucher.check');
 
     // Order Routes
     Route::get('/orders', [OrderController::class, 'index'])->name('orders.index');
