@@ -31,7 +31,7 @@
                 <label for="image">Gambar Produk</label>
                 <input type="file" name="image" class="form-control">
                 @if($produk->image)
-                    <img src="{{ asset('storage/' . $produk->image) }}" alt="Image" width="100">
+                    <img src="{{ asset('storage/produk-images/' . $produk->image) }}" alt="Image" width="100">
                 @endif
             </div>
             <div class="form-group">

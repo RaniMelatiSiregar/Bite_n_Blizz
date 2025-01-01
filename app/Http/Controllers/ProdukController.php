@@ -30,6 +30,7 @@ class ProdukController extends Controller
 
     public function store(Request $request)
     {
+        // Validasi input
         $validatedData = $request->validate([
             'category_id' => 'required|exists:categories,id',
             'kode_produk' => 'required|string',
@@ -42,12 +43,15 @@ class ProdukController extends Controller
             'harga' => 'required|numeric'
         ]);
 
-        if($request->file('image')){
-            $validatedData['image'] = $request->file('image')->store('produk-images');
+        // Menyimpan file gambar jika ada
+        if($request->file('image')) {
+            $validatedData['image'] = $request->file('image')->store('public/produk-images');
         }
 
+        // Menyimpan data produk
         Produk::create($validatedData);
 
+        // Redirect kembali dengan pesan sukses
         return redirect()->route('produk.index')
             ->with('success', 'Produk berhasil ditambahkan');
     }
@@ -61,6 +65,7 @@ class ProdukController extends Controller
 
     public function update(Request $request, $id)
     {
+        // Validasi input
         $request->validate([
             'category_id' => 'required|exists:categories,id',
             'kode_produk' => 'required|string',
@@ -73,29 +78,35 @@ class ProdukController extends Controller
             'harga' => 'required|numeric',
         ]);
 
+        // Menemukan produk berdasarkan ID
         $produk = Produk::findOrFail($id);
         $data = $request->all();
 
+        // Jika ada file gambar baru, hapus gambar lama dan simpan gambar baru
         if ($request->hasFile('image')) {
-            if($produk->image) {
+            if ($produk->image) {
                 Storage::delete($produk->image);
             }
-            $data['image'] = $request->file('image')->store('produk-images');
+            $data['image'] = $request->file('image')->store('public/produk-images');
         }
 
+        // Update data produk
         $produk->update($data);
 
+        // Redirect kembali dengan pesan sukses
         return redirect()->route('produk.index')->with('success', 'Produk berhasil diperbarui.');
     }
 
     public function destroy($id)
     {
         $produk = Produk::findOrFail($id);
-        
-        if($produk->image) {
+
+        // Hapus gambar jika ada
+        if ($produk->image) {
             Storage::delete($produk->image);
         }
-        
+
+        // Hapus produk
         $produk->delete();
 
         return redirect()->route('produk.index')->with('success', 'Produk berhasil dihapus.');

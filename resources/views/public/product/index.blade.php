@@ -3,23 +3,39 @@
 @section('content')
 <div class="container py-5">
     <div class="row">
-        @foreach($products as $product)
+        <!-- Category Section -->
+    <h2 class="mb-4">Categories</h2>
+    <div class="row mb-5">
+        <div class="card">
+            <div class="card-body">
+                @foreach ($categories as $item)
+            <div class="col-md-2">
+                <div class="category-card">
+                    {{-- <img src="path-to-image/category1.jpg" alt="Category 1" class="img-fluid mb-3"> --}}
+                    <p>{{ $item->name }}</p>
+                </div>
+            </div>
+        @endforeach
+            </div>
+        </div>
+    </div>
+        @foreach($produk as $product)
         <div class="col-md-3 mb-4">
             <div class="card h-100">
                 <img src="{{ asset('storage/products/' . $product->image) }}" 
                      class="card-img-top" 
-                     alt="{{ $product->name }}"
+                     alt="{{ $product->nama_produk }}"
                      style="height: 200px; object-fit: cover;">
                 <div class="card-body d-flex flex-column">
-                    <h5 class="card-title">{{ $product->name }}</h5>
-                    <div class="text-warning mb-2">
+                    <h5 class="card-title">{{ $product->nama_produk }}</h5>
+                    {{-- <div class="text-warning mb-2">
                         <i class="fas fa-star"></i>
                         <i class="fas fa-star"></i>
                         <i class="fas fa-star"></i>
                         <i class="fas fa-star"></i>
                         <i class="fas fa-star-half-alt"></i>
-                    </div>
-                    <p class="card-text text-danger fw-bold">Rp{{ number_format($product->price, 0, ',', '.') }}</p>
+                    </div> --}}
+                    <p class="card-text text-danger fw-bold">Rp{{ number_format($product->harga, 0, ',', '.') }}</p>
                     <div class="mt-auto">
                         <form class="add-to-cart-form">
                             @csrf
@@ -116,4 +132,4 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 });
 </script>
-@endsection 
+@endsection

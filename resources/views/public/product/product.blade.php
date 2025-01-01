@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+{{-- <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -34,65 +34,25 @@
         </button>
     </div>
 
-    <!-- Category Section -->
-    <h2 class="mb-4">Categories</h2>
-    <div class="row mb-5">
-        <div class="col-md-2">
-            <div class="category-card">
-                <img src="path-to-image/category1.jpg" alt="Category 1" class="img-fluid mb-3">
-                <p>Category 1</p>
-            </div>
-        </div>
-        <div class="col-md-2">
-            <div class="category-card">
-                <img src="path-to-image/category2.jpg" alt="Category 2" class="img-fluid mb-3">
-                <p>Category 2</p>
-            </div>
-        </div>
-        <div class="col-md-2">
-            <div class="category-card">
-                <img src="path-to-image/category3.jpg" alt="Category 3" class="img-fluid mb-3">
-                <p>Category 3</p>
-            </div>
-        </div>
-        <div class="col-md-2">
-            <div class="category-card">
-                <img src="path-to-image/category4.jpg" alt="Category 4" class="img-fluid mb-3">
-                <p>Category 4</p>
-            </div>
-        </div>
-        <div class="col-md-2">
-            <div class="category-card">
-                <img src="path-to-image/category5.jpg" alt="Category 5" class="img-fluid mb-3">
-                <p>Category 5</p>
-            </div>
-        </div>
-    </div>
+    
         <!-- Product Grid -->
-        @foreach($products as $product)
+        @foreach($produk as $item)
         <div class="col-md-3 mb-4">
             <div class="card h-100">
-                <img src="{{ asset('images/' . $product->image) }}" 
+                <img src="{{ asset('images/' . $item->image) }}" 
                      class="card-img-top" 
-                     alt="{{ $product->name }}"
+                     alt="{{ $item->name }}"
                      style="height: 200px; object-fit: cover;">
                 <div class="card-body d-flex flex-column">
-                    <h5 class="card-title">{{ $product->name }}</h5>
-                    <div class="text-warning mb-2">
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star-half-alt"></i>
-                    </div>
-                    <p class="card-text text-danger fw-bold">Rp{{ number_format($product->price, 0, ',', '.') }}</p>
+                    <h5 class="card-title">{{ $item->name }}</h5>
+                    <p class="card-text text-danger fw-bold">Rp{{ number_format($item->price, 0, ',', '.') }}</p>
                     <div class="mt-auto">
                         <form class="add-to-cart-form">
                             @csrf
-                            <input type="hidden" name="product_name" value="{{ $product->name }}">
-                            <input type="hidden" name="price" value="{{ $product->price }}">
+                            <input type="hidden" name="nama_produk" value="{{ $product->nama_produk }}">
+                            <input type="hidden" name="harga" value="{{ $product->harga }}">
                             <input type="hidden" name="image" value="{{ $product->image }}">
-                            <input type="hidden" name="quantity" value="1">
+                            <input type="hidden" name="qty" value="1">
                             <div class="d-grid gap-2">
                                 <button type="submit" class="btn btn-primary" style="background-color: #ee4d2d; border-color: #ee4d2d;">
                                     <i class="fas fa-shopping-cart me-1"></i> Tambah ke Keranjang
@@ -180,4 +140,4 @@ document.querySelectorAll('.add-to-cart-form').forEach(form => {
     });
 });
 </script>
-@endsection
+@endsection --}}

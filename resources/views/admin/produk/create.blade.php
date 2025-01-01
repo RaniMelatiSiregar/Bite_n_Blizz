@@ -3,6 +3,19 @@
 @section('content')
     <div class="container">
         <h1>Tambah Produk</h1>
+
+        <!-- Menampilkan error validasi -->
+        @if ($errors->any())
+            <div class="alert alert-danger">
+                <ul>
+                    @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+        @endif
+
+        <!-- Form tambah produk -->
         <form action="{{ route('produk.store') }}" method="POST" enctype="multipart/form-data">
             @csrf
             <div class="form-group">
@@ -28,7 +41,8 @@
             </div>
             <div class="form-group">
                 <label for="image">Gambar Produk</label>
-                <input type="file" name="image" class="form-control">
+                <input type="file" name="image" class="form-control" id="image" onchange="previewImage(event)">
+                <img id="imagePreview" src="#" alt="Gambar Preview" style="display: none; width: 100px; margin-top: 10px;">
             </div>
             <div class="form-group">
                 <label for="deskripsi_produk">Deskripsi Produk</label>
@@ -63,5 +77,12 @@
     document.addEventListener('trix-file-accept', function(e){
         e.preventDefault();
     })
+
+    // Fungsi preview gambar
+    function previewImage(event) {
+        var output = document.getElementById('imagePreview');
+        output.style.display = 'block';
+        output.src = URL.createObjectURL(event.target.files[0]);
+    }
 </script>
 @endsection
