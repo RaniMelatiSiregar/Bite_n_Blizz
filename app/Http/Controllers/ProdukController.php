@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Produk;
 use App\Models\Category;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 
 class ProdukController extends Controller
 {
@@ -26,7 +27,7 @@ class ProdukController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'category_id' => 'required|exists:categoris,id',
+            'category_id' => 'required|exists:categories,id',
             'kode_produk' => 'required|string',
             'nama_produk' => 'required|string',
             'slug' => 'required|unique:produk',
@@ -61,7 +62,7 @@ class ProdukController extends Controller
     public function update(Request $request, $id)
     {
         $request->validate([
-            'category_id' => 'required|exists:categoris,id',
+            'category_id' => 'required|exists:categories,id',
             'kode_produk' => 'required|string',
             'nama_produk' => 'required|string',
             'slug' => 'required|unique:produk,slug,' . $id,
@@ -92,5 +93,17 @@ class ProdukController extends Controller
         $produk->delete();
 
         return redirect()->route('produk.index')->with('success', 'Produk berhasil dihapus.');
+    }
+
+    public function checkSlug(Request $request)
+    {
+        // Ambil data 'name' dari query string
+        $nama_produk = $request->input('nama_produk');
+        
+        // Buat slug dari 'nama_produk'
+        $slug = Str::slug($nama_produk);
+
+        // Kirimkan hasil slug dalam bentuk JSON
+        return response()->json(['slug' => $slug]);
     }
 }

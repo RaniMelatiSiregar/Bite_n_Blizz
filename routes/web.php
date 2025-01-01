@@ -29,6 +29,7 @@ Route::resource('categories', CategoryController::class);
 Route::get('/dashboard/checkSlug', [CategoryController::class, 'checkSlug']);
 
 Route::resource('produk', ProdukController::class);
+Route::get('/produks/checkSlug', [ProdukController::class, 'checkSlug']);
 
 // Protected Routes
 Route::middleware(['auth'])->group(function () {
