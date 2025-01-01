@@ -32,6 +32,8 @@ Route::get('/dashboard/checkSlug', [CategoryController::class, 'checkSlug']);
 Route::resource('produk', ProdukController::class);
 Route::get('/produks/checkSlug', [ProdukController::class, 'checkSlug']);
 
+Route::resource('vouchers', VoucherController::class);
+
 // Protected Routes
 Route::middleware(['auth'])->group(function () {
     // Admin Routes
@@ -84,5 +86,5 @@ Route::middleware(['auth'])->group(function () {
     Route::put('/orders/{id}/complete', [OrderController::class, 'complete'])->name('orders.complete');
 });
 
-Route::resource('vouchers', VoucherController::class);
+
 
