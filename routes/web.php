@@ -7,14 +7,12 @@ use App\Http\Controllers\CartController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\CheckoutController;
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\OrderController;
-
-// Public Routes
-Route::get('/', function () {
-    return view('welcome');
-});
+use App\Models\Category;
 
 // Login Routes
+Route::get('/', [AuthController::class, 'showLoginForm'])->name('login');
 Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login');
 Route::post('/login', [AuthController::class, 'login']);
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
@@ -23,11 +21,16 @@ Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 Route::get('/register', [AuthController::class, 'showRegisterForm'])->name('register');
 Route::post('/register', [AuthController::class, 'register']);
 
+//dashboard Admin
+Route::get('/dashboard', [AdminController::class, 'dashboard'])->name('admin.dashboard');
+Route::resource('categories', CategoryController::class);
+Route::get('/dashboard/checkSlug', [CategoryController::class, 'checkSlug']);
+
 // Protected Routes
 Route::middleware(['auth'])->group(function () {
     // Admin Routes
-    Route::middleware(['admin'])->prefix('admin')->group(function () {
-        Route::get('/dashboard', [AdminController::class, 'dashboard'])->name('admin.dashboard');
+    Route::middleware(['auth','admin'])->prefix('admin')->group(function () {
+       
     });
 
     // User Routes

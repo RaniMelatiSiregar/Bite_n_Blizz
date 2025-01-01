@@ -17,6 +17,6 @@ class AdminController extends Controller
         $orderCount = Order::count();
         $revenue = Order::sum('total_amount');
 
-        return view('admin.dashboard', compact('productCount', 'userCount', 'orderCount', 'revenue'));
+        return view('admin.layouts.index', compact('productCount', 'userCount', 'orderCount', 'revenue'))->with('title', 'Dashboard');
     }
 } 
