@@ -9,6 +9,7 @@ use App\Http\Controllers\CheckoutController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\OrderController;
+use App\Http\Controllers\ProdukController;
 use App\Models\Category;
 
 // Login Routes
@@ -23,8 +24,11 @@ Route::post('/register', [AuthController::class, 'register']);
 
 //dashboard Admin
 Route::get('/dashboard', [AdminController::class, 'dashboard'])->name('admin.dashboard');
+
 Route::resource('categories', CategoryController::class);
 Route::get('/dashboard/checkSlug', [CategoryController::class, 'checkSlug']);
+
+Route::resource('produk', ProdukController::class);
 
 // Protected Routes
 Route::middleware(['auth'])->group(function () {
