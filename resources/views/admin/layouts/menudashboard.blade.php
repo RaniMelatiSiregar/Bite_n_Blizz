@@ -1,3 +1,9 @@
+<!-- Brand Logo -->
+<div class="brand-link d-flex align-items-center px-3 py-3 mb-3">
+  <img src="{{ asset('images/logo.png') }}" alt="Bite n Bliezz Logo" class="brand-image img-circle elevation-3" style="opacity: .8; width: 40px; height: 40px;">
+  <span class="brand-text font-weight-light ml-2">Bite n Bliezz</span>
+</div>
+
 <nav class="mt-2">
     <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="true">
       <!-- Dashboard Link -->

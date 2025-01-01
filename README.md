@@ -3,6 +3,9 @@
 ## Langkah-langkah Setup Setelah Clone
 
 1. Copy file `.env.example` menjadi `.env` dan sesuaikan konfigurasi database
+```bash
+cp .env.example .env
+```
 
 2. Install dependencies
 ```bash
@@ -30,9 +33,18 @@ php artisan db:seed --class=ProductSeeder
 php artisan storage:link
 ```
 
-7. Copy folder `images` dari repository ke folder `public/images`
-   - Jika folder `public/images` belum ada, buat terlebih dahulu
-   - Pastikan semua gambar produk sudah ada di folder tersebut
+7. Copy gambar produk ke folder yang benar:
+   - Buat folder `storage/app/public/products` jika belum ada
+   - Copy semua gambar produk ke folder tersebut
+   - Pastikan nama file sesuai dengan yang ada di database:
+     - chocoCrispy1.png
+     - chocoMilk.png
+     - susKering.png
+     - chocoCookies.png
+     - browniesChoco.png
+     - bananaCake.png
+     - pisangCaramel.png
+     - pisangNuget.png
 
 8. Jalankan server development
 ```bash
@@ -42,5 +54,6 @@ npm run dev
 
 ## Catatan Penting
 - Pastikan sudah membuat database kosong sesuai dengan konfigurasi di file `.env`
-- Pastikan folder `public/images` berisi semua gambar produk yang diperlukan
-- Jika ada masalah dengan tampilan produk, pastikan langkah 5 dan 7 sudah dilakukan dengan benar
+- Pastikan folder `storage/app/public/products` berisi semua gambar produk yang diperlukan
+- Setelah clone dan menjalankan `php artisan storage:link`, gambar produk akan tersedia di `public/storage/products`
+- Jika ada masalah dengan tampilan produk, pastikan langkah 6 dan 7 sudah dilakukan dengan benar
