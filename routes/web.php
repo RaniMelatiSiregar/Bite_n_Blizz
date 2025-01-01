@@ -34,6 +34,7 @@ Route::middleware(['auth:admin'])->prefix('admin')->group(function () {
     
     // Produk Routes
     Route::resource('produk', ProdukController::class);
+    Route::get('/produks/checkSlug', [ProdukController::class, 'checkSlug']);
     
     // Order Management
     Route::get('/orders', [OrderController::class, 'adminIndex'])->name('admin.orders.index');
@@ -87,4 +88,5 @@ Route::middleware(['auth'])->group(function () {
     })->name('contact');
 });
 
+// Voucher Routes
 Route::resource('vouchers', VoucherController::class);
