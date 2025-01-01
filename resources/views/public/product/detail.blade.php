@@ -28,7 +28,7 @@
     <div class="bg-white rounded-lg shadow-lg p-6">
         <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
             <div>
-                <img src="{{ asset('assets/images/' . $product->image) }}" alt="{{ $product->name }}" class="w-full h-96 object-cover rounded-lg">
+                <img src="{{ asset('images/' . $product->image) }}" alt="{{ $product->name }}" class="w-full h-96 object-cover rounded-lg">
             </div>
             <div>
                 <h1 class="text-3xl font-bold mb-4">{{ $product->name }}</h1>
@@ -45,14 +45,14 @@
                             <button type="button" class="px-4 py-2 text-orange-500 hover:bg-orange-50 rounded-l-lg decrease-quantity">
                                 <i class="fas fa-minus"></i>
                             </button>
-                            <input type="number" name="quantity" value="1" min="1" class="w-20 text-center border-x py-2" id="quantity">
+                            <input type="number" name="quantity" value="1" min="1" class="w-20 text-center border-0 focus:ring-0">
                             <button type="button" class="px-4 py-2 text-orange-500 hover:bg-orange-50 rounded-r-lg increase-quantity">
                                 <i class="fas fa-plus"></i>
                             </button>
                         </div>
                     </div>
 
-                    <button type="submit" class="w-full bg-orange-500 text-white py-3 rounded-lg hover:bg-orange-600 transition duration-300">
+                    <button type="submit" class="w-full bg-orange-500 text-white py-3 rounded-lg hover:bg-orange-600 transition-colors">
                         <i class="fas fa-shopping-cart mr-2"></i>
                         Tambah ke Keranjang
                     </button>
@@ -86,20 +86,20 @@
 @push('scripts')
 <script>
 document.addEventListener('DOMContentLoaded', function() {
-    const quantityInput = document.getElementById('quantity');
     const decreaseBtn = document.querySelector('.decrease-quantity');
     const increaseBtn = document.querySelector('.increase-quantity');
+    const quantityInput = document.querySelector('input[name="quantity"]');
 
     decreaseBtn.addEventListener('click', function() {
-        let value = parseInt(quantityInput.value);
-        if (value > 1) {
-            quantityInput.value = value - 1;
+        let currentValue = parseInt(quantityInput.value);
+        if (currentValue > 1) {
+            quantityInput.value = currentValue - 1;
         }
     });
 
     increaseBtn.addEventListener('click', function() {
-        let value = parseInt(quantityInput.value);
-        quantityInput.value = value + 1;
+        let currentValue = parseInt(quantityInput.value);
+        quantityInput.value = currentValue + 1;
     });
 
     // Handle form submission

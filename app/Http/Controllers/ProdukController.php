@@ -5,48 +5,50 @@ namespace App\Http\Controllers;
 use App\Models\Produk;
 use App\Models\Category;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class ProdukController extends Controller
 {
-    // Show all produk
     public function index()
     {
-        $produk = Produk::with('category')->get();
-        return view('admin.produk.index', compact('produk'))->with('title', 'Setting Product');
+        $data = [
+            'title' => 'Data Produk',
+            'produk' => Produk::with('category')->get()
+        ];
+        return view('admin.produk.index', $data);
     }
 
-    // Show create form
     public function create()
     {
-        $categories = Category::all();
-        return view('admin.produk.create', compact('categories'))->with('title', 'Create New Product');
+        $data = [
+            'title' => 'Tambah Produk',
+            'categories' => Category::all()
+        ];
+        return view('admin.produk.create', $data);
     }
 
-    // Store produk
     public function store(Request $request)
     {
-        $request->validate([
-            'category_id' => 'required|exists:categoris,id',
-            'kode_produk' => 'required|string',
-            'nama_produk' => 'required|string',
-            'slug' => 'required|unique:produk',
-            'image' => 'nullable|image',
-            'deskripsi_produk' => 'required|string',
+        $validatedData = $request->validate([
+            'category_id' => 'required',
+            'kode_produk' => 'required|unique:produks',
+            'nama_produk' => 'required',
+            'slug' => 'required|unique:produks',
+            'image' => 'image|file|max:1024',
+            'deskripsi_produk' => 'required',
             'qty' => 'required|numeric',
-            'satuan' => 'required|string',
-            'harga' => 'required|numeric',
+            'satuan' => 'required',
+            'harga' => 'required|numeric'
         ]);
 
-        $data = $request->all();
-
-        // Handle image upload if exists
-        if ($request->hasFile('image')) {
-            $data['image'] = $request->file('image')->store('produk_images', 'public');
+        if($request->file('image')){
+            $validatedData['image'] = $request->file('image')->store('produk-images');
         }
 
-        Produk::create($data);
+        Produk::create($validatedData);
 
-        return redirect()->route('produk.index')->with('success', 'Produk berhasil ditambahkan.');
+        return redirect()->route('produk.index')
+            ->with('success', 'Produk berhasil ditambahkan');
     }
 
     // Show edit form

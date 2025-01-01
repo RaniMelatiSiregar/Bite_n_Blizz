@@ -1,120 +1,101 @@
-@extends('admin.layouts.app')
+@extends('admin.layouts.index')
 
 @section('content')
 <div class="container-fluid">
+    <!-- Info boxes -->
     <div class="row">
-        <!-- Sidebar -->
-        <nav class="col-md-2 d-none d-md-block bg-light sidebar">
-            <div class="position-sticky">
-                <ul class="nav flex-column">
-                    <li class="nav-item">
-                        <a class="nav-link active" href="{{ route('admin.dashboard') }}">
-                            <i class="fas fa-home"></i>
-                            Dashboard
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">
-                            <i class="fas fa-box"></i>
-                            Produk
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">
-                            <i class="fas fa-shopping-cart"></i>
-                            Pesanan
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">
-                            <i class="fas fa-users"></i>
-                            Pengguna
-                        </a>
-                    </li>
-                </ul>
-            </div>
-        </nav>
-
-        <!-- Main Content -->
-        <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
-            <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-                <h1 class="h2">Dashboard</h1>
-            </div>
-
-            <div class="row">
-                <div class="col-md-3 mb-4">
-                    <div class="card text-white bg-primary">
-                        <div class="card-body">
-                            <h5 class="card-title">Total Produk</h5>
-                            <p class="card-text h2">{{ $productCount }}</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-3 mb-4">
-                    <div class="card text-white bg-success">
-                        <div class="card-body">
-                            <h5 class="card-title">Total Pesanan</h5>
-                            <p class="card-text h2">{{ $orderCount }}</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-3 mb-4">
-                    <div class="card text-white bg-warning">
-                        <div class="card-body">
-                            <h5 class="card-title">Pendapatan</h5>
-                            <p class="card-text h2">Rp {{ number_format($revenue, 0, ',', '.') }}</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-3 mb-4">
-                    <div class="card text-white bg-danger">
-                        <div class="card-body">
-                            <h5 class="card-title">Total Pengguna</h5>
-                            <p class="card-text h2">{{ $userCount }}</p>
-                        </div>
-                    </div>
+        <div class="col-12 col-sm-6 col-md-3">
+            <div class="info-box">
+                <span class="info-box-icon bg-info"><i class="fas fa-shopping-cart"></i></span>
+                <div class="info-box-content">
+                    <span class="info-box-text">Total Pesanan</span>
+                    <span class="info-box-number">{{ $orderCount ?? 0 }}</span>
                 </div>
             </div>
+        </div>
+        <div class="col-12 col-sm-6 col-md-3">
+            <div class="info-box">
+                <span class="info-box-icon bg-success"><i class="fas fa-money-bill"></i></span>
+                <div class="info-box-content">
+                    <span class="info-box-text">Pendapatan</span>
+                    <span class="info-box-number">Rp {{ number_format($revenue ?? 0, 0, ',', '.') }}</span>
+                </div>
+            </div>
+        </div>
+        <div class="col-12 col-sm-6 col-md-3">
+            <div class="info-box">
+                <span class="info-box-icon bg-warning"><i class="fas fa-users"></i></span>
+                <div class="info-box-content">
+                    <span class="info-box-text">Total Pelanggan</span>
+                    <span class="info-box-number">{{ $userCount ?? 0 }}</span>
+                </div>
+            </div>
+        </div>
+        <div class="col-12 col-sm-6 col-md-3">
+            <div class="info-box">
+                <span class="info-box-icon bg-danger"><i class="fas fa-box"></i></span>
+                <div class="info-box-content">
+                    <span class="info-box-text">Total Produk</span>
+                    <span class="info-box-number">{{ $productCount ?? 0 }}</span>
+                </div>
+            </div>
+        </div>
+    </div>
 
-            <!-- Recent Orders -->
-            <div class="card mt-4">
+    <div class="row">
+        <!-- Pesanan Terbaru -->
+        <div class="col-md-12">
+            <div class="card">
                 <div class="card-header">
-                    <h5 class="card-title mb-0">Pesanan Terbaru</h5>
+                    <h3 class="card-title">Pesanan Terbaru</h3>
                 </div>
-                <div class="card-body">
-                    <div class="table-responsive">
-                        <table class="table">
-                            <thead>
-                                <tr>
-                                    <th>ID</th>
-                                    <th>Pelanggan</th>
-                                    <th>Produk</th>
-                                    <th>Total</th>
-                                    <th>Status</th>
-                                    <th>Tanggal</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @forelse($orders ?? [] as $order)
-                                <tr>
-                                    <td>{{ $order->id }}</td>
-                                    <td>{{ $order->user->name }}</td>
-                                    <td>{{ $order->items_count }} items</td>
-                                    <td>Rp {{ number_format($order->total_amount, 0, ',', '.') }}</td>
-                                    <td>{{ $order->status }}</td>
-                                    <td>{{ $order->created_at->format('d/m/Y H:i') }}</td>
-                                </tr>
-                                @empty
-                                <tr>
-                                    <td colspan="6" class="text-center">Belum ada pesanan</td>
-                                </tr>
-                                @endforelse
-                            </tbody>
-                        </table>
-                    </div>
+                <div class="card-body table-responsive p-0">
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Pelanggan</th>
+                                <th>Total</th>
+                                <th>Status</th>
+                                <th>Tanggal</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @forelse($orders ?? [] as $order)
+                            <tr>
+                                <td>{{ $order->id }}</td>
+                                <td>{{ $order->user->name }}</td>
+                                <td>Rp {{ number_format($order->total_amount, 0, ',', '.') }}</td>
+                                <td>
+                                    @switch($order->status)
+                                        @case('pending')
+                                            <span class="badge badge-warning">Pending</span>
+                                            @break
+                                        @case('processing')
+                                            <span class="badge badge-info">Diproses</span>
+                                            @break
+                                        @case('completed')
+                                            <span class="badge badge-success">Selesai</span>
+                                            @break
+                                        @case('cancelled')
+                                            <span class="badge badge-danger">Dibatalkan</span>
+                                            @break
+                                        @default
+                                            <span class="badge badge-secondary">{{ $order->status }}</span>
+                                    @endswitch
+                                </td>
+                                <td>{{ $order->created_at->format('d/m/Y H:i') }}</td>
+                            </tr>
+                            @empty
+                            <tr>
+                                <td colspan="5" class="text-center">Tidak ada pesanan</td>
+                            </tr>
+                            @endforelse
+                        </tbody>
+                    </table>
                 </div>
             </div>
-        </main>
+        </div>
     </div>
 </div>
 @endsection 

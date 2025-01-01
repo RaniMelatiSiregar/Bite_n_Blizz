@@ -2,21 +2,27 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-use App\Models\User;
-use App\Models\Product;
 use App\Models\Order;
+use App\Models\Product;
+use App\Models\User;
+use Illuminate\Http\Request;
 
 class AdminController extends Controller
 {
     public function dashboard()
     {
-        // Get counts for dashboard
-        $productCount = Product::count();
-        $userCount = User::where('role', 'user')->count();
-        $orderCount = Order::count();
-        $revenue = Order::sum('total_amount');
+        $data = [
+            'title' => 'Dashboard',
+            'productCount' => Product::count(),
+            'orderCount' => Order::count(),
+            'revenue' => Order::where('status', 'completed')->sum('total_amount'),
+            'userCount' => User::count(),
+            'orders' => Order::with('user')
+                           ->latest()
+                           ->take(10)
+                           ->get()
+        ];
 
-        return view('admin.layouts.index', compact('productCount', 'userCount', 'orderCount', 'revenue'))->with('title', 'Dashboard');
+        return view('admin.dashboard', $data);
     }
 } 

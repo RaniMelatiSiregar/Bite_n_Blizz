@@ -21,17 +21,20 @@ class AuthController extends Controller
             'password' => ['required'],
         ]);
 
+        // Coba login sebagai admin dulu
+        if (Auth::guard('admin')->attempt($credentials)) {
+            $request->session()->regenerate();
+            return redirect()->route('admin.dashboard');
+        }
+
+        // Jika bukan admin, coba login sebagai user biasa
         if (Auth::attempt($credentials)) {
             $request->session()->regenerate();
-
-            if (Auth::user()->role === 'admin') {
-                return redirect()->intended('admin/dashboard');
-            }
-            return redirect()->intended('home');
+            return redirect()->route('home');
         }
 
         return back()->withErrors([
-            'email' => 'Email atau password salah.',
+            'email' => 'Email atau password tidak valid.',
         ])->withInput($request->only('email'));
     }
 
@@ -66,9 +69,14 @@ class AuthController extends Controller
 
     public function logout(Request $request)
     {
-        Auth::logout();
+        // Logout dari semua guard
+        Auth::guard('admin')->logout();
+        Auth::guard('web')->logout();
+        
         $request->session()->invalidate();
         $request->session()->regenerateToken();
-        return redirect()->route('login')->with('success', 'Anda telah berhasil logout');
+        
+        return redirect()->route('login')
+            ->with('success', 'Anda telah berhasil logout.');
     }
 } 
