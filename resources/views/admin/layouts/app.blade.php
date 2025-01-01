@@ -4,67 +4,72 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin Dashboard - Bite n Bliezz</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- AdminLTE Template -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/admin-lte@3.2/dist/css/adminlte.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    
     <style>
-        .sidebar {
-            position: fixed;
-            top: 0;
-            bottom: 0;
-            left: 0;
-            z-index: 100;
-            padding: 48px 0 0;
-            box-shadow: inset -1px 0 0 rgba(0, 0, 0, .1);
+        .main-sidebar {
+            background-color: #343a40;
+            color: #fff;
         }
         
-        .sidebar .nav-link {
-            font-weight: 500;
-            color: #333;
+        .nav-sidebar .nav-link {
+            color: #fff !important;
         }
         
-        .sidebar .nav-link.active {
-            color: #2470dc;
+        .nav-sidebar .nav-link:hover {
+            background-color: rgba(255,255,255,0.1);
         }
         
-        .sidebar-heading {
-            font-size: .75rem;
-            text-transform: uppercase;
+        .nav-sidebar .nav-link.active {
+            background-color: #007bff;
         }
         
-        .navbar-brand {
-            padding-top: .75rem;
-            padding-bottom: .75rem;
+        .nav-treeview .nav-link {
+            padding-left: 2.5rem;
+            font-size: 0.9rem;
         }
         
-        .navbar .navbar-toggler {
-            top: .25rem;
-            right: 1rem;
+        .brand-link {
+            border-bottom: 1px solid #4b545c;
+        }
+        
+        .brand-link .brand-image {
+            margin-top: -3px;
+        }
+        
+        .content-wrapper {
+            background-color: #f4f6f9;
         }
     </style>
 </head>
-<body>
-    <header class="navbar navbar-dark sticky-top bg-dark flex-md-nowrap p-0 shadow">
-        <a class="navbar-brand col-md-3 col-lg-2 me-0 px-3" href="#">Bite n Bliezz Admin</a>
-        <button class="navbar-toggler position-absolute d-md-none collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#sidebarMenu">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="w-100"></div>
-        <div class="navbar-nav">
-            <div class="nav-item text-nowrap">
-                <form action="{{ route('admin.logout') }}" method="POST" class="d-inline">
-                    @csrf
-                    <button type="submit" class="nav-link px-3 bg-dark border-0">
-                        <i class="fas fa-sign-out-alt"></i> Logout
-                    </button>
-                </form>
-            </div>
-        </div>
-    </header>
+<body class="hold-transition sidebar-mini">
+    <div class="wrapper">
+        <!-- Navbar -->
+        <nav class="main-header navbar navbar-expand navbar-dark navbar-dark">
+            <!-- Left navbar links -->
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
+                </li>
+            </ul>
+        </nav>
 
-    @yield('content')
+        <!-- Main Sidebar Container -->
+        <aside class="main-sidebar sidebar-dark-primary elevation-4">
+            @include('admin.layouts.menudashboard')
+        </aside>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+        <!-- Content -->
+        @yield('content')
+    </div>
+
+    <!-- Scripts -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/admin-lte@3.2/dist/js/adminlte.min.js"></script>
     @stack('scripts')
 </body>
 </html> 

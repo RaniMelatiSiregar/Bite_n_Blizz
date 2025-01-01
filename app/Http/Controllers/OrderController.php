@@ -4,52 +4,39 @@ namespace App\Http\Controllers;
 
 use App\Models\Order;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 
 class OrderController extends Controller
 {
-    public function index(Request $request)
+    public function adminIndex()
     {
-        $query = Order::where('user_id', Auth::id());
-        
-        // Filter berdasarkan status
-        if ($request->has('status')) {
-            $query->where('status', $request->status);
-        }
-        
-        $orders = $query->orderBy('created_at', 'desc')->get();
-        
-        // Hitung jumlah pesanan yang perlu dikirim
-        $pendingCount = Order::where('user_id', Auth::id())
-                            ->where('status', 'pending')
-                            ->count();
-        
-        return view('public.orders.index', compact('orders', 'pendingCount'));
+        $orders = Order::with(['user'])
+                      ->orderBy('created_at', 'desc')
+                      ->get();
+                      
+        return view('admin.orders.index', [
+            'title' => 'Data Transaksi',
+            'orders' => $orders
+        ]);
     }
 
-    public function cancel($id)
+    public function updateStatus(Request $request, $id)
     {
-        $order = Order::where('user_id', Auth::id())->findOrFail($id);
-        
-        if ($order->status != 'pending') {
-            return redirect()->back()->with('error', 'Hanya pesanan dengan status Perlu Dikirim yang dapat dibatalkan');
-        }
-        
-        $order->update(['status' => 'cancelled']);
-        
-        return redirect()->back()->with('success', 'Pesanan berhasil dibatalkan');
+        $order = Order::findOrFail($id);
+        $order->status = $request->status;
+        $order->save();
+
+        return redirect()->route('admin.orders.index')
+                        ->with('success', 'Status transaksi berhasil diperbarui');
     }
 
-    public function complete($id)
+    public function show($id)
     {
-        $order = Order::where('user_id', Auth::id())->findOrFail($id);
-        
-        if ($order->status != 'processing') {
-            return redirect()->back()->with('error', 'Hanya pesanan dengan status Sedang Dikirim yang dapat diselesaikan');
-        }
-        
-        $order->update(['status' => 'completed']);
-        
-        return redirect()->back()->with('success', 'Pesanan telah selesai');
+        $order = Order::with(['user', 'orderItems.product'])
+                     ->findOrFail($id);
+                     
+        return view('admin.orders.show', [
+            'title' => 'Detail Transaksi',
+            'order' => $order
+        ]);
     }
 } 

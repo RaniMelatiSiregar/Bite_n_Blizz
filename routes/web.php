@@ -13,6 +13,7 @@ use App\Http\Controllers\VoucherController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\CheckoutController;
 use App\Http\Controllers\AdminAuthController;
+use App\Http\Controllers\CustomerController;
 
 // Login & Register Routes
 Route::get('/', [AuthController::class, 'showLoginForm'])->name('login');
@@ -28,6 +29,9 @@ Route::post('/register', [AuthController::class, 'register']);
 Route::middleware(['auth:admin'])->prefix('admin')->group(function () {
     Route::get('/dashboard', [AdminController::class, 'dashboard'])->name('admin.dashboard');
     
+    // Logout Route
+    Route::post('/logout', [AuthController::class, 'adminLogout'])->name('admin.logout');
+    
     // Kategori Routes
     Route::resource('categories', CategoryController::class);
     Route::get('/dashboard/checkSlug', [CategoryController::class, 'checkSlug']);
@@ -35,6 +39,11 @@ Route::middleware(['auth:admin'])->prefix('admin')->group(function () {
     // Produk Routes
     Route::resource('produk', ProdukController::class);
     Route::get('/produks/checkSlug', [ProdukController::class, 'checkSlug']);
+    
+    // Customer Routes
+    Route::get('/customers', [CustomerController::class, 'index'])->name('customers.index');
+    Route::get('/customers/{id}', [CustomerController::class, 'show'])->name('customers.show');
+    Route::delete('/customers/{id}', [CustomerController::class, 'destroy'])->name('customers.destroy');
     
     // Order Management
     Route::get('/orders', [OrderController::class, 'adminIndex'])->name('admin.orders.index');
