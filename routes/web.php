@@ -16,6 +16,9 @@ use App\Http\Controllers\AdminAuthController;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\StoreSettingController;
 use App\Http\Controllers\LaporanPenjualanController;
+use App\Http\Controllers\CustomerController;
+use App\Http\Controllers\StoreSettingController;
+
 
 
 // Login & Register Routes
