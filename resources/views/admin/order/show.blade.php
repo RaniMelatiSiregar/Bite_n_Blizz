@@ -64,13 +64,24 @@
                                 <tr>
                                     <th>Status Pembayaran</th>
                                     <td>
-                                        @if($order->payment_status == 'paid')
-                                            <span class="badge badge-success">Sudah Dibayar</span>
-                                            <br>
-                                            <small class="text-muted">{{ $order->paid_at ? $order->paid_at->format('d M Y H:i') : '' }}</small>
-                                        @else
-                                            <span class="badge badge-warning">Belum Dibayar</span>
-                                        @endif
+                                        <form action="{{ route('admin.order.update-payment', $order->id) }}" method="POST" class="d-inline">
+                                            @csrf
+                                            @method('PUT')
+                                            <input type="hidden" name="payment_status" value="{{ $order->payment_status === 'paid' ? 'unpaid' : 'paid' }}">
+                                            @if($order->payment_status == 'paid')
+                                                <span class="badge badge-success">Sudah Dibayar</span>
+                                                <br>
+                                                <small class="text-muted">{{ $order->paid_at ? $order->paid_at->format('d M Y H:i') : '' }}</small>
+                                                <button type="submit" class="btn btn-sm btn-warning ml-2" onclick="return confirm('Yakin ingin mengubah status menjadi belum dibayar?')">
+                                                    <i class="fas fa-times"></i> Tandai Belum Dibayar
+                                                </button>
+                                            @else
+                                                <span class="badge badge-warning">Belum Dibayar</span>
+                                                <button type="submit" class="btn btn-sm btn-success ml-2" onclick="return confirm('Konfirmasi pembayaran pesanan ini?')">
+                                                    <i class="fas fa-check"></i> Konfirmasi Pembayaran
+                                                </button>
+                                            @endif
+                                        </form>
                                     </td>
                                 </tr>
                                 <tr>

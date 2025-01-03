@@ -20,6 +20,8 @@ return new class extends Migration
             $table->text('shipping_address');
             $table->decimal('total_amount', 10, 2);
             $table->decimal('shipping_fee', 10, 2);
+            $table->foreignId('voucher_id')->nullable()->constrained()->nullOnDelete();
+            $table->decimal('discount_amount', 10, 2)->default(0);
             $table->timestamps();
         });
     }

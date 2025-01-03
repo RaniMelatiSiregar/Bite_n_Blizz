@@ -42,12 +42,37 @@ class OrderController extends Controller
         return redirect()->back()->with('success', 'Status pesanan berhasil diperbarui');
     }
 
+    public function updatePaymentStatus(Request $request, $id)
+    {
+        $request->validate([
+            'payment_status' => 'required|in:paid,unpaid'
+        ]);
+
+        $order = Order::findOrFail($id);
+        
+        if ($request->payment_status === 'paid' && $order->payment_status !== 'paid') {
+            $order->update([
+                'payment_status' => 'paid',
+                'paid_at' => now(),
+                'status' => 'processing' // Otomatis ubah status menjadi processing
+            ]);
+            $message = 'Pembayaran telah dikonfirmasi';
+        } else {
+            $order->update([
+                'payment_status' => 'unpaid',
+                'paid_at' => null
+            ]);
+            $message = 'Status pembayaran diubah menjadi belum dibayar';
+        }
+
+        return redirect()->back()->with('success', $message);
+    }
+
     public function destroy($id)
     {
         $order = Order::findOrFail($id);
         $order->delete();
 
-        return redirect()->route('admin.order.index')
-            ->with('success', 'Pesanan berhasil dihapus');
+        return redirect()->route('admin.order.index')->with('success', 'Pesanan berhasil dihapus');
     }
 } 

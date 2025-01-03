@@ -15,11 +15,11 @@
         <div class="card border-0 shadow-sm mb-4">
             <div class="card-body">
                 <div class="nav nav-pills">
-                    <a class="nav-link active" href="#">Semua</a>
-                    <a class="nav-link" href="#">Belum Bayar</a>
-                    <a class="nav-link" href="#">Diproses</a>
-                    <a class="nav-link" href="#">Selesai</a>
-                    <a class="nav-link" href="#">Dibatalkan</a>
+                    <a class="nav-link {{ !$currentStatus ? 'active' : '' }}" href="{{ route('orders.index') }}">Semua</a>
+                    <a class="nav-link {{ $currentStatus == 'pending' ? 'active' : '' }}" href="{{ route('orders.index', ['status' => 'pending']) }}">Belum Bayar</a>
+                    <a class="nav-link {{ $currentStatus == 'processing' ? 'active' : '' }}" href="{{ route('orders.index', ['status' => 'processing']) }}">Diproses</a>
+                    <a class="nav-link {{ $currentStatus == 'completed' ? 'active' : '' }}" href="{{ route('orders.index', ['status' => 'completed']) }}">Selesai</a>
+                    <a class="nav-link {{ $currentStatus == 'cancelled' ? 'active' : '' }}" href="{{ route('orders.index', ['status' => 'cancelled']) }}">Dibatalkan</a>
                 </div>
             </div>
         </div>
@@ -42,7 +42,7 @@
             </div>
             
             <div class="card-body p-0">
-                @foreach($order->items as $item)
+                @foreach($order->orderItems as $item)
                 <div class="d-flex align-items-center p-3 border-bottom">
                     <img src="{{ asset('storage/' . $item->product->image) }}" 
                         alt="{{ $item->product->name }}" 
@@ -90,7 +90,7 @@
 
         <!-- Pagination -->
         <div class="d-flex justify-content-center">
-            {{ $orders->links() }}
+            {{ $orders->appends(['status' => $currentStatus])->links() }}
         </div>
     </div>
 </div>

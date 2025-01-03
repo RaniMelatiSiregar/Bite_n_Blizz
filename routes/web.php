@@ -47,15 +47,17 @@ Route::middleware('auth')->group(function () {
 Route::get('/products', [ProductController::class, 'index'])->name('product.index');
 
 // Cart Routes
-Route::middleware('auth')->group(function () {
+Route::middleware(['auth'])->group(function () {
     Route::get('/cart', [CartController::class, 'index'])->name('cart.index');
     Route::post('/cart/add/{product}', [CartController::class, 'add'])->name('cart.add');
-    Route::delete('/cart/remove/{cart}', [CartController::class, 'remove'])->name('cart.remove');
-    Route::put('/cart/update/{cart}', [CartController::class, 'update'])->name('cart.update');
+    Route::patch('/cart/{cart}', [CartController::class, 'update'])->name('cart.update');
+    Route::delete('/cart/{cart}', [CartController::class, 'destroy'])->name('cart.destroy');
 
     // Checkout Routes
     Route::get('/checkout', [CheckoutController::class, 'index'])->name('checkout.index');
     Route::post('/checkout', [CheckoutController::class, 'store'])->name('checkout.store');
+    Route::post('/checkout/voucher', [CheckoutController::class, 'applyVoucher'])->name('checkout.apply-voucher');
+    Route::delete('/checkout/voucher', [CheckoutController::class, 'removeVoucher'])->name('checkout.remove-voucher');
 
     // Order Routes
     Route::get('/orders', [OrderController::class, 'index'])->name('orders.index');
@@ -100,7 +102,8 @@ Route::group(['middleware' => ['auth:admin'], 'prefix' => 'admin', 'as' => 'admi
     
     // Orders
     Route::resource('order', AdminOrderController::class);
-    Route::put('/order/{order}/status', [AdminOrderController::class, 'updateStatus'])->name('order.status');
+    Route::put('order/{id}/update-status', [AdminOrderController::class, 'updateStatus'])->name('order.update-status');
+    Route::put('order/{id}/update-payment', [AdminOrderController::class, 'updatePaymentStatus'])->name('order.update-payment');
     
     // Vouchers
     Route::resource('voucher', VoucherController::class);

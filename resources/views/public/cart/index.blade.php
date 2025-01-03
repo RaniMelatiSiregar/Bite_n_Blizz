@@ -38,27 +38,20 @@
                         </div>
                         
                         <div class="d-flex align-items-center">
-                            <div class="input-group me-3" style="width: 120px;">
-                                <button type="button" class="btn btn-outline-secondary update-quantity" 
-                                    data-cart-id="{{ $cart->id }}" 
-                                    data-action="decrease">
-                                    <i class="fas fa-minus"></i>
-                                </button>
-                                <input type="number" class="form-control text-center quantity-input" 
-                                    value="{{ $cart->quantity }}" min="1" 
-                                    data-cart-id="{{ $cart->id }}">
-                                <button type="button" class="btn btn-outline-secondary update-quantity" 
-                                    data-cart-id="{{ $cart->id }}" 
-                                    data-action="increase">
-                                    <i class="fas fa-plus"></i>
-                                </button>
-                            </div>
+                            <form action="{{ route('cart.update', $cart->id) }}" method="POST" class="d-flex align-items-center">
+                                @csrf
+                                @method('PATCH')
+                                <div class="input-group" style="width: 120px;">
+                                    <button type="button" class="btn btn-outline-secondary" onclick="decrementQty(this)">-</button>
+                                    <input type="number" name="quantity" class="form-control text-center" value="{{ $cart->quantity }}" min="1" max="99" onchange="this.form.submit()">
+                                    <button type="button" class="btn btn-outline-secondary" onclick="incrementQty(this)">+</button>
+                                </div>
+                            </form>
                             
-                            <form action="{{ route('cart.remove', $cart) }}" method="POST" class="d-inline">
+                            <form action="{{ route('cart.destroy', $cart->id) }}" method="POST" class="d-inline">
                                 @csrf
                                 @method('DELETE')
-                                <button type="submit" class="btn btn-outline-danger" 
-                                    onclick="return confirm('Apakah Anda yakin ingin menghapus produk ini dari keranjang?')">
+                                <button type="submit" class="btn btn-link text-danger p-0" onclick="return confirm('Apakah Anda yakin ingin menghapus produk ini?')">
                                     <i class="fas fa-trash"></i>
                                 </button>
                             </form>
@@ -161,6 +154,24 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 });
+
+function decrementQty(btn) {
+    const input = btn.parentElement.querySelector('input[name="quantity"]');
+    const currentValue = parseInt(input.value);
+    if (currentValue > 1) {
+        input.value = currentValue - 1;
+        input.form.submit();
+    }
+}
+
+function incrementQty(btn) {
+    const input = btn.parentElement.querySelector('input[name="quantity"]');
+    const currentValue = parseInt(input.value);
+    if (currentValue < 99) {
+        input.value = currentValue + 1;
+        input.form.submit();
+    }
+}
 </script>
 @endpush
 

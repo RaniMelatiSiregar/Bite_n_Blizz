@@ -18,6 +18,47 @@
         </div>
         @endif
 
+        <!-- Voucher -->
+        <div class="card border-0 shadow-sm mb-4">
+            <div class="card-body">
+                <h5 class="card-title mb-4">
+                    <i class="fas fa-ticket-alt text-danger me-2"></i>
+                    Voucher
+                </h5>
+                <form action="{{ route('checkout.apply-voucher') }}" method="POST" class="d-flex gap-2">
+                    @csrf
+                    <input type="text" name="voucher_code" class="form-control" placeholder="Masukkan kode voucher" required>
+                    <button type="submit" class="btn btn-danger">Pakai</button>
+                </form>
+                @if(session('voucher_error'))
+                    <div class="text-danger mt-2">
+                        {{ session('voucher_error') }}
+                    </div>
+                @endif
+                @if(session('voucher_success'))
+                    <div class="text-success mt-2">
+                        {{ session('voucher_success') }}
+                    </div>
+                @endif
+                @if(session('active_voucher'))
+                    <div class="alert alert-success mt-3 mb-0">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div>
+                                <strong>{{ session('active_voucher')->code }}</strong>
+                                <br>
+                                <small>Diskon {{ session('active_voucher')->discount }}%</small>
+                            </div>
+                            <form action="{{ route('checkout.remove-voucher') }}" method="POST">
+                                @csrf
+                                @method('DELETE')
+                                <button type="submit" class="btn btn-sm btn-link text-danger p-0">Hapus</button>
+                            </form>
+                        </div>
+                    </div>
+                @endif
+            </div>
+        </div>
+
         <!-- Form Checkout -->
         <form action="{{ route('checkout.store') }}" method="POST">
             @csrf
@@ -70,7 +111,7 @@
                             <h5 class="card-title mb-0">Produk yang Dibeli</h5>
                         </div>
                         <div class="card-body p-0">
-                            @foreach($carts as $cart)
+                            @foreach($cartItems as $cart)
                             <div class="d-flex align-items-center p-3 border-bottom">
                                 <img src="{{ asset('storage/' . $cart->product->image) }}" 
                                     alt="{{ $cart->product->name }}" 
@@ -95,7 +136,7 @@
                                 <div class="d-flex align-items-center">
                                     <i class="fas fa-truck text-danger me-2"></i>
                                     <span>Pengiriman</span>
-                                    <span class="ms-auto">Rp {{ number_format($shipping, 0, ',', '.') }}</span>
+                                    <span class="ms-auto">Rp {{ number_format($shipping_fee, 0, ',', '.') }}</span>
                                 </div>
                             </div>
                         </div>
@@ -142,20 +183,32 @@
                         </div>
                         <div class="card-body">
                             <div class="d-flex justify-content-between mb-3">
-                                <span class="text-muted">Total Harga ({{ $carts->count() }} Produk)</span>
-                                <span>Rp {{ number_format($subtotal, 0, ',', '.') }}</span>
+                                <span class="text-muted">Total Harga ({{ $cartItems->count() }} Produk)</span>
+                                <span>Rp {{ number_format($total, 0, ',', '.') }}</span>
                             </div>
                             
                             <div class="d-flex justify-content-between mb-3">
                                 <span class="text-muted">Total Ongkos Kirim</span>
-                                <span>Rp {{ number_format($shipping, 0, ',', '.') }}</span>
+                                <span>Rp {{ number_format($shipping_fee, 0, ',', '.') }}</span>
                             </div>
+
+                            @if(session('active_voucher'))
+                            <div class="d-flex justify-content-between mb-3 text-success">
+                                <span>
+                                    <i class="fas fa-ticket-alt me-1"></i>
+                                    Diskon Voucher ({{ session('active_voucher')->discount }}%)
+                                </span>
+                                <span>-Rp {{ number_format($discount_amount, 0, ',', '.') }}</span>
+                            </div>
+                            @endif
 
                             <hr>
                             
                             <div class="d-flex justify-content-between mb-4">
                                 <span class="fw-bold">Total Belanja</span>
-                                <span class="fw-bold text-danger fs-5">Rp {{ number_format($total, 0, ',', '.') }}</span>
+                                <span class="fw-bold text-danger fs-5">
+                                    Rp {{ number_format($final_total, 0, ',', '.') }}
+                                </span>
                             </div>
 
                             <button type="submit" class="btn btn-danger w-100 btn-lg fw-bold">
@@ -288,7 +341,7 @@ document.addEventListener('DOMContentLoaded', function() {
         .nextElementSibling.querySelector('.fa-check-circle').style.display = 'block';
 
     // Animasi loading saat submit
-    const form = document.querySelector('form');
+    const form = document.querySelector('form[action="{{ route('checkout.store') }}"]');
     const submitButton = form.querySelector('button[type="submit"]');
 
     form.addEventListener('submit', function(e) {
