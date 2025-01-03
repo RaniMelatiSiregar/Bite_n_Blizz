@@ -1,110 +1,116 @@
 <?php
 
-use App\Models\Category;
-use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Admin\CategoryController;
+use App\Http\Controllers\Admin\DashboardController;
+use App\Http\Controllers\Admin\OrderController as AdminOrderController;
+use App\Http\Controllers\Admin\ProductController as AdminProductController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CartController;
-use App\Http\Controllers\AdminController;
-use App\Http\Controllers\OrderController;
-use App\Http\Controllers\ProdukController;
 use App\Http\Controllers\ProductController;
-use App\Http\Controllers\ProfileController;
-use App\Http\Controllers\VoucherController;
-use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\CheckoutController;
-use App\Http\Controllers\AdminAuthController;
-use App\Http\Controllers\CustomerController;
-use App\Http\Controllers\StoreSettingController;
+use App\Http\Controllers\OrderController;
+use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\Admin\VoucherController;
+use App\Http\Controllers\AffiliateController;
+use Illuminate\Support\Facades\Route;
 
+/*
+|--------------------------------------------------------------------------
+| Web Routes
+|--------------------------------------------------------------------------
+*/
 
+// Public Routes
+Route::get('/', function () {
+    $products = \App\Models\Product::with('category')->get();
+    $categories = \App\Models\Category::all();
+    return view('public.home', compact('products', 'categories'));
+})->name('home');
 
+// About Route
+Route::get('/about', function () {
+    return view('public.about.index');
+})->name('about');
 
+// Contact Route
+Route::get('/contact', function () {
+    return view('public.contact.index');
+})->name('contact');
 
-// Login & Register Routes
-Route::get('/', [AuthController::class, 'showLoginForm'])->name('login');
-Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login');
-Route::post('/login', [AuthController::class, 'login']);
-Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
-
-// Register Routes
-Route::get('/register', [AuthController::class, 'showRegisterForm'])->name('register');
-Route::post('/register', [AuthController::class, 'register']);
-
-// Admin Routes (protected)
-Route::middleware(['auth:admin'])->prefix('admin')->group(function () {
-    Route::get('/dashboard', [AdminController::class, 'dashboard'])->name('admin.dashboard');
-    
-    // Logout Route
-    Route::post('/logout', [AuthController::class, 'adminLogout'])->name('admin.logout');
-    
-    // Kategori Routes
-    Route::resource('categories', CategoryController::class);
-    Route::get('/dashboard/checkSlug', [CategoryController::class, 'checkSlug']);
-    
-    // Produk Routes
-    Route::resource('produk', ProdukController::class);
-    Route::get('/produks/checkSlug', [ProdukController::class, 'checkSlug']);
-    
-    // Customer Routes
-    Route::get('/customers', [CustomerController::class, 'index'])->name('customers.index');
-    Route::get('/customers/{id}', [CustomerController::class, 'show'])->name('customers.show');
-    Route::delete('/customers/{id}', [CustomerController::class, 'destroy'])->name('customers.destroy');
-    
-    // Order Management
-    Route::get('/orders', [OrderController::class, 'adminIndex'])->name('admin.orders.index');
-    Route::put('/orders/{id}/status', [OrderController::class, 'updateStatus'])->name('admin.orders.status');
+// Profile Routes
+Route::middleware('auth')->group(function () {
+    Route::get('/profile', [ProfileController::class, 'index'])->name('profile.index');
+    Route::put('/profile', [ProfileController::class, 'update'])->name('profile.update');
 });
 
-// User Routes (protected)
-Route::middleware(['auth'])->group(function () {
-    Route::get('/home', function () {
-        return view('public.home');
-    })->name('home');
+// Product Routes
+Route::get('/products', [ProductController::class, 'index'])->name('product.index');
 
-    // Profile Routes
-    Route::get('/profile', [ProfileController::class, 'index'])->name('profile');
-    Route::get('/profile/edit', [ProfileController::class, 'edit'])->name('profile.edit');
-    Route::put('/profile', [ProfileController::class, 'update'])->name('profile.update');
-
-    // Product Routes
-    Route::get('/product', [ProductController::class, 'index'])->name('product');
-    Route::get('/product/{id}', [ProductController::class, 'show'])->name('product.show');
-    Route::get('/product/details', function () {
-        return view('public.product.detail');
-    })->name('product.details');
-
-    // Cart Routes
+// Cart Routes
+Route::middleware('auth')->group(function () {
     Route::get('/cart', [CartController::class, 'index'])->name('cart.index');
-    Route::post('/cart/add', [CartController::class, 'addToCart'])->name('cart.add');
-    Route::put('/cart/{id}', [CartController::class, 'updateQuantity'])->name('cart.update');
-    Route::delete('/cart/{id}', [CartController::class, 'remove'])->name('cart.remove');
+    Route::post('/cart/add/{product}', [CartController::class, 'add'])->name('cart.add');
+    Route::delete('/cart/remove/{cart}', [CartController::class, 'remove'])->name('cart.remove');
+    Route::put('/cart/update/{cart}', [CartController::class, 'update'])->name('cart.update');
 
     // Checkout Routes
-    Route::get('/checkout', [CheckoutController::class, 'index'])->name('checkout');
-    Route::post('/checkout/process', [CheckoutController::class, 'process'])->name('checkout.process');
-    Route::get('/check-voucher/{code}', [VoucherController::class, 'check'])->name('voucher.check');
+    Route::get('/checkout', [CheckoutController::class, 'index'])->name('checkout.index');
+    Route::post('/checkout', [CheckoutController::class, 'store'])->name('checkout.store');
 
     // Order Routes
     Route::get('/orders', [OrderController::class, 'index'])->name('orders.index');
-    Route::put('/orders/{id}/cancel', [OrderController::class, 'cancel'])->name('orders.cancel');
-    Route::put('/orders/{id}/complete', [OrderController::class, 'complete'])->name('orders.complete');
-
-    // Other Routes
-    Route::get('/favorite', function () {
-        return view('public.favorite');
-    })->name('favorite');
-
-    Route::get('/about', function () {
-        return view('public.AboutUs.about');
-    })->name('about');
-
-    Route::get('/contact', function () {
-        return view('public.contact');
-    })->name('contact');
+    Route::get('/orders/{order}', [OrderController::class, 'show'])->name('orders.show');
 });
 
-// Voucher Routes
-Route::resource('vouchers', VoucherController::class);
+// Auth Routes
+Route::middleware('guest')->group(function () {
+    Route::get('login', [AuthController::class, 'showLoginForm'])->name('login');
+    Route::post('login', [AuthController::class, 'login']);
+    Route::get('register', [AuthController::class, 'showRegisterForm'])->name('register');
+    Route::post('register', [AuthController::class, 'register']);
+});
 
-//Setting Routes
-Route::resource('store-settings', StoreSettingController::class);
+Route::post('logout', [AuthController::class, 'logout'])->name('logout')->middleware('auth');
+
+// Affiliate Routes
+Route::get('/affiliate/public', [AffiliateController::class, 'publicPage'])->name('affiliate.public');
+Route::middleware('auth')->group(function () {
+    Route::get('/affiliate', [AffiliateController::class, 'index'])->name('affiliate.dashboard');
+    Route::post('/affiliate/join', [AffiliateController::class, 'join'])->name('affiliate.join');
+    Route::post('/affiliate/withdraw', [AffiliateController::class, 'withdraw'])->name('affiliate.withdraw');
+});
+
+// Admin Routes
+Route::group(['middleware' => ['auth:admin'], 'prefix' => 'admin', 'as' => 'admin.'], function () {
+    // Dashboard
+    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+    
+    // Profile
+    Route::get('/profile', [App\Http\Controllers\Admin\ProfileController::class, 'index'])->name('profile.index');
+    Route::put('/profile', [App\Http\Controllers\Admin\ProfileController::class, 'update'])->name('profile.update');
+    
+    // Logout
+    Route::post('/logout', [AuthController::class, 'adminLogout'])->name('logout');
+    
+    // Products
+    Route::resource('product', AdminProductController::class);
+    
+    // Categories  
+    Route::resource('category', CategoryController::class);
+    
+    // Orders
+    Route::resource('order', AdminOrderController::class);
+    Route::put('/order/{order}/status', [AdminOrderController::class, 'updateStatus'])->name('order.status');
+    
+    // Vouchers
+    Route::resource('voucher', VoucherController::class);
+
+    // Affiliate Management
+    Route::get('/affiliates', [App\Http\Controllers\Admin\AffiliateController::class, 'index'])->name('affiliate.index');
+    Route::get('/affiliates/{affiliate}', [App\Http\Controllers\Admin\AffiliateController::class, 'show'])->name('affiliate.show');
+    Route::put('/affiliates/{affiliate}/commission', [App\Http\Controllers\Admin\AffiliateController::class, 'updateCommission'])->name('affiliate.commission');
+    Route::put('/affiliates/{affiliate}/toggle', [App\Http\Controllers\Admin\AffiliateController::class, 'toggleStatus'])->name('affiliate.toggle');
+    Route::get('/affiliate-withdrawals', [App\Http\Controllers\Admin\AffiliateController::class, 'withdrawals'])->name('affiliate.withdrawals');
+    Route::post('/affiliate-withdrawals/{withdrawal}/approve', [App\Http\Controllers\Admin\AffiliateController::class, 'approveWithdrawal'])->name('affiliate.withdrawal.approve');
+    Route::post('/affiliate-withdrawals/{withdrawal}/reject', [App\Http\Controllers\Admin\AffiliateController::class, 'rejectWithdrawal'])->name('affiliate.withdrawal.reject');
+});

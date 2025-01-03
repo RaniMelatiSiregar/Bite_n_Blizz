@@ -4,281 +4,229 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <title>Bite n Blizz</title>
+    <title>{{ config('app.name', 'Bite n Blizz') }}</title>
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Styles -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    @stack('styles')
 
-    <!-- Bootstrap CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    
-    <!-- Font Awesome -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    
-    <!-- Custom CSS -->
     <style>
-        /* Navbar Styles */
-        .navbar {
-            padding: 1rem 0;
-            background-color: #ffffff;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-        }
-
-        .navbar-brand {
-            font-size: 1.5rem;
-            font-weight: bold;
-            color: #ee4d2d !important;
-        }
-
-        .navbar-nav .nav-link {
-            color: #333;
-            font-weight: 500;
-            padding: 0.5rem 1rem;
-            transition: color 0.3s ease;
-        }
-        
-        .navbar-nav .nav-link:hover,
-        .navbar-nav .nav-link.active {
-            color: #ee4d2d;
-        }
-
-        .nav-icons {
+        body {
+            font-family: 'Poppins', sans-serif;
+            min-height: 100vh;
             display: flex;
-            align-items: center;
-            gap: 1.5rem;
+            flex-direction: column;
         }
-
-        .nav-icons a {
-            color: #333;
-            font-size: 1.2rem;
+        main {
+            flex: 1 0 auto;
+        }
+        .footer {
+            flex-shrink: 0;
+            background-color: #2d3436;
+            color: #fff;
+            padding: 3rem 0;
+            margin-top: 3rem;
+        }
+        .footer h5 {
+            color: #ee4d2d;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+        }
+        .footer p, .footer a {
+            color: #dfe6e9;
+            text-decoration: none;
             transition: color 0.3s ease;
-            position: relative;
         }
-
-        .nav-icons a:hover {
+        .footer a:hover {
             color: #ee4d2d;
         }
-
-        .cart-badge {
-            position: absolute;
-            top: -8px;
-            right: -8px;
+        .footer-social a {
+            display: inline-block;
+            width: 35px;
+            height: 35px;
             background-color: #ee4d2d;
-            color: white;
+            color: #fff;
             border-radius: 50%;
-            padding: 0.25rem 0.5rem;
-            font-size: 0.75rem;
-            min-width: 1.5rem;
             text-align: center;
-        }
-
-        .dropdown-menu {
-            border: none;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-        }
-
-        .dropdown-item {
-            padding: 0.5rem 1rem;
-            color: #333;
+            line-height: 35px;
+            margin-right: 10px;
             transition: all 0.3s ease;
         }
-
-        .dropdown-item:hover {
-            background-color: #f8f9fa;
+        .footer-social a:hover {
+            background-color: #fff;
             color: #ee4d2d;
         }
-
-        .dropdown-item.text-danger:hover {
-            background-color: #fee;
+        .footer hr {
+            border-color: #636e72;
+            margin: 2rem 0;
         }
-
-        /* Content Styles */
-        .container {
-            padding: 2rem 1rem;
+        .footer-bottom {
+            text-align: center;
+            color: #b2bec3;
+            font-size: 0.9rem;
         }
-
-        /* Product Card Styles */
-        .card {
+        .alert-container {
+            position: fixed;
+            top: 80px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 9999;
+            width: 90%;
+            max-width: 500px;
+        }
+        .alert {
+            margin-bottom: 0;
+            padding: 1.2rem;
+            box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
             border: none;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            border-radius: 10px;
         }
-
-        .card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        .alert .btn-close {
+            position: absolute;
+            top: 0.8rem;
+            right: 1rem;
         }
-
-        .btn-danger {
+        .alert-success {
             background-color: #ee4d2d;
-            border-color: #ee4d2d;
+            color: white;
         }
-
-        .btn-danger:hover {
-            background-color: #d73211;
-            border-color: #d73211;
-        }
-
-        .btn-primary {
-            background-color: #ee4d2d;
-            border-color: #ee4d2d;
-        }
-
-        .btn-primary:hover {
-            background-color: #d73211;
-            border-color: #d73211;
-        }
-
-        .btn-outline-primary {
+        .alert-success .btn-light {
             color: #ee4d2d;
-            border-color: #ee4d2d;
+            border: none;
+            transition: all 0.3s ease;
+            font-size: 0.9rem;
         }
-
-        .btn-outline-primary:hover {
-            background-color: #ee4d2d;
-            border-color: #ee4d2d;
+        .alert-success .btn-light:hover {
+            background-color: #d63f21;
+            color: white;
         }
-
-        .text-primary {
-            color: #ee4d2d !important;
+        .alert-success .alert-heading {
+            font-size: 1.1rem;
         }
-
-        .bg-primary {
-            background-color: #ee4d2d !important;
-        }
-
-        /* Modal Styles */
-        .modal-success-icon {
-            color: #ee4d2d;
-            font-size: 70px;
-        }
-
-        .modal-success-title {
-            color: #ee4d2d;
-            font-size: 1.75rem;
-            font-weight: 600;
+        .alert-danger {
+            background-color: #dc3545;
+            color: white;
         }
     </style>
-
-    @yield('styles')
 </head>
 <body>
-    <!-- Navbar -->
-    <nav class="navbar navbar-expand-lg sticky-top">
-        <div class="container">
-            <a class="navbar-brand" href="{{ route('home') }}">Bite n Blizz</a>
-            
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-                <span class="navbar-toggler-icon"></span>
-            </button>
+    @include('public.layouts.navbar')
 
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav mx-auto">
-                    <li class="nav-item">
-                        <a class="nav-link {{ request()->routeIs('home') ? 'active' : '' }}" href="{{ route('home') }}">Home</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link {{ request()->routeIs('product') ? 'active' : '' }}" href="{{ route('product') }}">product</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link {{ request()->routeIs('about') ? 'active' : '' }}" href="{{ route('about') }}">about</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link {{ request()->routeIs('contact') ? 'active' : '' }}" href="{{ route('contact') }}">contact</a>
-                    </li>
-                </ul>
-
-                <div class="nav-icons">
-                    <a href="{{ route('cart.index') }}" class="position-relative">
-                        <i class="fas fa-shopping-cart"></i>
-                        @auth
-                            @if(session()->has('cart_count') && session('cart_count') > 0)
-                                <span class="cart-badge">{{ session('cart_count') }}</span>
-                            @endif
-                        @endauth
-                    </a>
-
-                    @auth
-                    <div class="dropdown">
-                        <a class="dropdown-toggle d-flex align-items-center text-decoration-none text-dark" href="#" role="button" data-bs-toggle="dropdown">
-                            <i class="fas fa-user me-2"></i>
-                            <span>{{ Auth::user()->name }}</span>
-                        </a>
-                        <ul class="dropdown-menu dropdown-menu-end">
-                            <li>
-                                <a class="dropdown-item" href="{{ route('profile') }}">
-                                    <i class="fas fa-user-circle me-2"></i>Profil
-                                </a>
-                            </li>
-                            <li><hr class="dropdown-divider"></li>
-                            <li>
-                                <form action="{{ route('logout') }}" method="POST">
-                                    @csrf
-                                    <button type="submit" class="dropdown-item text-danger">
-                                        <i class="fas fa-sign-out-alt me-2"></i>Logout
-                                    </button>
-                                </form>
-                            </li>
-                        </ul>
-                    </div>
-                    @else
-                    <a href="{{ route('login') }}" class="btn btn-outline-danger">Login</a>
-                    @endauth
-                </div>
+    <!-- Alert Messages -->
+    @if(session('success'))
+    <div class="alert-container">
+        <div class="alert alert-success alert-dismissible fade show text-center" role="alert">
+            <h4 class="alert-heading mb-2">
+                <i class="fas fa-check-circle me-2"></i>{{ session('success') }}
+            </h4>
+            <div class="mt-3">
+                <a href="{{ route('product.index') }}" class="btn btn-light me-2">
+                    <i class="fas fa-shopping-bag me-2"></i>Lanjut Belanja
+                </a>
+                <a href="{{ route('cart.index') }}" class="btn btn-light">
+                    <i class="fas fa-shopping-cart me-2"></i>Lihat Keranjang
+                </a>
             </div>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>
-    </nav>
+    </div>
+    @endif
 
-    <!-- Content -->
-    @yield('content')
+    @if(session('error'))
+    <div class="alert-container">
+        <div class="alert alert-danger alert-dismissible fade show text-center" role="alert">
+            <h4 class="alert-heading mb-0">
+                <i class="fas fa-exclamation-circle me-2"></i>{{ session('error') }}
+            </h4>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    </div>
+    @endif
 
-    <!-- Footer -->
-    <footer class="bg-dark text-white pt-5 pb-4">
+    <main>
+        @yield('content')
+    </main>
+
+    <footer class="footer">
         <div class="container">
             <div class="row">
-                <!-- About Column -->
+                <!-- Tentang Kami -->
                 <div class="col-md-4 mb-4">
-                    <h5 class="mb-3">Bite n Blizz</h5>
-                    <p class="text-muted">Toko kue yang menyajikan berbagai macam kue dengan cita rasa yang lezat dan tampilan yang menarik.</p>
-                    <div class="social-links mt-3">
-                        <a href="https://instagram.com/bitenblizz" target="_blank" class="text-white me-3"><i class="fab fa-instagram fa-lg"></i></a>
-                        <a href="https://wa.me/6281234567890" target="_blank" class="text-white me-3"><i class="fab fa-whatsapp fa-lg"></i></a>
-                        <a href="mailto:info@bitenblizz.com" class="text-white"><i class="far fa-envelope fa-lg"></i></a>
+                    <h5>Tentang Bite n Blizz</h5>
+                    <p>Bite n Blizz adalah destinasi kuliner terbaik untuk pecinta makanan dan minuman. Kami menyajikan berbagai pilihan menu berkualitas dengan harga terjangkau.</p>
+                    <div class="footer-social mt-3">
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-whatsapp"></i></a>
                     </div>
                 </div>
 
-                <!-- Quick Links -->
+                <!-- Link Cepat -->
                 <div class="col-md-4 mb-4">
-                    <h5 class="mb-3">Quick Links</h5>
+                    <h5>Link Cepat</h5>
                     <ul class="list-unstyled">
-                        <li class="mb-2"><a href="{{ route('home') }}" class="text-muted text-decoration-none">Home</a></li>
-                        <li class="mb-2"><a href="{{ route('product') }}" class="text-muted text-decoration-none">Product</a></li>
-                        <li class="mb-2"><a href="{{ route('about') }}" class="text-muted text-decoration-none">About</a></li>
-                        <li class="mb-2"><a href="{{ route('contact') }}" class="text-muted text-decoration-none">Contact</a></li>
+                        <li class="mb-2"><a href="{{ route('home') }}">Beranda</a></li>
+                        <li class="mb-2"><a href="{{ route('product.index') }}">Menu</a></li>
+                        <li class="mb-2"><a href="{{ route('about') }}">Tentang Kami</a></li>
+                        <li class="mb-2"><a href="{{ route('contact') }}">Hubungi Kami</a></li>
                     </ul>
                 </div>
 
-                <!-- Contact Info -->
+                <!-- Kontak -->
                 <div class="col-md-4 mb-4">
-                    <h5 class="mb-3">Kontak Kami</h5>
-                    <ul class="list-unstyled text-muted">
-                        <li class="mb-2"><i class="fas fa-map-marker-alt me-2"></i> Depok, Sleman, Yogyakarta</li>
-                        <li class="mb-2"><i class="fas fa-phone me-2"></i> +62 812-3456-7890</li>
-                        <li class="mb-2"><i class="fas fa-envelope me-2"></i> @bitenblizz.com</li>
+                    <h5>Hubungi Kami</h5>
+                    <ul class="list-unstyled">
+                        <li class="mb-2">
+                            <i class="fas fa-map-marker-alt me-2"></i>
+                           Jl.Ringroud Utara,sleman ,Yogyakarta
+                        </li>
+                        <li class="mb-2">
+                            <i class="fas fa-phone me-2"></i>
+                            +62 812-3456-7890
+                        </li>
+                        <li class="mb-2">
+                            <i class="fas fa-envelope me-2"></i>
+                            info@bitenblizz.com
+                        </li>
+                        <li class="mb-2">
+                            <i class="fas fa-clock me-2"></i>
+                            Buka Setiap Hari: 10:00 - 22:00 WIB
+                        </li>
                     </ul>
                 </div>
             </div>
 
-            <!-- Copyright -->
-            <div class="row mt-4">
-                <div class="col-12">
-                    <hr class="bg-secondary">
-                    <p class="text-center text-muted mb-0">
-                        &copy; {{ date('Y') }} Bite n Blizz. All rights reserved.
-                    </p>
-                </div>
+            <hr>
+
+            <div class="footer-bottom">
+                <p class="mb-0">&copy; {{ date('Y') }} Bite n Blizz. All rights reserved.</p>
             </div>
         </div>
     </footer>
 
     <!-- Scripts -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
-    @yield('scripts')
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    @stack('scripts')
+
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Auto hide alert after 5 seconds (increased from 3 to give more time to click buttons)
+        setTimeout(function() {
+            var alerts = document.querySelectorAll('.alert');
+            alerts.forEach(function(alert) {
+                var bsAlert = new bootstrap.Alert(alert);
+                bsAlert.close();
+            });
+        }, 5000);
+    });
+    </script>
 </body>
 </html> 

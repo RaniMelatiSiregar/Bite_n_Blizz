@@ -1,161 +1,302 @@
 @extends('public.layouts.app')
 
 @section('content')
-<div class="container py-4">
-    <h4 class="mb-4">Checkout</h4>
-
-    @if(isset($carts) && count($carts) > 0)
-    <form action="{{ route('checkout.process') }}" method="POST" id="checkoutForm">
-        @csrf
-        <div class="row">
-            <div class="col-md-8">
-                <!-- Form Alamat -->
-                <div class="card mb-4">
-                    <div class="card-body">
-                        <h5 class="card-title mb-4">Alamat Pengiriman</h5>
-                        <div class="mb-3">
-                            <label for="address" class="form-label">Alamat Lengkap</label>
-                            <textarea class="form-control" id="address" name="address" rows="3" required>{{ Auth::user()->address }}</textarea>
-                        </div>
-                        <div class="mb-3">
-                            <label for="phone" class="form-label">Nomor Telepon</label>
-                            <input type="tel" class="form-control" id="phone" name="phone" value="{{ Auth::user()->phone }}" required>
-                        </div>
-                        <div class="mb-3">
-                            <label for="notes" class="form-label">Catatan (Opsional)</label>
-                            <textarea class="form-control" id="notes" name="notes" rows="2"></textarea>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Detail Pesanan -->
-                <div class="card mb-4">
-                    <div class="card-body">
-                        <h5 class="card-title mb-4">Detail Pesanan</h5>
-                        @foreach($carts as $cart)
-                        <div class="d-flex mb-3">
-                            <img src="{{ asset('storage/products/' . $cart->product->image) }}" alt="{{ $cart->product->name }}" class="me-3" style="width: 80px; height: 80px; object-fit: cover;">
-                            <div>
-                                <h6 class="mb-1">{{ $cart->product->name }}</h6>
-                                <p class="mb-1">{{ $cart->quantity }} x Rp {{ number_format($cart->product->price, 0, ',', '.') }}</p>
-                                <p class="mb-0 text-danger">Rp {{ number_format($cart->product->price * $cart->quantity, 0, ',', '.') }}</p>
-                            </div>
-                        </div>
-                        @endforeach
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-md-4">
-                <div class="card">
-                    <div class="card-body">
-                        <h5 class="card-title mb-4">Ringkasan Belanja</h5>
-                        <div class="d-flex justify-content-between mb-3">
-                            <span>Total Harga</span>
-                            <span class="text-danger">Rp {{ number_format($totalPrice, 0, ',', '.') }}</span>
-                        </div>
-
-                        <!-- Voucher Form -->
-                        <div class="mb-3">
-                            <label class="form-label">Voucher</label>
-                            <div class="input-group">
-                                <input type="text" class="form-control" id="voucher_code" name="voucher_code" placeholder="Masukkan kode voucher">
-                                <button class="btn btn-outline-secondary" type="button" id="checkVoucher">
-                                    Gunakan
-                                </button>
-                            </div>
-                            <div id="voucherMessage" class="form-text"></div>
-                        </div>
-
-                        <div class="d-flex justify-content-between mb-3 d-none" id="discountRow">
-                            <span>Diskon Voucher</span>
-                            <span class="text-success" id="discountAmount">-Rp 0</span>
-                        </div>
-
-                        <hr>
-                        <div class="d-flex justify-content-between mb-3">
-                            <span class="fw-bold">Total Tagihan</span>
-                            <span class="fw-bold text-danger" id="finalTotal">Rp {{ number_format($totalPrice, 0, ',', '.') }}</span>
-                        </div>
-                        <input type="hidden" name="total_amount" value="{{ $totalPrice }}" id="totalAmountInput">
-                        <input type="hidden" name="applied_voucher_id" id="appliedVoucherId">
-                        <button type="submit" class="btn btn-danger w-100" style="background-color: #ee4d2d; border-color: #ee4d2d;">
-                            Bayar Sekarang
-                        </button>
-                    </div>
-                </div>
+<div class="container-fluid bg-light py-4">
+    <div class="container">
+        <!-- Logo dan Progress -->
+        <div class="d-flex align-items-center mb-4">
+            <img src="{{ asset('images/LOGOO TOKO.jpg') }}" alt="Logo" height="40" class="me-3">
+            <div class="progress flex-grow-1" style="height: 4px;">
+                <div class="progress-bar bg-danger" role="progressbar" style="width: 33%"></div>
             </div>
         </div>
-    </form>
-    @else
-    <div class="text-center py-5">
-        <h5>Tidak ada item untuk checkout</h5>
-        <a href="{{ route('product') }}" class="btn btn-primary mt-3">Kembali Belanja</a>
+
+        <!-- Alert Error -->
+        @if(session('error'))
+        <div class="alert alert-danger mb-4">
+            {{ session('error') }}
+        </div>
+        @endif
+
+        <!-- Form Checkout -->
+        <form action="{{ route('checkout.store') }}" method="POST">
+            @csrf
+            <div class="row g-4">
+                <div class="col-lg-8">
+                    <!-- Alamat Pengiriman -->
+                    <div class="card border-0 shadow-sm mb-4">
+                        <div class="card-header bg-white py-3 d-flex align-items-center">
+                            <i class="fas fa-map-marker-alt text-danger me-2"></i>
+                            <h5 class="card-title mb-0">Alamat Pengiriman</h5>
+                        </div>
+                        <div class="card-body">
+                            <div class="mb-3">
+                                <label class="form-label small">Nama Penerima<span class="text-danger">*</span></label>
+                                <input type="text" name="name" class="form-control @error('name') is-invalid @enderror" 
+                                    value="{{ old('name', Auth::user()->name ?? '') }}" required>
+                                @error('name')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                                @enderror
+                            </div>
+                            
+                            <div class="mb-3">
+                                <label class="form-label small">No. Telepon<span class="text-danger">*</span></label>
+                                <input type="tel" name="phone" class="form-control @error('phone') is-invalid @enderror" 
+                                    value="{{ old('phone', Auth::user()->phone ?? '') }}" required>
+                                @error('phone')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                                @enderror
+                            </div>
+                            
+                            <div class="mb-0">
+                                <label class="form-label small">Alamat Lengkap<span class="text-danger">*</span></label>
+                                <textarea name="address" class="form-control @error('address') is-invalid @enderror" 
+                                    rows="3" required>{{ old('address', Auth::user()->address ?? '') }}</textarea>
+                                @error('address')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                                @enderror
+                                <small class="text-muted">
+                                    <i class="fas fa-info-circle me-1"></i>
+                                    Mohon isi alamat selengkap mungkin (nama jalan, RT/RW, kelurahan, kecamatan, kota/kabupaten, provinsi, kode pos)
+                                </small>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Produk yang Dibeli -->
+                    <div class="card border-0 shadow-sm mb-4">
+                        <div class="card-header bg-white py-3 d-flex align-items-center">
+                            <i class="fas fa-shopping-bag text-danger me-2"></i>
+                            <h5 class="card-title mb-0">Produk yang Dibeli</h5>
+                        </div>
+                        <div class="card-body p-0">
+                            @foreach($carts as $cart)
+                            <div class="d-flex align-items-center p-3 border-bottom">
+                                <img src="{{ asset('storage/' . $cart->product->image) }}" 
+                                    alt="{{ $cart->product->name }}" 
+                                    class="rounded me-3"
+                                    style="width: 80px; height: 80px; object-fit: cover;">
+                                
+                                <div class="flex-grow-1">
+                                    <h6 class="mb-1">{{ $cart->product->name }}</h6>
+                                    <p class="mb-0 text-muted small">
+                                        Variasi: Reguler
+                                    </p>
+                                    <div class="d-flex justify-content-between align-items-center mt-2">
+                                        <span class="text-danger">Rp {{ number_format($cart->product->price, 0, ',', '.') }}</span>
+                                        <span class="text-muted">Qty: {{ $cart->quantity }}</span>
+                                    </div>
+                                </div>
+                            </div>
+                            @endforeach
+
+                            <!-- Catatan -->
+                            <div class="p-3 border-bottom bg-light">
+                                <div class="d-flex align-items-center">
+                                    <i class="fas fa-truck text-danger me-2"></i>
+                                    <span>Pengiriman</span>
+                                    <span class="ms-auto">Rp {{ number_format($shipping, 0, ',', '.') }}</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Metode Pembayaran -->
+                    <div class="card border-0 shadow-sm mb-4">
+                        <div class="card-header bg-white py-3 d-flex align-items-center">
+                            <i class="fas fa-wallet text-danger me-2"></i>
+                            <h5 class="card-title mb-0">Metode Pembayaran</h5>
+                        </div>
+                        <div class="card-body">
+                            <div class="payment-method mb-3">
+                                <input type="radio" class="btn-check" name="payment_method" id="transfer" value="transfer" checked>
+                                <label class="btn btn-outline-danger w-100 text-start position-relative" for="transfer">
+                                    <i class="fas fa-university me-2"></i>
+                                    Transfer Bank
+                                    <small class="d-block text-muted mt-1">Transfer ke rekening BCA: 1234567890 a.n Bite n Blizz</small>
+                                    <i class="fas fa-check-circle position-absolute top-50 end-3 translate-middle-y text-success" style="display: none;"></i>
+                                </label>
+                            </div>
+                            
+                            <div class="payment-method">
+                                <input type="radio" class="btn-check" name="payment_method" id="cod" value="cod">
+                                <label class="btn btn-outline-danger w-100 text-start position-relative" for="cod">
+                                    <i class="fas fa-hand-holding-usd me-2"></i>
+                                    Cash on Delivery (COD)
+                                    <small class="d-block text-muted mt-1">Bayar saat pesanan sampai</small>
+                                    <i class="fas fa-check-circle position-absolute top-50 end-3 translate-middle-y text-success" style="display: none;"></i>
+                                </label>
+                            </div>
+                            @error('payment_method')
+                            <div class="text-danger mt-2 small">{{ $message }}</div>
+                            @enderror
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Ringkasan -->
+                <div class="col-lg-4">
+                    <div class="card border-0 shadow-sm sticky-top" style="top: 2rem;">
+                        <div class="card-header bg-white py-3">
+                            <h5 class="card-title mb-0">Ringkasan Pesanan</h5>
+                        </div>
+                        <div class="card-body">
+                            <div class="d-flex justify-content-between mb-3">
+                                <span class="text-muted">Total Harga ({{ $carts->count() }} Produk)</span>
+                                <span>Rp {{ number_format($subtotal, 0, ',', '.') }}</span>
+                            </div>
+                            
+                            <div class="d-flex justify-content-between mb-3">
+                                <span class="text-muted">Total Ongkos Kirim</span>
+                                <span>Rp {{ number_format($shipping, 0, ',', '.') }}</span>
+                            </div>
+
+                            <hr>
+                            
+                            <div class="d-flex justify-content-between mb-4">
+                                <span class="fw-bold">Total Belanja</span>
+                                <span class="fw-bold text-danger fs-5">Rp {{ number_format($total, 0, ',', '.') }}</span>
+                            </div>
+
+                            <button type="submit" class="btn btn-danger w-100 btn-lg fw-bold">
+                                Buat Pesanan
+                            </button>
+
+                            <div class="text-center mt-3">
+                                <small class="text-muted">
+                                    <i class="fas fa-shield-alt me-1"></i>
+                                    Pembayaran Aman & Terjamin
+                                </small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
     </div>
-    @endif
 </div>
+
+@push('styles')
+<style>
+:root {
+    --shopee-color: #ee4d2d;
+    --shopee-light: #fee7e1;
+}
+
+.bg-shopee {
+    background-color: var(--shopee-color) !important;
+}
+
+.text-shopee {
+    color: var(--shopee-color) !important;
+}
+
+.progress {
+    background-color: #efefef;
+    border-radius: 2px;
+    overflow: hidden;
+}
+
+.progress-bar {
+    background-color: var(--shopee-color);
+    transition: width 0.3s ease;
+}
+
+.card {
+    border-radius: 4px;
+    overflow: hidden;
+}
+
+.card-header {
+    background-color: #fff;
+    border-bottom: 1px solid rgba(0,0,0,.05);
+}
+
+.form-control {
+    border-radius: 4px;
+    border-color: #ddd;
+    padding: 0.6rem 1rem;
+}
+
+.form-control:focus {
+    border-color: var(--shopee-color);
+    box-shadow: 0 0 0 0.2rem rgba(238, 77, 45, 0.15);
+}
+
+.payment-method {
+    margin-bottom: 1rem;
+}
+
+.payment-method label {
+    padding: 1rem;
+    border-radius: 4px;
+    transition: all 0.2s ease;
+}
+
+.payment-method .btn-check:checked + label {
+    background-color: var(--shopee-light);
+    border-color: var(--shopee-color);
+}
+
+.payment-method .btn-check:checked + label .fa-check-circle {
+    display: block !important;
+}
+
+.btn-danger {
+    background-color: var(--shopee-color);
+    border-color: var(--shopee-color);
+}
+
+.btn-danger:hover {
+    background-color: #d73211;
+    border-color: #d73211;
+}
+
+.btn-outline-danger {
+    color: var(--shopee-color);
+    border-color: #ddd;
+}
+
+.btn-outline-danger:hover {
+    background-color: var(--shopee-light);
+    border-color: var(--shopee-color);
+    color: var(--shopee-color);
+}
+
+.end-3 {
+    right: 1rem !important;
+}
+</style>
+@endpush
 
 @push('scripts')
 <script>
 document.addEventListener('DOMContentLoaded', function() {
-    const checkVoucherBtn = document.getElementById('checkVoucher');
-    const voucherInput = document.getElementById('voucher_code');
-    const voucherMessage = document.getElementById('voucherMessage');
-    const discountRow = document.getElementById('discountRow');
-    const discountAmount = document.getElementById('discountAmount');
-    const finalTotal = document.getElementById('finalTotal');
-    const totalAmountInput = document.getElementById('totalAmountInput');
-    const appliedVoucherId = document.getElementById('appliedVoucherId');
-    const originalTotal = {{ $totalPrice }};
-
-    checkVoucherBtn.addEventListener('click', async function() {
-        const code = voucherInput.value.trim();
-        if (!code) {
-            voucherMessage.textContent = 'Masukkan kode voucher';
-            voucherMessage.className = 'form-text text-danger';
-            return;
-        }
-
-        try {
-            const response = await fetch(`/check-voucher/${code}`);
-            const data = await response.json();
-
-            if (data.valid) {
-                // Hitung diskon
-                const discount = (originalTotal * data.voucher.discount) / 100;
-                const finalAmount = originalTotal - discount;
-
-                // Update UI
-                discountRow.classList.remove('d-none');
-                discountAmount.textContent = `-Rp ${numberFormat(discount)}`;
-                finalTotal.textContent = `Rp ${numberFormat(finalAmount)}`;
-                totalAmountInput.value = finalAmount;
-                appliedVoucherId.value = data.voucher.id;
-
-                // Tampilkan pesan sukses
-                voucherMessage.textContent = 'Voucher berhasil digunakan!';
-                voucherMessage.className = 'form-text text-success';
-            } else {
-                // Reset UI
-                discountRow.classList.add('d-none');
-                finalTotal.textContent = `Rp ${numberFormat(originalTotal)}`;
-                totalAmountInput.value = originalTotal;
-                appliedVoucherId.value = '';
-
-                // Tampilkan pesan error
-                voucherMessage.textContent = data.message || 'Voucher tidak valid';
-                voucherMessage.className = 'form-text text-danger';
-            }
-        } catch (error) {
-            console.error('Error:', error);
-            voucherMessage.textContent = 'Terjadi kesalahan, silakan coba lagi';
-            voucherMessage.className = 'form-text text-danger';
-        }
+    // Tampilkan centang saat metode pembayaran dipilih
+    const paymentMethods = document.querySelectorAll('input[name="payment_method"]');
+    paymentMethods.forEach(method => {
+        method.addEventListener('change', function() {
+            document.querySelectorAll('.payment-method .fa-check-circle').forEach(icon => {
+                icon.style.display = 'none';
+            });
+            this.nextElementSibling.querySelector('.fa-check-circle').style.display = 'block';
+        });
     });
 
-    function numberFormat(number) {
-        return new Intl.NumberFormat('id-ID').format(number);
-    }
+    // Tampilkan centang pada metode pembayaran default
+    document.querySelector('input[name="payment_method"]:checked')
+        .nextElementSibling.querySelector('.fa-check-circle').style.display = 'block';
+
+    // Animasi loading saat submit
+    const form = document.querySelector('form');
+    const submitButton = form.querySelector('button[type="submit"]');
+
+    form.addEventListener('submit', function(e) {
+        if (form.checkValidity()) {
+            submitButton.disabled = true;
+            submitButton.innerHTML = '<span class="spinner-border spinner-border-sm me-2"></span>Memproses...';
+        }
+    });
 });
 </script>
 @endpush

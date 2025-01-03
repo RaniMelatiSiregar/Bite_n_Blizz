@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="200px" height="200px" viewBox="0 0 200 200" version="1.1" xmlns="http://www.w3.org/2000/svg">
+    <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g transform="translate(10, 10)">
+            <!-- Shopping Bag -->
+            <path d="M140,180 L40,180 C35.581722,180 32,176.418278 32,172 L32,60 L148,60 L148,172 C148,176.418278 144.418278,180 140,180 Z" fill="#F5F5F5"/>
+            <path d="M148,60 L32,60 L50,30 C52.7614237,25.4771525 57.2385763,22 62.1657377,22 L117.834262,22 C122.761424,22 127.238576,25.4771525 130,30 L148,60 Z" fill="#EEEEEE"/>
+            <!-- Sad Face -->
+            <circle cx="90" cy="110" r="30" fill="#DDDDDD"/>
+            <path d="M75,120 C75,120 82.5,100 90,100 C97.5,100 105,120 105,120" stroke="#999999" stroke-width="3" stroke-linecap="round"/>
+            <circle cx="75" cy="100" r="3" fill="#999999"/>
+            <circle cx="105" cy="100" r="3" fill="#999999"/>
+        </g>
+    </g>
+</svg> 

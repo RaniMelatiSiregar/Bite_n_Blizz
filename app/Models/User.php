@@ -23,7 +23,10 @@ class User extends Authenticatable
         'password',
         'phone',
         'address',
-        'role'
+        'photo',
+        'is_admin',
+        'referrer_id',
+        'used_referral_code'
     ];
 
     /**
@@ -46,11 +49,37 @@ class User extends Authenticatable
         return [
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
+            'is_admin' => 'boolean',
         ];
     }
 
-    public function cart()
+    public function carts()
     {
         return $this->hasMany(Cart::class);
+    }
+
+    public function orders()
+    {
+        return $this->hasMany(Order::class);
+    }
+
+    public function isAdmin()
+    {
+        return $this->is_admin;
+    }
+
+    public function affiliate()
+    {
+        return $this->hasOne(Affiliate::class);
+    }
+
+    public function referrals()
+    {
+        return $this->hasMany(User::class, 'referrer_id');
+    }
+
+    public function referrer()
+    {
+        return $this->belongsTo(User::class, 'referrer_id');
     }
 }

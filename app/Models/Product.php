@@ -2,8 +2,8 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Product extends Model
 {
@@ -11,13 +11,22 @@ class Product extends Model
 
     protected $fillable = [
         'name',
+        'description',
         'price',
         'image',
-        'description'
+        'category_id',
+        'qty',
+        'is_available'
     ];
 
-    public function carts()
+    protected $casts = [
+        'price' => 'decimal:2',
+        'qty' => 'integer',
+        'is_available' => 'boolean'
+    ];
+
+    public function category()
     {
-        return $this->hasMany(Cart::class);
+        return $this->belongsTo(Category::class);
     }
 } 

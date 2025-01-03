@@ -12,13 +12,13 @@ class Voucher extends Model
     protected $fillable = [
         'code',
         'discount',
-        'expiration_date',
+        'expires_at',
         'is_active'
     ];
 
     protected $casts = [
-        'expiration_date' => 'date',
+        'expires_at' => 'datetime',
         'is_active' => 'boolean',
-        'discount' => 'float'
+        'discount' => 'decimal:2'
     ];
 }

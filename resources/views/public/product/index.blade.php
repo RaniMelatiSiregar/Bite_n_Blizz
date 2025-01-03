@@ -1,135 +1,216 @@
 @extends('public.layouts.app')
 
 @section('content')
-<div class="container py-5">
-    <div class="row">
-        <!-- Category Section -->
-    <h2 class="mb-4">Categories</h2>
-    <div class="row mb-5">
-        <div class="card">
-            <div class="card-body">
-                @foreach ($categories as $item)
-            <div class="col-md-2">
-                <div class="category-card">
-                    {{-- <img src="path-to-image/category1.jpg" alt="Category 1" class="img-fluid mb-3"> --}}
-                    <p>{{ $item->name }}</p>
-                </div>
-            </div>
-        @endforeach
-            </div>
-        </div>
+<div class="container-fluid bg-light py-3">
+    <div class="container">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb mb-0">
+                <li class="breadcrumb-item"><a href="{{ route('home') }}" class="text-decoration-none text-danger">Home</a></li>
+                <li class="breadcrumb-item active">Produk</li>
+            </ol>
+        </nav>
     </div>
-        @foreach($produk as $product)
-        <div class="col-md-3 mb-4">
-            <div class="card h-100">
-                <img src="{{ asset('storage/products/' . $product->image) }}" 
-                     class="card-img-top" 
-                     alt="{{ $product->nama_produk }}"
-                     style="height: 200px; object-fit: cover;">
-                <div class="card-body d-flex flex-column">
-                    <h5 class="card-title">{{ $product->nama_produk }}</h5>
-                    {{-- <div class="text-warning mb-2">
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star-half-alt"></i>
-                    </div> --}}
-                    <p class="card-text text-danger fw-bold">Rp{{ number_format($product->harga, 0, ',', '.') }}</p>
-                    <div class="mt-auto">
-                        <form class="add-to-cart-form">
-                            @csrf
-                            <input type="hidden" name="product_id" value="{{ $product->id }}">
-                            <input type="hidden" name="quantity" value="1">
-                            <div class="d-grid gap-2">
-                                <button type="submit" class="btn btn-primary">
-                                    <i class="fas fa-shopping-cart me-2"></i>Add to Cart
-                                </button>
-                                <a href="{{ route('product.show', $product->id) }}" class="btn btn-outline-primary">
-                                    <i class="fas fa-eye me-2"></i>View Details
-                                </a>
-                            </div>
-                        </form>
+</div>
+
+<div class="container py-4">
+    <div class="row g-4">
+        <!-- Filter Sidebar -->
+        <div class="col-lg-3">
+            <!-- Kategori -->
+            <div class="card border-0 shadow-sm mb-4">
+                <div class="card-body">
+                    <h6 class="card-title mb-3">Kategori</h6>
+                    <div class="list-group list-group-flush">
+                        <a href="{{ route('product.index') }}" 
+                           class="list-group-item list-group-item-action border-0 {{ !request('category') ? 'active text-white bg-danger' : '' }}">
+                            <i class="fas fa-th-large me-2"></i>Semua Produk
+                            <span class="badge bg-{{ !request('category') ? 'light text-danger' : 'secondary' }} float-end">
+                                {{ $products->count() }}
+                            </span>
+                        </a>
+                        @foreach($categories as $category)
+                        <a href="{{ route('product.index', ['category' => $category->id]) }}" 
+                           class="list-group-item list-group-item-action border-0 {{ request('category') == $category->id ? 'active text-white bg-danger' : '' }}">
+                            <i class="fas fa-tag me-2"></i>{{ $category->name }}
+                            <span class="badge bg-{{ request('category') == $category->id ? 'light text-danger' : 'secondary' }} float-end">
+                                {{ $products->where('category_id', $category->id)->count() }}
+                            </span>
+                        </a>
+                        @endforeach
                     </div>
                 </div>
             </div>
+
+            <!-- Filter Harga -->
+            <div class="card border-0 shadow-sm mb-4">
+                <div class="card-body">
+                    <h6 class="card-title mb-3">Rentang Harga</h6>
+                    <form action="{{ route('product.index') }}" method="GET">
+                        <div class="mb-3">
+                            <div class="input-group">
+                                <span class="input-group-text">Rp</span>
+                                <input type="number" class="form-control" name="min_price" placeholder="Min" value="{{ request('min_price') }}">
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <div class="input-group">
+                                <span class="input-group-text">Rp</span>
+                                <input type="number" class="form-control" name="max_price" placeholder="Max" value="{{ request('max_price') }}">
+                            </div>
+                        </div>
+                        <button type="submit" class="btn btn-danger w-100">Terapkan</button>
+                    </form>
+                </div>
+            </div>
         </div>
-        @endforeach
+
+        <!-- Produk Grid -->
+        <div class="col-lg-9">
+            <!-- Sorting dan View Options -->
+            <div class="card border-0 shadow-sm mb-4">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div class="btn-group">
+                            <button type="button" class="btn btn-outline-secondary active">
+                                <i class="fas fa-th-large"></i>
+                            </button>
+                            <button type="button" class="btn btn-outline-secondary">
+                                <i class="fas fa-list"></i>
+                            </button>
+                        </div>
+                        <select class="form-select w-auto">
+                            <option>Terbaru</option>
+                            <option>Harga: Rendah ke Tinggi</option>
+                            <option>Harga: Tinggi ke Rendah</option>
+                            <option>Terlaris</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Products Grid -->
+            <div class="row g-3">
+                @forelse($products as $product)
+                <div class="col-md-3">
+                    <div class="card h-100 border-0 shadow-sm product-card">
+                        <div class="position-relative">
+                            <img src="{{ asset('storage/' . $product->image) }}" class="card-img-top" alt="{{ $product->name }}">
+                            @if($product->qty <= 5 && $product->qty > 0)
+                            <div class="position-absolute top-0 start-0 bg-warning text-dark px-2 py-1 small">
+                                Stok Terbatas
+                            </div>
+                            @elseif($product->qty == 0)
+                            <div class="position-absolute top-0 start-0 bg-danger text-white px-2 py-1 small">
+                                Stok Habis
+                            </div>
+                            @endif
+                        </div>
+                        <div class="card-body p-3">
+                            <h6 class="card-title mb-1 text-truncate">{{ $product->name }}</h6>
+                            <div class="text-danger fw-bold mb-1">Rp {{ number_format($product->price, 0, ',', '.') }}</div>
+                            <div class="d-flex align-items-center mb-2">
+                                <div class="text-warning">
+                                    @for($i = 1; $i <= 5; $i++)
+                                        @if($i <= rand(4, 5))
+                                            <i class="fas fa-star"></i>
+                                        @else
+                                            <i class="far fa-star"></i>
+                                        @endif
+                                    @endfor
+                                </div>
+                                <small class="text-muted ms-1">({{ rand(10, 100) }})</small>
+                                <small class="text-muted ms-auto">{{ rand(50, 200) }} terjual</small>
+                            </div>
+                            @if($product->qty > 0)
+                            <form action="{{ route('cart.add', $product->id) }}" method="POST">
+                                @csrf
+                                <div class="d-flex gap-2 mb-2">
+                                    <div class="input-group">
+                                        <button type="button" class="btn btn-outline-secondary" onclick="decrementQty(this)">
+                                            <i class="fas fa-minus"></i>
+                                        </button>
+                                        <input type="number" name="quantity" value="1" min="1" max="{{ $product->qty }}"
+                                            class="form-control text-center" style="width: 60px;"
+                                            onchange="validateQty(this, {{ $product->qty }})">
+                                        <button type="button" class="btn btn-outline-secondary" onclick="incrementQty(this)">
+                                            <i class="fas fa-plus"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                                <div class="d-grid">
+                                    <button type="submit" class="btn btn-danger">
+                                        <i class="fas fa-shopping-cart me-2"></i>Tambah ke Keranjang
+                                    </button>
+                                </div>
+                            </form>
+                            @else
+                            <button class="btn btn-secondary w-100" disabled>Stok Habis</button>
+                            @endif
+                        </div>
+                    </div>
+                </div>
+                @empty
+                <div class="col-12">
+                    <div class="text-center py-5">
+                        <img src="{{ asset('images/empty.svg') }}" alt="Tidak ada produk" class="mb-3" style="max-width: 200px;">
+                        <h5>Tidak ada produk yang ditemukan</h5>
+                        <p class="text-muted">Coba ubah filter atau kata kunci pencarian Anda</p>
+                    </div>
+                </div>
+                @endforelse
+            </div>
+        </div>
     </div>
 </div>
 
-<!-- Success Modal -->
-<div class="modal fade" id="successModal" tabindex="-1">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title">Berhasil!</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-            </div>
-            <div class="modal-body">
-                <p>Produk berhasil ditambahkan ke keranjang.</p>
-            </div>
-            <div class="modal-footer justify-content-between">
-                <button type="button" class="btn btn-outline-primary px-4 py-2" data-bs-dismiss="modal" style="min-width: 150px;">
-                    <i class="fas fa-arrow-left me-2"></i>Lanjut Belanja
-                </button>
-                <a href="{{ route('cart.index') }}" class="btn btn-primary px-4 py-2" style="min-width: 150px;">
-                    <i class="fas fa-shopping-cart me-2"></i>Lihat Keranjang
-                </a>
-            </div>
-        </div>
-    </div>
-</div>
-@endsection
+@push('styles')
+<style>
+.product-card {
+    transition: transform 0.2s;
+}
+.product-card:hover {
+    transform: translateY(-5px);
+}
+.product-card img {
+    height: 200px;
+    object-fit: cover;
+}
+.list-group-item.active {
+    border-color: #dc3545;
+}
+.list-group-item:hover:not(.active) {
+    background-color: #f8f9fa;
+}
+</style>
+@endpush
 
-@section('scripts')
+@push('scripts')
 <script>
-document.addEventListener('DOMContentLoaded', function() {
-    const forms = document.querySelectorAll('.add-to-cart-form');
-    const successModal = new bootstrap.Modal(document.getElementById('successModal'));
-    
-    forms.forEach(form => {
-        form.addEventListener('submit', async function(e) {
-            e.preventDefault();
-            
-            try {
-                const formData = new FormData(this);
-                const data = {};
-                formData.forEach((value, key) => {
-                    data[key] = value;
-                });
+function decrementQty(btn) {
+    const input = btn.parentElement.querySelector('input');
+    const currentValue = parseInt(input.value);
+    if (currentValue > 1) {
+        input.value = currentValue - 1;
+    }
+}
 
-                const response = await fetch('{{ route("cart.add") }}', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
-                    },
-                    body: JSON.stringify(data)
-                });
+function incrementQty(btn) {
+    const input = btn.parentElement.querySelector('input');
+    const currentValue = parseInt(input.value);
+    const maxValue = parseInt(input.max);
+    if (currentValue < maxValue) {
+        input.value = currentValue + 1;
+    }
+}
 
-                if (!response.ok) {
-                    throw new Error('Gagal menambahkan ke keranjang');
-                }
-
-                const result = await response.json();
-                
-                // Update jumlah item di keranjang (jika ada)
-                const cartCount = document.querySelector('.cart-count');
-                if (cartCount) {
-                    const currentCount = parseInt(cartCount.textContent || '0');
-                    cartCount.textContent = currentCount + 1;
-                }
-
-                // Tampilkan modal sukses
-                successModal.show();
-
-            } catch (error) {
-                console.error('Error:', error);
-                alert('Gagal menambahkan produk ke keranjang');
-            }
-        });
-    });
-});
+function validateQty(input, maxQty) {
+    const value = parseInt(input.value);
+    if (value < 1) {
+        input.value = 1;
+    } else if (value > maxQty) {
+        input.value = maxQty;
+    }
+}
 </script>
+@endpush
 @endsection

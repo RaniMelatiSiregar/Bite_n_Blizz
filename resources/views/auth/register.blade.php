@@ -11,7 +11,7 @@
         }
         .register-container {
             max-width: 400px;
-            margin: 100px auto;
+            margin: 50px auto;
         }
         .btn-register {
             background-color: #ee4d2d;
@@ -61,7 +61,7 @@
                         </div>
                         <div class="mb-3">
                             <label for="phone" class="form-label">Nomor Telepon</label>
-                            <input type="tel" class="form-control" id="phone" name="phone" value="{{ old('phone') }}">
+                            <input type="text" class="form-control" id="phone" name="phone" value="{{ old('phone') }}">
                         </div>
                         <div class="mb-3">
                             <label for="address" class="form-label">Alamat</label>
@@ -90,4 +90,4 @@
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
-</html> 
+</html>

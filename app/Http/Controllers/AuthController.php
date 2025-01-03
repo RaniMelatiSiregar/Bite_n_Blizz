@@ -27,10 +27,10 @@ class AuthController extends Controller
             return redirect()->route('admin.dashboard');
         }
 
-        // Jika bukan admin, coba login sebagai user biasa
+        // Kalau bukan admin, coba login sebagai user biasa
         if (Auth::attempt($credentials)) {
             $request->session()->regenerate();
-            return redirect()->route('home');
+            return redirect()->route('product.index');
         }
 
         return back()->withErrors([
@@ -59,23 +59,23 @@ class AuthController extends Controller
             'password' => Hash::make($request->password),
             'phone' => $request->phone,
             'address' => $request->address,
-            'role' => 'user'
+            'is_admin' => false
         ]);
 
         Auth::login($user);
 
-        return redirect()->route('home')->with('success', 'Registrasi berhasil! Selamat datang di Bite n Bliezz.');
+        return redirect()->route('product.index')->with('success', 'Registrasi berhasil! Selamat datang di Bite n Blizz.');
     }
 
     public function logout(Request $request)
     {
         // Logout dari semua guard
         Auth::guard('admin')->logout();
-        Auth::guard('web')->logout();
-        
+        Auth::logout();
+
         $request->session()->invalidate();
         $request->session()->regenerateToken();
-        
+
         return redirect()->route('login')
             ->with('success', 'Anda telah berhasil logout.');
     }
@@ -85,6 +85,6 @@ class AuthController extends Controller
         Auth::guard('admin')->logout();
         $request->session()->invalidate();
         $request->session()->regenerateToken();
-        return redirect()->route('login')->with('success', 'Berhasil logout dari admin panel');
+        return redirect()->route('login');
     }
 } 

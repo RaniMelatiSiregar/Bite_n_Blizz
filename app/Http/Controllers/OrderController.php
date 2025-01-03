@@ -4,39 +4,27 @@ namespace App\Http\Controllers;
 
 use App\Models\Order;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class OrderController extends Controller
 {
-    public function adminIndex()
+    public function index()
     {
-        $orders = Order::with(['user'])
-                      ->orderBy('created_at', 'desc')
-                      ->get();
-                      
-        return view('admin.orders.index', [
-            'title' => 'Data Transaksi',
-            'orders' => $orders
-        ]);
+        $orders = Order::where('user_id', Auth::id())
+            ->with(['orderItems.product'])
+            ->orderBy('created_at', 'desc')
+            ->paginate(10);
+
+        return view('public.orders.index', compact('orders'));
     }
 
-    public function updateStatus(Request $request, $id)
+    public function show(Order $order)
     {
-        $order = Order::findOrFail($id);
-        $order->status = $request->status;
-        $order->save();
+        if ($order->user_id !== Auth::id()) {
+            abort(403);
+        }
 
-        return redirect()->route('admin.orders.index')
-                        ->with('success', 'Status transaksi berhasil diperbarui');
-    }
-
-    public function show($id)
-    {
-        $order = Order::with(['user', 'orderItems.product'])
-                     ->findOrFail($id);
-                     
-        return view('admin.orders.show', [
-            'title' => 'Detail Transaksi',
-            'order' => $order
-        ]);
+        $order->load(['orderItems.product']);
+        return view('public.orders.show', compact('order'));
     }
 } 

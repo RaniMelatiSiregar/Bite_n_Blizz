@@ -11,13 +11,14 @@ return new class extends Migration
         Schema::table('users', function (Blueprint $table) {
             $table->string('phone')->nullable()->after('email');
             $table->text('address')->nullable()->after('phone');
+            $table->string('role')->default('user')->after('address');
         });
     }
 
     public function down()
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->dropColumn(['phone', 'address']);
+            $table->dropColumn(['phone', 'address', 'role']);
         });
     }
 }; 

@@ -25,7 +25,7 @@
         <div class="product-item">
           <figure>
           <a href="index.html" title="Product Title">
-            <img src="images/product-thumb-2.png" alt="Product Thumbnail" class="tab-image" width="200" height="auto">
+            <img src="images/products/bananaCake.png" alt="Product Thumbnail" class="tab-image" width="200" height="auto">
             </a>
           </figure>
           <div class="d-flex flex-column text-center">
