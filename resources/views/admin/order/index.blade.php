@@ -90,7 +90,7 @@
                                             <i class="fas fa-cog"></i>
                                         </button>
                                         <div class="dropdown-menu">
-                                            <form action="{{ route('admin.order.status', $order->id) }}" 
+                                            <form action="{{ route('admin.order.update-status', $order->id) }}" 
                                                   method="POST">
                                                 @csrf
                                                 @method('PUT')
@@ -99,7 +99,7 @@
                                                     <i class="fas fa-clock text-info"></i> Proses Pesanan
                                                 </button>
                                             </form>
-                                            <form action="{{ route('admin.order.status', $order->id) }}" 
+                                            <form action="{{ route('admin.order.update-status', $order->id) }}" 
                                                   method="POST">
                                                 @csrf
                                                 @method('PUT')
@@ -108,7 +108,7 @@
                                                     <i class="fas fa-check text-success"></i> Selesaikan
                                                 </button>
                                             </form>
-                                            <form action="{{ route('admin.order.status', $order->id) }}" 
+                                            <form action="{{ route('admin.order.update-status', $order->id) }}" 
                                                   method="POST">
                                                 @csrf
                                                 @method('PUT')

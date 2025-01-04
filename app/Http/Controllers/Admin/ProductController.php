@@ -56,37 +56,69 @@ class ProductController extends Controller
         return view('admin.product.edit', compact('product', 'categories'));
     }
 
-    public function update(Request $request, $id)
-    {
-        $request->validate([
-            'name' => 'required|string|max:255',
-            'description' => 'required|string',
-            'category_id' => 'required|exists:categories,id',
-            'price' => 'required|numeric|min:0',
-            'qty' => 'required|integer|min:0',
-            'image' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
-        ]);
+    // public function update(Request $request, $id)
+    // {
+    //     $request->validate([
+    //         'name' => 'required|string|max:255',
+    //         'description' => 'required|string',
+    //         'category_id' => 'required|exists:categories,id',
+    //         'price' => 'required|numeric|min:0',
+    //         'qty' => 'required|integer|min:0',
+    //         'image' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
+    //     ]);
 
-        $product = Product::findOrFail($id);
-        $data = $request->except('image');
+    //     $product = Product::findOrFail($id);
+    //     $data = $request->except('image');
         
-        if ($request->hasFile('image')) {
-            // Hapus gambar lama
-            if ($product->image) {
-                Storage::disk('public')->delete($product->image);
-            }
+    //     if ($request->hasFile('image')) {
+    //         // Hapus gambar lama
+    //         if ($product->image) {
+    //             Storage::disk('public')->delete($product->image);
+    //         }
             
-            // Upload gambar baru
-            $data['image'] = $request->file('image')->store('products', 'public');
-        }
+    //         // Upload gambar baru
+    //         $data['image'] = $request->file('image')->store('products', 'public');
+    //     }
 
-        $data['is_available'] = $request->has('is_available');
+    //     $data['is_available'] = $request->has('is_available');
         
-        $product->update($data);
+    //     $product->update($data);
 
-        return redirect()->route('admin.product.index')
-            ->with('success', 'Produk berhasil diperbarui');
+    //     return redirect()->route('admin.product.index')
+    //         ->with('success', 'Produk berhasil diperbarui');
+    // }
+    public function update(Request $request, $id)
+{
+    $request->validate([
+        'name' => 'required|string|max:255',
+        'description' => 'required|string',
+        'category_id' => 'required|exists:categories,id',
+        'price' => 'required|numeric|min:0',
+        'qty' => 'required|integer|min:0',
+        'image' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
+    ]);
+
+    $product = Product::findOrFail($id);
+    $data = $request->except('image');
+    
+    if ($request->hasFile('image')) {
+        // Hapus gambar lama
+        if ($product->image) {
+            Storage::disk('public')->delete($product->image);
+        }
+        
+        // Upload gambar baru
+        $data['image'] = $request->file('image')->store('products', 'public');
     }
+
+    $data['is_available'] = $request->has('is_available'); // Update status 'is_available'
+    
+    $product->update($data);
+
+    return redirect()->route('admin.product.index')
+        ->with('success', 'Produk berhasil diperbarui');
+}
+
 
     public function destroy($id)
     {

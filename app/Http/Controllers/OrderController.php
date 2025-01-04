@@ -46,4 +46,20 @@ class OrderController extends Controller
         $order->load(['orderItems.product']);
         return view('public.orders.show', compact('order'));
     }
+
+    public function completeOrder($id)
+    {
+        $orders = Order::findOrFail($id);
+
+        if ($orders->status == 'processing') {
+            $orders->update([
+                'status' => 'completed',
+            ]);
+            
+            return redirect()->route('orders.index')->with('success', 'Pesanan Anda telah selesai.');
+        }
+
+        return redirect()->route('orders.index')->with('error', 'Pesanan tidak dapat diselesaikan.');
+    }
+
 } 

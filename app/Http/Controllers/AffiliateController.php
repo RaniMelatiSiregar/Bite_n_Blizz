@@ -72,6 +72,6 @@ class AffiliateController extends Controller
 
     public function publicPage()
     {
-        return view('affiliate.public');
+        return view('affiliate.join');
     }
 } 

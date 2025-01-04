@@ -6,7 +6,7 @@
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
-                    <h1>Detail Pesanan #{{ $order->id }}</h1>
+                    <h1>Detail Pesanan #{{ $orders->id }}</h1>
                 </div>
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
@@ -40,23 +40,23 @@
                             <table class="table">
                                 <tr>
                                     <th style="width:200px">ID Pesanan</th>
-                                    <td>#{{ $order->id }}</td>
+                                    <td>#{{ $orders->id }}</td>
                                 </tr>
                                 <tr>
                                     <th>Tanggal Pesanan</th>
-                                    <td>{{ $order->created_at->format('d M Y H:i') }}</td>
+                                    <td>{{ $orders->created_at->format('d M Y H:i') }}</td>
                                 </tr>
                                 <tr>
                                     <th>Status Pesanan</th>
                                     <td>
-                                        <form action="{{ route('admin.order.update-status', $order->id) }}" method="POST" class="d-inline">
+                                        <form action="{{ route('admin.order.update-status', $orders->id) }}" method="POST" class="d-inline">
                                             @csrf
                                             @method('PUT')
                                             <select name="status" class="form-control d-inline" style="width: 200px" onchange="this.form.submit()">
-                                                <option value="pending" {{ $order->status == 'pending' ? 'selected' : '' }}>Pending</option>
-                                                <option value="processing" {{ $order->status == 'processing' ? 'selected' : '' }}>Processing</option>
-                                                <option value="completed" {{ $order->status == 'completed' ? 'selected' : '' }}>Completed</option>
-                                                <option value="cancelled" {{ $order->status == 'cancelled' ? 'selected' : '' }}>Cancelled</option>
+                                                <option value="pending" {{ $orders->status == 'pending' ? 'selected' : '' }}>Pending</option>
+                                                <option value="processing" {{ $orders->status == 'processing' ? 'selected' : '' }}>Processing</option>
+                                                <option value="completed" {{ $orders->status == 'completed' ? 'selected' : '' }}>Completed</option>
+                                                <option value="cancelled" {{ $orders->status == 'cancelled' ? 'selected' : '' }}>Cancelled</option>
                                             </select>
                                         </form>
                                     </td>
@@ -64,14 +64,14 @@
                                 <tr>
                                     <th>Status Pembayaran</th>
                                     <td>
-                                        <form action="{{ route('admin.order.update-payment', $order->id) }}" method="POST" class="d-inline">
+                                        <form action="{{ route('admin.order.update-payment', $orders->id) }}" method="POST" class="d-inline">
                                             @csrf
                                             @method('PUT')
-                                            <input type="hidden" name="payment_status" value="{{ $order->payment_status === 'paid' ? 'unpaid' : 'paid' }}">
-                                            @if($order->payment_status == 'paid')
+                                            <input type="hidden" name="payment_status" value="{{ $orders->payment_status === 'paid' ? 'unpaid' : 'paid' }}">
+                                            @if($orders->payment_status == 'paid')
                                                 <span class="badge badge-success">Sudah Dibayar</span>
                                                 <br>
-                                                <small class="text-muted">{{ $order->paid_at ? $order->paid_at->format('d M Y H:i') : '' }}</small>
+                                                <small class="text-muted">{{ $orders->paid_at ? $orders->paid_at->format('d M Y H:i') : '' }}</small>
                                                 <button type="submit" class="btn btn-sm btn-warning ml-2" onclick="return confirm('Yakin ingin mengubah status menjadi belum dibayar?')">
                                                     <i class="fas fa-times"></i> Tandai Belum Dibayar
                                                 </button>
@@ -86,7 +86,7 @@
                                 </tr>
                                 <tr>
                                     <th>Metode Pembayaran</th>
-                                    <td>{{ strtoupper($order->payment_method) }}</td>
+                                    <td>{{ strtoupper($orders->payment_method) }}</td>
                                 </tr>
                             </table>
                         </div>
@@ -102,19 +102,19 @@
                             <table class="table">
                                 <tr>
                                     <th style="width:200px">Nama</th>
-                                    <td>{{ $order->user->name }}</td>
+                                    <td>{{ $orders->user->name }}</td>
                                 </tr>
                                 <tr>
                                     <th>Email</th>
-                                    <td>{{ $order->user->email }}</td>
+                                    <td>{{ $orders->user->email }}</td>
                                 </tr>
                                 <tr>
                                     <th>No. Telepon</th>
-                                    <td>{{ $order->phone }}</td>
+                                    <td>{{ $orders->phone }}</td>
                                 </tr>
                                 <tr>
                                     <th>Alamat Pengiriman</th>
-                                    <td>{{ $order->shipping_address }}</td>
+                                    <td>{{ $orders->shipping_address }}</td>
                                 </tr>
                             </table>
                         </div>
@@ -139,7 +139,7 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @foreach($order->orderItems as $item)
+                                    @foreach($orders->orderItems as $item)
                                         <tr>
                                             <td>
                                                 <div class="d-flex align-items-center">
@@ -159,21 +159,21 @@
                                 <tfoot>
                                     <tr>
                                         <td colspan="3" class="text-right"><strong>Subtotal</strong></td>
-                                        <td>Rp {{ number_format($order->subtotal, 0, ',', '.') }}</td>
+                                        <td>Rp {{ number_format($orders->subtotal, 0, ',', '.') }}</td>
                                     </tr>
                                     <tr>
                                         <td colspan="3" class="text-right"><strong>Ongkos Kirim</strong></td>
-                                        <td>Rp {{ number_format($order->shipping_cost, 0, ',', '.') }}</td>
+                                        <td>Rp {{ number_format($orders->shipping_cost, 0, ',', '.') }}</td>
                                     </tr>
-                                    @if($order->discount > 0)
+                                    @if($orders->discount > 0)
                                         <tr>
                                             <td colspan="3" class="text-right"><strong>Diskon</strong></td>
-                                            <td>-Rp {{ number_format($order->discount, 0, ',', '.') }}</td>
+                                            <td>-Rp {{ number_format($orders->discount, 0, ',', '.') }}</td>
                                         </tr>
                                     @endif
                                     <tr>
                                         <td colspan="3" class="text-right"><strong>Total</strong></td>
-                                        <td><strong>Rp {{ number_format($order->total, 0, ',', '.') }}</strong></td>
+                                        <td><strong>Rp {{ number_format($orders->total, 0, ',', '.') }}</strong></td>
                                     </tr>
                                 </tfoot>
                             </table>

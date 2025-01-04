@@ -33,7 +33,7 @@
                            class="list-group-item list-group-item-action border-0 {{ request('category') == $category->id ? 'active text-white bg-danger' : '' }}">
                             <i class="fas fa-tag me-2"></i>{{ $category->name }}
                             <span class="badge bg-{{ request('category') == $category->id ? 'light text-danger' : 'secondary' }} float-end">
-                                {{ $products->where('category_id', $category->id)->count() }}
+                                {{ $products->where('category_id', $category->id)->where('is_available', true)->count() }}
                             </span>
                         </a>
                         @endforeach
@@ -69,15 +69,7 @@
             <!-- Sorting dan View Options -->
             <div class="card border-0 shadow-sm mb-4">
                 <div class="card-body">
-                    <div class="d-flex justify-content-between align-items-center">
-                        <div class="btn-group">
-                            <button type="button" class="btn btn-outline-secondary active">
-                                <i class="fas fa-th-large"></i>
-                            </button>
-                            <button type="button" class="btn btn-outline-secondary">
-                                <i class="fas fa-list"></i>
-                            </button>
-                        </div>
+                    <div class="d-flex justify-content-end align-items-center">
                         <select class="form-select w-auto">
                             <option>Terbaru</option>
                             <option>Harga: Rendah ke Tinggi</option>
@@ -91,64 +83,66 @@
             <!-- Products Grid -->
             <div class="row g-3">
                 @forelse($products as $product)
-                <div class="col-md-3">
-                    <div class="card h-100 border-0 shadow-sm product-card">
-                        <div class="position-relative">
-                            <img src="{{ asset('storage/' . $product->image) }}" class="card-img-top" alt="{{ $product->name }}">
-                            @if($product->qty <= 5 && $product->qty > 0)
-                            <div class="position-absolute top-0 start-0 bg-warning text-dark px-2 py-1 small">
-                                Stok Terbatas
-                            </div>
-                            @elseif($product->qty == 0)
-                            <div class="position-absolute top-0 start-0 bg-danger text-white px-2 py-1 small">
-                                Stok Habis
-                            </div>
-                            @endif
-                        </div>
-                        <div class="card-body p-3">
-                            <h6 class="card-title mb-1 text-truncate">{{ $product->name }}</h6>
-                            <div class="text-danger fw-bold mb-1">Rp {{ number_format($product->price, 0, ',', '.') }}</div>
-                            <div class="d-flex align-items-center mb-2">
-                                <div class="text-warning">
-                                    @for($i = 1; $i <= 5; $i++)
-                                        @if($i <= rand(4, 5))
-                                            <i class="fas fa-star"></i>
-                                        @else
-                                            <i class="far fa-star"></i>
-                                        @endif
-                                    @endfor
+                    @if($product->is_available) <!-- Menambahkan filter untuk hanya menampilkan produk yang tersedia -->
+                    <div class="col-md-3">
+                        <div class="card h-100 border-0 shadow-sm product-card">
+                            <div class="position-relative">
+                                <img src="{{ asset('storage/' . $product->image) }}" class="card-img-top" alt="{{ $product->name }}">
+                                @if($product->qty <= 5 && $product->qty > 0)
+                                <div class="position-absolute top-0 start-0 bg-warning text-dark px-2 py-1 small">
+                                    Stok Terbatas
                                 </div>
-                                <small class="text-muted ms-1">({{ rand(10, 100) }})</small>
-                                <small class="text-muted ms-auto">{{ rand(50, 200) }} terjual</small>
+                                @elseif($product->qty == 0)
+                                <div class="position-absolute top-0 start-0 bg-danger text-white px-2 py-1 small">
+                                    Stok Habis
+                                </div>
+                                @endif
                             </div>
-                            @if($product->qty > 0)
-                            <form action="{{ route('cart.add', $product->id) }}" method="POST">
-                                @csrf
-                                <div class="d-flex gap-2 mb-2">
-                                    <div class="input-group">
-                                        <button type="button" class="btn btn-outline-secondary" onclick="decrementQty(this)">
-                                            <i class="fas fa-minus"></i>
-                                        </button>
-                                        <input type="number" name="quantity" value="1" min="1" max="{{ $product->qty }}"
-                                            class="form-control text-center" style="width: 60px;"
-                                            onchange="validateQty(this, {{ $product->qty }})">
-                                        <button type="button" class="btn btn-outline-secondary" onclick="incrementQty(this)">
-                                            <i class="fas fa-plus"></i>
+                            <div class="card-body p-3">
+                                <h6 class="card-title mb-1 text-truncate">{{ $product->name }}</h6>
+                                <div class="text-danger fw-bold mb-1">Rp {{ number_format($product->price, 0, ',', '.') }}</div>
+                                <div class="d-flex align-items-center mb-2">
+                                    <div class="text-warning">
+                                        @for($i = 1; $i <= 5; $i++)
+                                            @if($i <= rand(4, 5))
+                                                <i class="fas fa-star"></i>
+                                            @else
+                                                <i class="far fa-star"></i>
+                                            @endif
+                                        @endfor
+                                    </div>
+                                    <small class="text-muted ms-1">({{ rand(10, 100) }})</small>
+                                    <small class="text-muted ms-auto">{{ rand(50, 200) }} terjual</small>
+                                </div>
+                                @if($product->qty > 0)
+                                <form action="{{ route('cart.add', $product->id) }}" method="POST">
+                                    @csrf
+                                    <div class="d-flex gap-2 mb-2">
+                                        <div class="input-group">
+                                            <button type="button" class="btn btn-outline-secondary" onclick="decrementQty(this)">
+                                                <i class="fas fa-minus"></i>
+                                            </button>
+                                            <input type="number" name="quantity" value="1" min="1" max="{{ $product->qty }}"
+                                                class="form-control text-center" style="width: 60px;"
+                                                onchange="validateQty(this, {{ $product->qty }})">
+                                            <button type="button" class="btn btn-outline-secondary" onclick="incrementQty(this)">
+                                                <i class="fas fa-plus"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <div class="d-grid">
+                                        <button type="submit" class="btn btn-danger">
+                                            <i class="fas fa-shopping-cart me-2"></i>Tambah ke Keranjang
                                         </button>
                                     </div>
-                                </div>
-                                <div class="d-grid">
-                                    <button type="submit" class="btn btn-danger">
-                                        <i class="fas fa-shopping-cart me-2"></i>Tambah ke Keranjang
-                                    </button>
-                                </div>
-                            </form>
-                            @else
-                            <button class="btn btn-secondary w-100" disabled>Stok Habis</button>
-                            @endif
+                                </form>
+                                @else
+                                <button class="btn btn-secondary w-100" disabled>Stok Habis</button>
+                                @endif
+                            </div>
                         </div>
                     </div>
-                </div>
+                    @endif <!-- End of check for availability -->
                 @empty
                 <div class="col-12">
                     <div class="text-center py-5">

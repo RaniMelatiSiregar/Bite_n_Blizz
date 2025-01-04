@@ -16,8 +16,11 @@ class OrderController extends Controller
 
     public function show($id)
     {
-        $order = Order::with(['user', 'orderItems.product'])->findOrFail($id);
-        return view('admin.order.show', compact('order'));
+        $orders = Order::with(['user', 'orderItems.product'])->find($id); // Menggunakan find() bukan findOrFail()
+        if (!$orders) {
+            return redirect()->route('admin.order.index')->with('error', 'Pesanan tidak ditemukan');
+        }
+        return view('admin.order.show', compact('orders'));
     }
 
     public function updateStatus(Request $request, $id)
@@ -26,17 +29,17 @@ class OrderController extends Controller
             'status' => 'required|in:pending,processing,completed,cancelled'
         ]);
 
-        $order = Order::findOrFail($id);
+        $orders = Order::findOrFail($id);
         
         // Jika status berubah menjadi processing, otomatis set payment_status menjadi paid
-        if ($request->status === 'processing' && $order->status !== 'processing') {
-            $order->update([
+        if ($request->status === 'processing' && $orders->status !== 'processing') {
+            $orders->update([
                 'status' => $request->status,
                 'payment_status' => 'paid',
                 'paid_at' => now()
             ]);
         } else {
-            $order->update(['status' => $request->status]);
+            $orders->update(['status' => $request->status]);
         }
 
         return redirect()->back()->with('success', 'Status pesanan berhasil diperbarui');
@@ -48,17 +51,17 @@ class OrderController extends Controller
             'payment_status' => 'required|in:paid,unpaid'
         ]);
 
-        $order = Order::findOrFail($id);
+        $orders = Order::findOrFail($id);
         
-        if ($request->payment_status === 'paid' && $order->payment_status !== 'paid') {
-            $order->update([
+        if ($request->payment_status === 'paid' && $orders->payment_status !== 'paid') {
+            $orders->update([
                 'payment_status' => 'paid',
                 'paid_at' => now(),
                 'status' => 'processing' // Otomatis ubah status menjadi processing
             ]);
             $message = 'Pembayaran telah dikonfirmasi';
         } else {
-            $order->update([
+            $orders->update([
                 'payment_status' => 'unpaid',
                 'paid_at' => null
             ]);
@@ -68,10 +71,23 @@ class OrderController extends Controller
         return redirect()->back()->with('success', $message);
     }
 
-    public function destroy($id)
+    public function completeOrderFromAdmin($id)
     {
         $order = Order::findOrFail($id);
-        $order->delete();
+
+        if ($order->status != 'completed') {
+            $order->update([
+                'status' => 'completed',
+            ]);
+        }
+
+        return redirect()->route('admin.order.index')->with('success', 'Pesanan telah selesai.');
+    }
+
+    public function destroy($id)
+    {
+        $orders = Order::findOrFail($id);
+        $orders->delete();
 
         return redirect()->route('admin.order.index')->with('success', 'Pesanan berhasil dihapus');
     }

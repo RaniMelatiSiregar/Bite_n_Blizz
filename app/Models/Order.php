@@ -27,6 +27,10 @@ class Order extends Model
         'paid_at'
     ];
 
+    protected $casts = [
+        'paid_at' => 'datetime',
+    ];
+
     public function user()
     {
         return $this->belongsTo(User::class);

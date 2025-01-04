@@ -51,7 +51,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/cart', [CartController::class, 'index'])->name('cart.index');
     Route::post('/cart/add/{product}', [CartController::class, 'add'])->name('cart.add');
     Route::patch('/cart/{cart}', [CartController::class, 'update'])->name('cart.update');
-    Route::delete('/cart/{cart}', [CartController::class, 'destroy'])->name('cart.destroy');
+    Route::delete('/cart/{cart}', [CartController::class, 'remove'])->name('cart.destroy');
 
     // Checkout Routes
     Route::get('/checkout', [CheckoutController::class, 'index'])->name('checkout.index');
@@ -62,6 +62,7 @@ Route::middleware(['auth'])->group(function () {
     // Order Routes
     Route::get('/orders', [OrderController::class, 'index'])->name('orders.index');
     Route::get('/orders/{order}', [OrderController::class, 'show'])->name('orders.show');
+    Route::post('/orders/{id}/complete', [OrderController::class, 'completeOrder'])->name('orders.complete');
 });
 
 // Auth Routes
@@ -104,7 +105,8 @@ Route::group(['middleware' => ['auth:admin'], 'prefix' => 'admin', 'as' => 'admi
     Route::resource('order', AdminOrderController::class);
     Route::put('order/{id}/update-status', [AdminOrderController::class, 'updateStatus'])->name('order.update-status');
     Route::put('order/{id}/update-payment', [AdminOrderController::class, 'updatePaymentStatus'])->name('order.update-payment');
-    
+    Route::put('/admin/orders/{id}/complete', [AdminOrderController::class, 'completeOrderFromAdmin'])->name('admin.order.complete');
+
     // Vouchers
     Route::resource('voucher', VoucherController::class);
 
