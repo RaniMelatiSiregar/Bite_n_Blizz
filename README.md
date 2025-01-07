@@ -20,7 +20,7 @@ php artisan key:generate
 
 4. Jalankan migrasi database
 ```bash
-php artisan migrate:fresh
+php artisan migrate
 ```
 
 5. Jalankan seeder untuk mengisi data awal
