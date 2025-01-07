@@ -25,6 +25,8 @@ php artisan migrate:fresh
 
 5. Jalankan seeder untuk mengisi data awal
 ```bash
+php artisan db:seed --class=AdminSeeder
+php artisan db:seed --class=CategorySeeder
 php artisan db:seed --class=ProductSeeder
 ```
 
